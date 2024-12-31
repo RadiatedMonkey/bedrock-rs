@@ -262,6 +262,8 @@ pub fn gamepackets(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         if let Some(v) = value {
             quote! {
                 <#v as ::bedrockrs_proto_core::GamePacket>::ID => {
+                    println!("Decoding {}", stringify!(#name));
+                    
                     match <#v as ::bedrockrs_proto_core::ProtoCodec>::proto_deserialize(stream) {
                         Ok(pk) => GamePackets::#name(pk),
                         Err(e) => return Err(e),

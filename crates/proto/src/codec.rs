@@ -27,9 +27,13 @@ pub fn decode_gamepackets<T: ProtoHelper>(
 ) -> Result<Vec<T::GamePacketType>, ProtoCodecError> {
     log::trace!("Decoding gamepackets");
 
+    println!("decrypt");
     gamepacket_stream = decrypt_gamepackets::<T>(gamepacket_stream, encryption)?;
+    println!("decompress");
     gamepacket_stream = decompress_gamepackets::<T>(gamepacket_stream, compression)?;
+    println!("separate");
     let gamepackets = separate_gamepackets::<T>(gamepacket_stream)?;
+    println!("done!");
 
     Ok(gamepackets)
 }
@@ -111,6 +115,8 @@ pub fn decrypt_gamepackets<T: ProtoHelper>(
     mut gamepacket_stream: Vec<u8>,
     encryption: Option<&mut Encryption>,
 ) -> Result<Vec<u8>, ProtoCodecError> {
+    dbg!("Attempting to decrypt");
+
     if let Some(encryption) = encryption {
         gamepacket_stream = encryption.decrypt(gamepacket_stream)?;
     }

@@ -9,6 +9,7 @@ use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
 use bedrockrs_proto::v662::GamePackets;
 use bedrockrs_proto::v662::ProtoHelperV662;
 use tokio::time::Instant;
+use bedrockrs_proto::v729::helper::ProtoHelperV729;
 
 #[tokio::main]
 async fn main() {
@@ -59,7 +60,7 @@ async fn handle_login(mut conn: Connection) {
     conn.compression = Some(compression);
 
     // Login
-    conn.recv::<ProtoHelperV662>().await.unwrap();
+    conn.recv::<ProtoHelperV729>().await.unwrap();
     println!("Login");
 
     conn.send::<ProtoHelperV662>(&[
