@@ -32,5 +32,6 @@ snap = "1.1"
 
 bitflags = "2.6.0"
 serde = { version = "1.0", features = ["derive"] }
+serde_repr = "0.1.19"
 
 rak-rs = { version = "0.3", default-features = false, features = ["async_tokio", "mcpe"] }

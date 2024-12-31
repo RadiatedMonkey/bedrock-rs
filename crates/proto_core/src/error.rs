@@ -2,6 +2,7 @@ use std::convert::Infallible;
 use std::error::Error;
 use std::io::Error as IOError;
 use std::num::{ParseIntError, TryFromIntError};
+use std::str::Utf8Error;
 use std::string::FromUtf8Error;
 
 use base64::DecodeError as Base64DecodeError;
@@ -20,7 +21,7 @@ pub enum ProtoCodecError {
     #[error("NbtError: {0}")]
     NbtError(#[from] NbtError),
     #[error("Error while reading UTF8 encoded String: {0}")]
-    UTF8Error(#[from] FromUtf8Error),
+    UTF8Error(#[from] Utf8Error),
     #[error("Error while converting integers: {0}")]
     FromIntError(#[from] TryFromIntError),
     #[error("Json Error: {0}")]
