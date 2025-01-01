@@ -39,6 +39,7 @@ chrono = "0.4"
 addon = ["dep:bedrockrs_addon"]
 proto = ["dep:bedrockrs_proto","dep:bedrockrs_proto_core","dep:bedrockrs_macros",]
 level = ["dep:bedrockrs_level"]
+level_default = ["bedrockrs_level/default_impl"]
 full = ["addon", "level", "proto", "server"]
 form = ["dep:bedrockrs_form"]
 server = ["dep:bedrockrs_server", "proto", "level", "form"]
