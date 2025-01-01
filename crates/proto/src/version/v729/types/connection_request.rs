@@ -1,9 +1,10 @@
 use std::collections::BTreeMap;
 use std::io::{Cursor, Read};
+use std::net::SocketAddr;
 use std::string::FromUtf8Error;
 use base64::prelude::BASE64_STANDARD;
 use base64::Engine;
-use bedrockrs_proto_core::error::ProtoCodecError;
+use bedrockrs_proto_core::error::{LoginError, ProtoCodecError};
 use bedrockrs_proto_core::ProtoCodec;
 use byteorder::{LittleEndian, ReadBytesExt};
 use jsonwebtoken::{Algorithm, DecodingKey, Validation};
@@ -13,79 +14,84 @@ use varint_rs::VarintReader;
 use p384::pkcs8::spki;
 use uuid::Uuid;
 use bedrockrs_addon::language::code::LanguageCode;
-use crate::v662::enums::{BuildPlatform, UIProfile};
-use crate::v662::types::SerializedSkin;
+use crate::v662::enums::{BuildPlatform, InputMode, UIProfile};
+use crate::v662::types::{BaseGameVersion, SerializedSkin};
 
 pub const MOJANG_PUBLIC_KEY: &str = "MHYwEAYHKoZIzj0CAQYFK4EEACIDYgAECRXueJeTDqNRRgJi/vlRufByu/2G0i2Ebt6YMar5QX/R0DIIyrJMcUpruK4QveTfJSTp3Shlq4Gk34cD/4GUWwkv0DVuzeuB+tXija7HBxii03NHDbPAD0AKnLr2wdAp";
 
 #[derive(Debug, Clone)]
 pub struct ConnectionRequest {
-    /// Array of Base64 encoded JSON Web Token certificates to authenticate the player.
-    ///
-    /// The last certificate in the chain will have a property 'extraData' that contains player identity information including the XBL XUID (if the player was signed in to XBL at the time of the connection).
-    pub certificate_chain: Vec<BTreeMap<String, Value>>,
-    /// Base64 encoded JSON Web Token that contains other relevant client properties.
-    ///
-    /// Properties Include:
-    /// - SelfSignedId
-    /// - ServerAddress = (unresolved url if applicable)
-    /// - ClientRandomId
-    /// - SkinId
-    /// - SkinData
-    /// - SkinImageWidth
-    /// - SkinImageHeight
-    /// - CapeData
-    /// - CapeImageWidth
-    /// - CapeImageHeight
-    /// - SkinResourcePatch
-    /// - SkinGeometryData
-    /// - SkinGeometryDataEngineVersion
-    /// - SkinAnimationData
-    /// - PlayFabId
-    /// - AnimatedImageData = Array of:
-    ///   - Type
-    ///   - Image
-    ///   - ImageWidth
-    ///   - ImageHeight
-    ///   - Frames
-    ///   - AnimationExpression
-    /// - ArmSize
-    /// - SkinColor
-    /// - PersonaPieces = Array of:
-    ///   - PackId
-    ///   - PieceId
-    ///   - IsDefault
-    ///   - PieceType
-    ///   - ProductId
-    /// - PieceTintColors = Array of:
-    ///   - PieceType
-    ///   - Colors = Array of color hexstrings
-    /// - IsEduMode (if edu mode)
-    /// - TenantId (if edu mode)
-    /// - ADRole (if edu mode)
-    /// - IsEditorMode
-    /// - GameVersion
-    /// - DeviceModel
-    /// - DeviceOS = (see enumeration: BuildPlatform)
-    /// - DefaultInputMode = (see enumeration: InputMode)
-    /// - CurrentInputMode = (see enumeration: InputMode)
-    /// - UIProfile = (see enumeration: UIProfile)
-    /// - GuiScale
-    /// - LanguageCode
-    /// - PlatformUserId
-    /// - ThirdPartyName
-    /// - ThirdPartyNameOnly
-    /// - PlatformOnlineId
-    /// - PlatformOfflineId
-    /// - DeviceId
-    /// - TrustedSkin
-    /// - PremiumSkin
-    /// - PersonaSkin
-    /// - OverrideSkin
-    /// - CapeOnClassicSkin
-    /// - CapeId
-    /// - CompatibleWithClientSideChunkGen
-    pub raw_token: BTreeMap<String, Value>,
+    // /// Array of Base64 encoded JSON Web Token certificates to authenticate the player.
+    // ///
+    // /// The last certificate in the chain will have a property 'extraData' that contains player identity information including the XBL XUID (if the player was signed in to XBL at the time of the connection).
+    // pub certificate_chain: Vec<BTreeMap<String, Value>>,
+    // /// Base64 encoded JSON Web Token that contains other relevant client properties.
+    // ///
+    // /// Properties Include:
+    // /// - SelfSignedId
+    // /// - ServerAddress = (unresolved url if applicable)
+    // /// - ClientRandomId
+    // /// - SkinId
+    // /// - SkinData
+    // /// - SkinImageWidth
+    // /// - SkinImageHeight
+    // /// - CapeData
+    // /// - CapeImageWidth
+    // /// - CapeImageHeight
+    // /// - SkinResourcePatch
+    // /// - SkinGeometryData
+    // /// - SkinGeometryDataEngineVersion
+    // /// - SkinAnimationData
+    // /// - PlayFabId
+    // /// - AnimatedImageData = Array of:
+    // ///   - Type
+    // ///   - Image
+    // ///   - ImageWidth
+    // ///   - ImageHeight
+    // ///   - Frames
+    // ///   - AnimationExpression
+    // /// - ArmSize
+    // /// - SkinColor
+    // /// - PersonaPieces = Array of:
+    // ///   - PackId
+    // ///   - PieceId
+    // ///   - IsDefault
+    // ///   - PieceType
+    // ///   - ProductId
+    // /// - PieceTintColors = Array of:
+    // ///   - PieceType
+    // ///   - Colors = Array of color hexstrings
+    // /// - IsEduMode (if edu mode)
+    // /// - TenantId (if edu mode)
+    // /// - ADRole (if edu mode)
+    // /// - IsEditorMode
+    // /// - GameVersion
+    // /// - DeviceModel
+    // /// - DeviceOS = (see enumeration: BuildPlatform)
+    // /// - DefaultInputMode = (see enumeration: InputMode)
+    // /// - CurrentInputMode = (see enumeration: InputMode)
+    // /// - UIProfile = (see enumeration: UIProfile)
+    // /// - GuiScale
+    // /// - LanguageCode
+    // /// - PlatformUserId
+    // /// - ThirdPartyName
+    // /// - ThirdPartyNameOnly
+    // /// - PlatformOnlineId
+    // /// - PlatformOfflineId
+    // /// - DeviceId
+    // /// - TrustedSkin
+    // /// - PremiumSkin
+    // /// - PersonaSkin
+    // /// - OverrideSkin
+    // /// - CapeOnClassicSkin
+    // /// - CapeId
+    // /// - CompatibleWithClientSideChunkGen
+    pub info: ClientInfo,
+    pub xuid: String,
+    pub uuid: Uuid,
+    pub display_name: String,
+    pub public_key: String
+    // pub skin: Skin // TODO: Skin
 }
 
 #[derive(Deserialize, Debug)]
@@ -107,8 +113,7 @@ fn parse_first_token(token: &str) -> Result<bool, ProtoCodecError> {
     let bytes = BASE64_STANDARD.decode(base64_x5u)?;
 
     let public_key = spki::SubjectPublicKeyInfoRef::try_from(bytes.as_ref()).map_err(|e| {
-        unimplemented!("{e:?}");
-        ProtoCodecError::LeftOvers(0)
+        LoginError::InvalidPublicKey(e)
     })?;
 
     let decoding_key = DecodingKey::from_ec_der(public_key.subject_public_key.raw_bytes());
@@ -124,8 +129,7 @@ fn parse_first_token(token: &str) -> Result<bool, ProtoCodecError> {
 fn parse_mojang_token(token: &str) -> Result<String, ProtoCodecError> {
     let bytes = BASE64_STANDARD.decode(MOJANG_PUBLIC_KEY)?;
     let public_key = spki::SubjectPublicKeyInfoRef::try_from(bytes.as_ref()).map_err(|e| {
-        unimplemented!("{e:?}");
-        ProtoCodecError::LeftOvers(0)
+        LoginError::InvalidPublicKey(e)
     })?;
 
     let decoding_key = DecodingKey::from_ec_der(public_key.subject_public_key.raw_bytes());
@@ -159,8 +163,7 @@ struct IdentityPayload {
 fn parse_identity_token(token: &str, key: &str) -> Result<IdentityPayload, ProtoCodecError> {
     let bytes = BASE64_STANDARD.decode(key)?;
     let public_key = spki::SubjectPublicKeyInfoRef::try_from(bytes.as_ref()).map_err(|e| {
-        unimplemented!("{e:?}");
-        ProtoCodecError::LeftOvers(0)
+        LoginError::InvalidPublicKey(e)
     })?;
 
     let decoding_key = DecodingKey::from_ec_der(public_key.subject_public_key.raw_bytes());
@@ -186,44 +189,74 @@ fn parse_identity(stream: &mut Cursor<&[u8]>) -> Result<IdentityPayload, ProtoCo
     match cert_chain.chain.len() {
         // User is offline
         1 => {
-            todo!();
+            return Err(LoginError::UserOffline.into())
         },
         // Authenticated with Microsoft services
         3 => {
             // Verify the first token and use its public key for the next token.
 
-            let mut valid = parse_first_token(&cert_chain.chain[0])?;
+            let valid = parse_first_token(&cert_chain.chain[0])?;
             if !valid {
                 // Login attempted using forged token chain.
-                todo!()
+                return Err(LoginError::NotSignedByMojang.into())
             }
 
             let key = parse_mojang_token(&cert_chain.chain[1])?;
             identity = parse_identity_token(&cert_chain.chain[2], &key)?;
         },
         // This should not happen...
-        _ => {
-            todo!()
+        len => {
+            return Err(LoginError::InvalidChainLength(len).into())
         }
     }
 
     Ok(identity)
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ClientInfo {
-    #[serde(rename = "DeviceOS")]
-    pub build_platform: BuildPlatform,
-    #[serde(rename = "DeviceModel")]
-    pub device_model: String,
+    #[serde(rename = "ClientRandomId")]
+    pub client_random_id: i64,
+    #[serde(rename = "CompatibleWithClientSideChunkGen")]
+    pub client_side_chunk_gen_compatible: bool,
+    #[serde(rename = "CurrentInputMode")]
+    pub current_input_mode: InputMode,
+    #[serde(rename = "DefaultInputMode")]
+    pub default_input_mode: InputMode,
     #[serde(rename = "DeviceId")]
     pub device_id: String,
+    #[serde(rename = "DeviceModel")]
+    pub device_model: String,
+    #[serde(rename = "DeviceOS")]
+    pub build_platform: BuildPlatform,
+    #[serde(rename = "GameVersion")]
+    pub game_version: String,
+    #[serde(rename = "GuiScale")]
+    pub gui_scale: i32,
+    #[serde(rename = "IsEditorMode")]
+    pub editor_mode: bool,
     #[serde(rename = "LanguageCode", with = "language_code")]
     pub language_code: LanguageCode,
+    #[serde(rename = "MaxViewDistance")]
+    pub max_view_distance: u32,
+    #[serde(rename = "MemoryTier")]
+    pub memory_tier: u8,
+    #[serde(rename = "PlatformOfflineId")]
+    pub platform_offline_id: String,
+    #[serde(rename = "PlatformOnlineId")]
+    pub platform_online_id: String,
+    #[serde(rename = "PlatformType")]
+    pub platform_type: u8,
+    #[serde(rename = "SelfSignedId")]
+    pub self_signed_id: Uuid,
+    #[serde(rename = "ServerAddress")]
+    pub server_address: SocketAddr,
+    #[serde(rename = "ThirdPartyName")]
+    pub third_party_name: String,
+    #[serde(rename = "ThirdPartyNameOnly")]
+    pub third_party_name_only: bool,
     #[serde(rename = "UIProfile")]
     pub ui_profile: UIProfile,
-    #[serde(rename = "GuiScale")]
-    pub gui_scale: u32
 }
 
 mod language_code {
@@ -239,19 +272,10 @@ mod language_code {
     }
 }
 
-#[derive(Deserialize, Debug)]
-struct UserData {
-    #[serde(flatten)]
-    pub info: ClientInfo,
-    // #[serde(flatten)]
-    // pub skin: SerializedSkin
-}
-
-fn parse_user_data_token(token: &str, key: &str) -> Result<UserData, ProtoCodecError> {
+fn parse_client_info_token(token: &str, key: &str) -> Result<ClientInfo, ProtoCodecError> {
     let bytes = BASE64_STANDARD.decode(key)?;
     let public_key = spki::SubjectPublicKeyInfoRef::try_from(bytes.as_ref()).map_err(|e| {
-        unimplemented!("{e:?}");
-        ProtoCodecError::LeftOvers(0)
+        LoginError::InvalidPublicKey(e)
     })?;
 
     let decoding_key = DecodingKey::from_ec_der(public_key.subject_public_key.raw_bytes());
@@ -259,11 +283,12 @@ fn parse_user_data_token(token: &str, key: &str) -> Result<UserData, ProtoCodecE
 
     validation.required_spec_claims.clear();
 
+    dbg!(token);
     let payload = jsonwebtoken::decode(token, &decoding_key, &validation)?;
     Ok(payload.claims)
 }
 
-fn parse_user_data(stream: &mut Cursor<&[u8]>, public_key: &str) -> Result<UserData, ProtoCodecError> {
+fn parse_client_info(stream: &mut Cursor<&[u8]>, public_key: &str) -> Result<ClientInfo, ProtoCodecError> {
     let token_len = stream.read_i32::<LittleEndian>()?;
     let mut token = Vec::with_capacity(token_len as usize);
     token.resize(token_len as usize, 0);
@@ -271,7 +296,7 @@ fn parse_user_data(stream: &mut Cursor<&[u8]>, public_key: &str) -> Result<UserD
     stream.read_exact(&mut token)?;
 
     let token_str = std::str::from_utf8(&token)?;
-    parse_user_data_token(token_str, public_key)
+    parse_client_info_token(token_str, public_key)
 }
 
 impl ProtoCodec for ConnectionRequest {
@@ -291,12 +316,19 @@ impl ProtoCodec for ConnectionRequest {
         stream.read_u32_varint()?;
 
         let identity = parse_identity(stream)?;
-        let user_data = parse_user_data(stream, &identity.public_key)?;
+        let user_data = parse_client_info(stream, &identity.public_key)?;
 
-        dbg!(identity);
-        dbg!(user_data);
+        let login = Self {
+            display_name: identity.client_data.display_name,
+            xuid: identity.client_data.xuid,
+            uuid: identity.client_data.uuid,
+            info: user_data,
+            public_key: identity.public_key
+        };
 
-        todo!()
+        dbg!(&login);
+
+        Ok(login)
     }
 
     fn get_size_prediction(&self) -> usize {

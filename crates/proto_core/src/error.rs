@@ -8,6 +8,7 @@ use std::string::FromUtf8Error;
 use base64::DecodeError as Base64DecodeError;
 use jsonwebtoken::errors::Error as JwtError;
 use nbtx::NbtError;
+use p384::pkcs8::spki;
 use serde_json::error::Error as JsonError;
 use thiserror::Error;
 use uuid::Error as UuidError;
@@ -45,6 +46,8 @@ pub enum ProtoCodecError {
     CompressError(#[from] CompressionError),
     #[error("Encryption Error: {0}")]
     EncryptionError(#[from] EncryptionError),
+    #[error("Login error: {0}")]
+    LoginError(#[from] LoginError)
 }
 
 impl From<Infallible> for ProtoCodecError {
@@ -69,4 +72,16 @@ pub enum CompressionError {
 pub enum EncryptionError {
     #[error("IO Error: {0}")]
     IOError(IOError),
+}
+
+#[derive(Error, Debug)]
+pub enum LoginError {
+    #[error("Invalid chain length: {0}")]
+    InvalidChainLength(usize),
+    #[error("Authentication token not signed by Mojang")]
+    NotSignedByMojang,
+    #[error("User is not authenticated with Xbox services")]
+    UserOffline,
+    #[error("Invalid public key: {0}")]
+    InvalidPublicKey(spki::Error)
 }
