@@ -68,4 +68,16 @@ pub enum CompressionError {
 pub enum EncryptionError {
     #[error("IO Error: {0}")]
     IOError(IOError),
+
+    #[error("Encryption Error")]
+    EncryptionFailed(),
+
+    #[error("Decryption Error")]
+    DecryptionFailed(),
+
+    #[error("Startup Error")]
+    StartupFailed(),
+
+    #[error("Missing Key")]
+    MissingKey,
 }
