@@ -1,4 +1,4 @@
-use bedrockrs_macros::ProtoCodec;
+use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -10,6 +10,7 @@ pub enum AuthMovementMode {
     ServerAuthoritativeV3 = 2,
 }
 
+#[gamepacket(id = 319)]
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct SetMovementAuthorityPacket {
     pub new_auth_movement_mode: AuthMovementMode,

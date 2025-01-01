@@ -1,7 +1,7 @@
 mod common;
 
 use crate::common::logger::setup_logger;
-use bedrockrs::proto::decode_gamepackets;
+use bedrockrs::proto::codec::decode_gamepackets;
 use bedrockrs::proto::v729::helper::ProtoHelperV729;
 use bedrockrs_proto::compression::Compression;
 
