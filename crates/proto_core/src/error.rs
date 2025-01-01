@@ -21,8 +21,8 @@ pub enum ProtoCodecError {
     LeftOvers(usize),
     #[error("NbtError: {0}")]
     NbtError(#[from] NbtError),
-    #[error("Error while reading UTF8 encoded String: {0}")]
-    UTF8Error(#[from] Utf8Error),
+    #[error("Error while reading UTF-8 encoded String: {0}")]
+    Utf8Error(#[from] Utf8Error),
     #[error("Error while converting integers: {0}")]
     FromIntError(#[from] TryFromIntError),
     #[error("Json Error: {0}")]
