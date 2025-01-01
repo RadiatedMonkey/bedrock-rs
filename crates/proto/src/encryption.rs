@@ -11,7 +11,10 @@ pub struct Encryption {
 impl Encryption {
     pub fn new() -> Self {
         Self {
-            recv_counter: 0, send_counter: 0, buf: [0; 8], key: Vec::new()
+            recv_counter: 0,
+            send_counter: 0,
+            buf: [0; 8],
+            key: Vec::new(),
         }
     }
 

@@ -8,8 +8,8 @@ use bedrockrs_proto::v662::packets::{
 use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
 use bedrockrs_proto::v662::GamePackets;
 use bedrockrs_proto::v662::ProtoHelperV662;
-use tokio::time::Instant;
 use bedrockrs_proto::v729::helper::ProtoHelperV729;
+use tokio::time::Instant;
 
 #[tokio::main]
 async fn main() {

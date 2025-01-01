@@ -47,7 +47,7 @@ pub enum ProtoCodecError {
     #[error("Encryption Error: {0}")]
     EncryptionError(#[from] EncryptionError),
     #[error("Login error: {0}")]
-    LoginError(#[from] LoginError)
+    LoginError(#[from] LoginError),
 }
 
 impl From<Infallible> for ProtoCodecError {
@@ -85,5 +85,5 @@ pub enum LoginError {
     #[error("User is not authenticated with Xbox services")]
     UserOffline,
     #[error("Invalid public key: {0}")]
-    InvalidPublicKey(spki::Error)
+    InvalidPublicKey(spki::Error),
 }
