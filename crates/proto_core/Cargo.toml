@@ -4,15 +4,21 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bedrockrs_core = { path = "../core" }
-bedrockrs_proto_macros = { path = "../proto_macros" }
+bedrockrs_macros = { path = "../macros" }
 
 nbtx = { git = "https://github.com/bedrock-crustaceans/nbtx" }
-xuid = "1.0.0"
+xuid = "1.0"
 
-thiserror = "1.0"
+paste = "1.0"
+seq-macro = "0.3"
+
+byteorder = "1.5"
+varint-rs = "2.2"
+
+vek = "0.17"
+thiserror = "2.0"
+
 serde_json = "1.0"
 jsonwebtoken = "9.3"
 base64 = "0.22"
-byteorder = "1.5"
-uuid = { version = "1.10", features = ["v4"] }
+uuid = { version = "1.11", features = ["v4"] }

@@ -41,14 +41,14 @@ impl Addon for ResourcePack {
         })
     }
 
-    fn export(path: impl AsRef<Path>) -> Result<Self, AddonError>
+    fn export(_path: impl AsRef<Path>) -> Result<Self, AddonError>
     where
         Self: Sized,
     {
         unimplemented!()
     }
 
-    fn merge(addons: Vec<Self>) -> Self
+    fn merge(_addons: Vec<Self>) -> Self
     where
         Self: Sized,
     {

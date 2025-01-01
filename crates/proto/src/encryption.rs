@@ -1,4 +1,6 @@
-#[derive(Clone)]
+use bedrockrs_proto_core::error::EncryptionError;
+
+#[derive(Debug, Clone)]
 pub struct Encryption {
     send_counter: u64,
     buf: [u8; 8],
@@ -10,15 +12,15 @@ impl Encryption {
         unimplemented!()
     }
 
-    pub fn decrypt(&mut self, data: &Vec<u8>) -> Vec<u8> {
+    pub fn decrypt(&mut self, _src: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
         unimplemented!()
     }
 
-    pub fn encrypt(&mut self, data: &Vec<u8>) -> Vec<u8> {
+    pub fn encrypt(&mut self, _src: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
         unimplemented!()
     }
 
-    pub fn verify(&mut self, data: &Vec<u8>) -> Result<(), ()> {
+    pub fn verify(&mut self, _src: &[u8]) -> Result<(), EncryptionError> {
         unimplemented!()
     }
 }

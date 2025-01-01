@@ -1,4 +1,3 @@
-use bedrockrs_core::Vec3;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -40,9 +39,9 @@ pub struct AddonManifestHeader {
     /// For resource packs, an optional string that specifies whether this resource pack can be used across the game or at an individual world level. Valid values are "world", which specifies that a pack is only addable in the context of a world "global", which means that a pack is only addable across the game, and "any" which indicates that a pack can apply either across the game or to a specific world. If not specified, this is interpreted as "any".
     pub pack_scope: Option<String>,
     /// This is the version of the base game your world template requires, specified as [majorVersion, minorVersion, revision]. We use this to determine what version of the base game resource and behavior packs to apply when your content is used. (world template manifest JSON only)
-    pub base_game_version: Option<Vec3<u32>>,
+    pub base_game_version: Option<[u32; 3]>,
     /// This is the minimum version of the game that this pack was written for. This is a required field for resource and behavior packs. This helps the game identify whether any backwards compatibility is needed for your pack. You should always use the highest version currently available when creating packs.
-    pub min_engine_version: Option<Vec3<u32>>,
+    pub min_engine_version: Option<[u32; 3]>,
 }
 
 /// Section containing information regarding the type of content that is being brought in.
@@ -76,7 +75,7 @@ pub struct AddonManifestDependency {
 /// Section containing the metadata about the file such as authors and licensing information.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AddonManifestMetadata {
-    /// Name of the author(s) of the pack.
+    /// Name of the pack authors.
     pub authors: Option<Vec<String>>,
     /// The license of the pack.
     pub license: Option<String>,

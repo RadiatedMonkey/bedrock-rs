@@ -4,8 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bedrockrs_core = { path = "../core" }
 bedrockrs_proto_core = { path = "../proto_core" }
-bedrockrs_proto_macros = { path = "../proto_macros" }
+bedrockrs_macros = { path = "../macros" }
 
 log = "0.4"
+
+byteorder = "1.5.0"
+varint-rs = "2.2"

@@ -2,15 +2,16 @@ use core::net::SocketAddr;
 
 use rak_rs::mcpe::motd::Gamemode;
 use rak_rs::Motd;
-use rand::RngCore;
+use rand::random;
 
 use crate::connection::Connection;
-use crate::error::{ListenerError, RaknetError, TransportLayerError};
-use crate::info::{MINECRAFT_EDITION_MOTD, PROTOCOL_VERSION};
-use crate::transport_layer::TransportLaterListener;
+use crate::error::{ListenerError, RakNetError, TransportLayerError};
+use crate::info::MINECRAFT_EDITION_MOTD;
+use crate::transport::TransportLayerListener;
+use crate::version::v729::info::PROTOCOL_VERSION;
 
 pub struct Listener {
-    listener: TransportLaterListener,
+    listener: TransportLayerListener,
     name: String,
     sub_name: String,
     player_max: u32,
@@ -29,23 +30,16 @@ impl Listener {
         socket_addr: SocketAddr,
         nintendo_limited: bool,
     ) -> Result<Self, ListenerError> {
-        // Bind the Raknet Listener
-        let rak_listener = rak_rs::Listener::bind(socket_addr).await;
-
-        // Check for success
-        let mut rak_listener = match rak_listener {
-            Ok(v) => v,
-            Err(e) => {
-                return Err(ListenerError::TransportListenerError(
-                    TransportLayerError::RaknetUDPError(RaknetError::ServerError(e)),
-                ));
-            }
-        };
+        let mut rak_listener = rak_rs::Listener::bind(socket_addr).await.map_err(|err| {
+            ListenerError::TransportListenerError(TransportLayerError::RakNetError(
+                RakNetError::ServerError(err),
+            ))
+        })?;
 
         // generate a random guid
-        let guid: u64 = rand::thread_rng().next_u64();
+        let guid: u64 = random::<u64>();
 
-        // Setup the motd
+        // Set up the motd
         rak_listener.motd = Motd {
             edition: String::from(MINECRAFT_EDITION_MOTD),
             version: display_version,
@@ -62,7 +56,7 @@ impl Listener {
         };
 
         Ok(Self {
-            listener: TransportLaterListener::RaknetUDP(rak_listener),
+            listener: TransportLayerListener::RakNet(rak_listener),
             name,
             sub_name,
             player_max,
@@ -73,17 +67,17 @@ impl Listener {
     }
 
     pub async fn start(&mut self) -> Result<(), ListenerError> {
-        match self.listener.start().await {
-            Ok(_) => Ok(()),
-            Err(e) => Err(ListenerError::TransportListenerError(e)),
-        }
+        self.listener.start().await?;
+        Ok(())
+    }
+
+    pub async fn stop(&mut self) -> Result<(), ListenerError> {
+        self.listener.stop().await?;
+        Ok(())
     }
 
     pub async fn accept(&mut self) -> Result<Connection, ListenerError> {
-        let rak_conn = match self.listener.accept().await {
-            Ok(c) => c,
-            Err(e) => return Err(ListenerError::TransportListenerError(e)),
-        };
+        let rak_conn = self.listener.accept().await?;
 
         Ok(Connection::from_transport_conn(rak_conn))
     }

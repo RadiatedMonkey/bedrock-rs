@@ -1,8 +1,6 @@
 use std::convert::TryInto;
 use std::io::{Cursor, Read, Write};
-use std::sync::Arc;
-
-use bedrockrs_core::int::VAR;
+use varint_rs::{VarintReader, VarintWriter};
 
 use crate::error::ProtoCodecError;
 use crate::ProtoCodec;
@@ -12,15 +10,10 @@ impl ProtoCodec for String {
     where
         Self: Sized,
     {
-        let len = self
-            .len()
-            .try_into()
-            .map_err(|e| ProtoCodecError::FromIntError(e))?;
+        let len = self.len().try_into()?;
 
-        VAR::<u32>::new(len).proto_serialize(buf)?;
-
-        buf.write_all(self.as_bytes())
-            .map_err(|e| ProtoCodecError::IOError(Arc::new(e)))?;
+        buf.write_u32_varint(len)?;
+        buf.write_all(self.as_bytes())?;
 
         Ok(())
     }
@@ -29,16 +22,16 @@ impl ProtoCodec for String {
     where
         Self: Sized,
     {
-        let len = VAR::<u32>::proto_deserialize(stream)?.into_inner();
-        let len = len
-            .try_into()
-            .map_err(|e| ProtoCodecError::FromIntError(e))?;
+        let len = stream.read_u32_varint()?.try_into()?;
 
         let mut string_buf = vec![0u8; len];
+        stream.read_exact(&mut string_buf)?;
 
-        stream
-            .read_exact(&mut *string_buf)
-            .map_err(|e| ProtoCodecError::IOError(Arc::new(e)))?;
-        String::from_utf8(string_buf).map_err(|e| ProtoCodecError::UTF8Error(e))
+        Ok(String::from_utf8(string_buf)?)
+    }
+
+    fn get_size_prediction(&self) -> usize {
+        // 4 = u32 String size
+        self.len() + 4
     }
 }

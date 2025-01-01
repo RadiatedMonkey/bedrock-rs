@@ -32,7 +32,7 @@ impl Languages {
             for language in languages_file {
                 let language_code = match language {
                     LanguageCode::VanillaCode(v) => v,
-                    LanguageCode::CustomCode(v) => v.x,
+                    LanguageCode::CustomCode(v) => v.1,
                 };
 
                 let language_path = languages_path.join(format!("{language_code}.lang"));

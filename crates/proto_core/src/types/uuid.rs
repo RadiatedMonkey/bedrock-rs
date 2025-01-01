@@ -1,25 +1,28 @@
-use std::io::Cursor;
-
-use bedrockrs_core::int::LE;
-use uuid::Uuid;
-
 use crate::error::ProtoCodecError;
 use crate::ProtoCodec;
+use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
+use std::io::Cursor;
+use std::mem::size_of;
+use uuid::Uuid;
 
 impl ProtoCodec for Uuid {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
-        let pair = self.as_u64_pair();
+        let (upper, lower) = self.as_u64_pair();
 
-        LE::<u64>::new(pair.0).proto_serialize(stream)?;
-        LE::<u64>::new(pair.1).proto_serialize(stream)?;
+        stream.write_u64::<LittleEndian>(upper)?;
+        stream.write_u64::<LittleEndian>(lower)?;
 
         Ok(())
     }
 
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError> {
-        let first = LE::<u64>::proto_deserialize(stream)?.into_inner();
-        let second = LE::<u64>::proto_deserialize(stream)?.into_inner();
+        Ok(Uuid::from_u64_pair(
+            stream.read_u64::<LittleEndian>()?,
+            stream.read_u64::<LittleEndian>()?,
+        ))
+    }
 
-        Ok(Uuid::from_u64_pair(first, second))
+    fn get_size_prediction(&self) -> usize {
+        size_of::<u64>() + size_of::<u64>()
     }
 }

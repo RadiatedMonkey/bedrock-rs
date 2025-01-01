@@ -1,24 +1,10 @@
-use std::fmt::{Debug, Formatter};
+use std::fmt::Debug;
 
-use bedrockrs_core::Vec2;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum LanguageCode {
     VanillaCode(String),
-    CustomCode(Vec2<String>),
-}
-
-impl Debug for LanguageCode {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            LanguageCode::VanillaCode(v) => {
-                write!(f, "VanillaCode({v})")
-            }
-            LanguageCode::CustomCode(v) => {
-                write!(f, "CustomCode([{}, {}])", v.x, v.y)
-            }
-        }
-    }
+    CustomCode((String, String)),
 }

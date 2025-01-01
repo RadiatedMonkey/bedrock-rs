@@ -53,7 +53,7 @@ impl Addon for BehaviorPack {
         let blocks_path = path.join("blocks");
         let mut blocks = HashMap::new();
 
-        // If dir exists read all blocks
+        // If dir exists, read all blocks
         if blocks_path.is_dir() {
             'blocks_walk: for blocks_entry in WalkDir::new(&blocks_path).into_iter().filter(|v| {
                 if let Ok(v) = v {
@@ -88,7 +88,7 @@ impl Addon for BehaviorPack {
         let items_path = path.join("items");
         let mut items = HashMap::new();
 
-        // If dir exists read all items
+        // If dir exists, read all items
         if items_path.is_dir() {
             'items_walk: for items_entry in WalkDir::new(&items_path).into_iter().filter(|v| {
                 if let Ok(v) = v {
@@ -177,14 +177,14 @@ impl Addon for BehaviorPack {
         })
     }
 
-    fn export(path: impl AsRef<Path>) -> Result<Self, AddonError>
+    fn export(_path: impl AsRef<Path>) -> Result<Self, AddonError>
     where
         Self: Sized,
     {
         unimplemented!()
     }
 
-    fn merge(addons: Vec<Self>) -> Self
+    fn merge(_addons: Vec<Self>) -> Self
     where
         Self: Sized,
     {

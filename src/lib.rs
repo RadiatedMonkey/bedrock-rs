@@ -4,15 +4,9 @@ pub mod core {
     pub use ::bedrockrs_shared::*;
 }
 
-#[cfg(feature = "proto")]
-pub mod proto {
-    pub use ::bedrockrs_proto::*;
-    pub use ::bedrockrs_proto_core::GamePacket;
-
-    pub mod codec {
-        pub use ::bedrockrs_proto_core::error::ProtoCodecError;
-        pub use ::bedrockrs_proto_core::ProtoCodec;
-    }
+#[cfg(feature = "level")]
+pub mod level {
+    pub use ::bedrockrs_level::*;
 }
 
 #[cfg(feature = "addon")]
@@ -20,15 +14,23 @@ pub mod addon {
     pub use ::bedrockrs_addon::*;
 }
 
-#[cfg(feature = "world")]
-pub mod world {
-    pub use ::bedrockrs_world::*;
+#[cfg(feature = "proto")]
+pub mod proto {
+    pub use ::bedrockrs_proto::*;
+    pub use ::bedrockrs_proto_core::*;
 
-    pub mod palette {
-        pub use ::bedrockrs_paletted_storage::*;
+    pub mod error {
+        pub use ::bedrockrs_proto::error::*;
+        pub use ::bedrockrs_proto_core::error::*;
     }
 }
 
+#[cfg(feature = "server")]
+pub mod server {
+    pub use ::bedrockrs_server::*;
+}
+
+#[cfg(feature = "form")]
 pub mod form {
     pub use ::bedrockrs_form::*;
 }
