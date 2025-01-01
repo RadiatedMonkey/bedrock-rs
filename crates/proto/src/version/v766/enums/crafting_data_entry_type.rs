@@ -1,5 +1,6 @@
 use crate::version::v662::types::{NetworkItemInstanceDescriptor, SmithingTransformRecipe, SmithingTrimRecipe};
-use crate::version::v766::types::{ShapedChemistryRecipe, ShapedRecipe, ShapelessRecipe, UserDataShapelessRecipe};
+use crate::version::v766::types::UserDataShapelessRecipe;
+use crate::version::v748::types::{ShapedChemistryRecipe, ShapedRecipe, ShapelessRecipe};
 use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
