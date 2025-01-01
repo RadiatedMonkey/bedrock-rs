@@ -22,17 +22,22 @@ pub struct Encryption {
     iv: Vec<u8>,
 }
 
+//Reversed from bedrock dedicated server v 1.21.51.02 
 impl Encryption {
-    pub fn new(key: Vec<u8>, iv: Vec<u8>) -> Self {
+    pub fn new() -> Self {
         Encryption{
             send_counter: 0,
             buf: [0; 8],
-            key,
-            iv
+            key: Vec::new(),
+            iv: Vec::new()
         }
     }
 
     pub fn decrypt(&mut self, _src: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
+
+        // In bedrock dedicated server, there are serveral encryption method, but it turned out they are likely to always use
+        // AES-256-GCM
+
         let cipher = Cipher::aes_256_gcm();
 
         let mut crypter = Crypter::new(cipher, Mode::Decrypt, &self.key, Some(&self.iv))
@@ -65,15 +70,14 @@ impl Encryption {
         unimplemented!()
     }
 
-    pub fn get_ident_key(&mut self, login_packet: &LoginPacket) -> Option<String> {
+    pub fn get_ident_key(&mut self, login_packet: &LoginPacket) -> Result<String, EncryptionError> {
         let cert_chain = &login_packet.connection_request.certificate_chain;
 
-        if let Some(last_chain) = cert_chain.last() {
-            if let Some(identity_public_key) = last_chain.get("identityPublicKey") {
-                return Some(identity_public_key.clone().to_string()); 
-            }
-        }
-        None
+        let last_chain = cert_chain.last().unwrap();
+
+        let identity_public_key = last_chain.get("identityPublicKey").unwrap();
+
+        return Ok(identity_public_key.clone().to_string()); 
     }
 
     pub fn compute_shared_secret_ecc(
@@ -107,27 +111,32 @@ impl Encryption {
     }
 
     pub fn init_encryption(&mut self, server_private_key: Vec<u8>, login_packet: LoginPacket) -> Result<Vec<u8>, EncryptionError> {
-        let peer_public_key : String;
 
-        if let Some(identity_publickey) = self.get_ident_key(&login_packet) {
-            peer_public_key = identity_publickey;
-        } else {
-            return Err(EncryptionError::MissingKey); 
-        }
+        //The "identityPublicKey from the last part of the chain will be used as encryption seed
+        let identity_publickey = self.get_ident_key(&login_packet)
+            .map_err(|_| EncryptionError::MissingKey)?;
 
-        let peer_pub_key_der = general_purpose::STANDARD.decode(peer_public_key).unwrap();
+        //Decode the peer public key using base64
+        let peer_pub_key_der = general_purpose::STANDARD.decode(identity_publickey).unwrap();
         let shared_secret = self.compute_shared_secret_ecc(server_private_key.as_slice(), &peer_pub_key_der)
             .map_err(|_| EncryptionError::StartupFailed())?;
 
+        //Generate 16-byte random slice for the first 8 byte
         let mut rng = rand::thread_rng();
         let mut final_key_seed : Vec<u8> = (0..16).map(|_| rng.gen()).collect();
-
         final_key_seed.extend_from_slice(&shared_secret);
 
+
+        //Reversed from bds, uses sha-256 for applying hash
         let mut hasher = Sha256::new();
         hasher.update(final_key_seed);
 
         let encryption_symmetric_key = hasher.finalize().to_vec();
+
+        //Note that after some reversing, I notice that the first 16 byte of the key will also be used as IV
+        self.key = encryption_symmetric_key.clone();
+        self.iv = encryption_symmetric_key[0..16].to_vec();
+
         Ok(encryption_symmetric_key)
     }
 }
