@@ -76,6 +76,8 @@ pub enum EncryptionError {
 
 #[derive(Error, Debug)]
 pub enum LoginError {
+    #[error("Missing X5U header in JWT")]
+    MissingX5U,
     #[error("Invalid chain length: {0}")]
     InvalidChainLength(usize),
     #[error("Authentication token not signed by Mojang")]

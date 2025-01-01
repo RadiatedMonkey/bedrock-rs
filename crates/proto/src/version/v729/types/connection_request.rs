@@ -108,7 +108,7 @@ struct KeyPayload {
 fn parse_first_token(token: &str) -> Result<bool, ProtoCodecError> {
     let header = jsonwebtoken::decode_header(token)?;
     let Some(base64_x5u) = header.x5u else {
-        todo!();
+        return Err(LoginError::MissingX5U.into())
     };
     let bytes = BASE64_STANDARD.decode(base64_x5u)?;
 
