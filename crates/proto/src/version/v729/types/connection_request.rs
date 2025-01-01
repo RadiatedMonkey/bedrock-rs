@@ -218,12 +218,25 @@ pub struct ClientInfo {
     pub device_model: String,
     #[serde(rename = "DeviceId")]
     pub device_id: String,
-    #[serde(rename = "LanguageCode")]
-    pub language_code: String, // TODO: Use LanguageCode enum instead
+    #[serde(rename = "LanguageCode", with = "language_code")]
+    pub language_code: LanguageCode,
     #[serde(rename = "UIProfile")]
     pub ui_profile: UIProfile,
     #[serde(rename = "GuiScale")]
     pub gui_scale: u32
+}
+
+mod language_code {
+    use bedrockrs_addon::language::code::LanguageCode;
+    use serde::{Deserialize, Deserializer};
+    
+    #[inline]
+    pub fn deserialize<'de, D>(de: D) -> Result<LanguageCode, D::Error> 
+        where D: Deserializer<'de>
+    {
+        let lang = String::deserialize(de)?;
+        Ok(LanguageCode::VanillaCode(lang))
+    }
 }
 
 #[derive(Deserialize, Debug)]
