@@ -1,3 +1,5 @@
+use std::fmt::{self, Debug};
+
 use aes::cipher::{KeyIvInit, StreamCipher};
 use base64::{prelude::BASE64_STANDARD, Engine};
 use bedrockrs_proto_core::error::{EncryptionError, ProtoCodecError};
@@ -27,6 +29,16 @@ pub struct Encryptor {
     pub jwt: String
 }
 
+impl Debug for Encryptor {
+    // Don't reveal secrets
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt
+            .debug_struct("Encryptor")
+            .field("jwt", &self.jwt)
+            .finish_non_exhaustive()
+    }
+}
+
 impl Encryptor {
     /// The only argument to this function is the client's DER-encoded public key
     /// which is obtained in the third JWT in the login chain.
@@ -49,7 +61,7 @@ impl Encryptor {
         header.x5u = Some(public_key_der);
 
         let signing_key = jsonwebtoken::EncodingKey::from_ec_der(&private_key_der.to_bytes());
-        let claims = EncryptionClaims { salt: BASE64_STANDARD.encode(salt) };
+        let claims = EncryptionClaims { salt: BASE64_STANDARD.encode(&salt) };
         
         let jwt = jsonwebtoken::encode(&header, &claims, &signing_key)?;
         let bytes = BASE64_STANDARD.decode(client_public_key_der)?;
@@ -73,7 +85,7 @@ impl Encryptor {
         iv[..12].copy_from_slice(&secret[..12]);
         iv[12..].copy_from_slice(&[0x00, 0x00, 0x00, 0x02]);
 
-        let cipher = Aes256CtrBe::new(secret.into(), &iv);
+        let cipher = Aes256CtrBe::new((&secret).into(), (&iv).into());
         
         Ok(Self {
             send_counter: 0,
@@ -85,8 +97,8 @@ impl Encryptor {
         })
     }
 
-    pub fn decrypt(&mut self, mut src: &mut Vec<u8>) -> Result<(), EncryptionError> {
-        self.decrypt.apply_keystream(&mut src);
+    pub fn decrypt(&mut self, src: &mut Vec<u8>) -> Result<(), EncryptionError> {
+        self.decrypt.apply_keystream(src);
         
         let count = self.recv_counter;
         self.recv_counter += 1;
@@ -101,14 +113,14 @@ impl Encryptor {
         Ok(())
     }
 
-    pub fn encrypt(&mut self, src: Vec<u8>) -> Result<(), EncryptionError> {
+    pub fn encrypt(&mut self, src: &mut Vec<u8>) -> Result<(), EncryptionError> {
         let count = self.send_counter;
         self.send_counter += 1;
 
         let checksum = self.checksum(&src, count);
         src.extend(checksum);
 
-        self.encrypt.apply_keystream(&mut src);
+        self.encrypt.apply_keystream(src);
 
         Ok(())
     }
