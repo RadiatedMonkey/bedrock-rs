@@ -1,69 +1,65 @@
 
-use base64::engine::general_purpose;
-use base64::Engine;
-use openssl::bn::BigNumContext;
-use openssl::symm::{Cipher, Crypter, Mode};
-use openssl::ec::{EcGroup, EcKey, EcPoint};
-use openssl::pkey::PKey;
-use openssl::derive::Deriver;
-use openssl::nid::Nid;
+use base64::{engine::general_purpose::STANDARD, Engine};
+use p384::{self, ecdh::diffie_hellman, pkcs8::DecodePublicKey, PublicKey, SecretKey};
 
 use sha2::{Sha256, Digest};
 use rand::Rng;
 
+use aes_gcm::{aead::Aead, Aes256Gcm, Key, KeyInit, Nonce};
+
 use bedrockrs_proto_core::error::EncryptionError;
 use crate::v729::packets::login::LoginPacket;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Encryption {
     send_counter: u64,
     buf: [u8; 8],
     key: Vec<u8>,
     iv: Vec<u8>,
+    cipher: Aes256Gcm,
+}
+
+impl std::fmt::Debug for Encryption {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Encryption")
+            .field("send_counter", &self.send_counter)
+            .field("buf", &self.buf)
+            .field("key", &self.key)
+            .field("iv", &self.iv)
+            .finish()
+    }
 }
 
 //Reversed from bedrock dedicated server v 1.21.51.02 
 impl Encryption {
     pub fn new() -> Self {
+        let key = vec![0u8; 32]; // Initialize with 32 zero bytes (can be set to your desired key)
+
+        let cipher = Aes256Gcm::new(&Key::<Aes256Gcm>::from_slice(&key));
+
         Encryption{
             send_counter: 0,
             buf: [0; 8],
             key: Vec::new(),
-            iv: Vec::new()
+            iv: Vec::new(),
+            cipher,
         }
     }
 
-    pub fn decrypt(&mut self, _src: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
-
+    pub fn decrypt(&mut self, ciphertext: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
         // In bedrock dedicated server, there are serveral encryption method, but it turned out they are likely to always use
         // AES-256-GCM
+        let nonce = Nonce::from_slice(&self.iv);
 
-        let cipher = Cipher::aes_256_gcm();
-
-        let mut crypter = Crypter::new(cipher, Mode::Decrypt, &self.key, Some(&self.iv))
-            .map_err(|_| EncryptionError::DecryptionFailed())?;
-
-        let mut decrypted = vec![0u8; _src.len()];
-        let len = crypter.update(&_src, &mut decrypted).map_err(|_| EncryptionError::DecryptionFailed())?;
-
-        let final_len = crypter.finalize(&mut decrypted[len..]).map_err(|_| EncryptionError::DecryptionFailed())?;
-        decrypted.truncate(len + final_len);
-        Ok(decrypted)
+        self.cipher.decrypt(nonce, ciphertext.as_slice())
+            .map_err(|_| EncryptionError::DecryptionFailed())
     }
 
-    pub fn encrypt(&mut self, _src: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
-        let cipher = Cipher::aes_256_gcm();
+    pub fn encrypt(&mut self, plaintext: Vec<u8>) -> Result<Vec<u8>, EncryptionError> {
+        let nonce = Nonce::from_slice(&self.iv);
 
-        let mut crypter = Crypter::new(cipher, Mode::Encrypt, &self.key, Some(&self.iv))
-        .map_err(|_| EncryptionError::EncryptionFailed())?;
-
-        let mut ciphertext = vec![0u8; _src.len() + cipher.block_size()];
-
-        let len = crypter.update(&_src, &mut ciphertext).map_err(|_| EncryptionError::EncryptionFailed())?;
-        let final_len = crypter.finalize(&mut ciphertext[len..]).map_err(|_| EncryptionError::EncryptionFailed())?;
-
-        ciphertext.truncate(len + final_len);
-        Ok(ciphertext)
+        self.cipher.encrypt(nonce, plaintext.as_slice())
+            .map_err(|_| EncryptionError::EncryptionFailed())
     }
 
     pub fn verify(&mut self, _src: &[u8]) -> Result<(), EncryptionError> {
@@ -85,29 +81,14 @@ impl Encryption {
         server_private_key: &[u8],
         in_public_key: &[u8]
     )->Result<Vec<u8>, EncryptionError>{
-
-        let private_key = EcKey::private_key_from_der(server_private_key)
-            .map_err(|_| EncryptionError::StartupFailed())?;
-
-        let private_key : PKey<_>  = private_key.try_into().unwrap();
-
-        let group = EcGroup::from_curve_name(Nid::SECP384R1)
-            .map_err(|_| EncryptionError::StartupFailed())?;
-        let mut ctx = BigNumContext::new()
-            .map_err(|_| EncryptionError::StartupFailed())?;
-
-        let point = EcPoint::from_bytes(&group, &in_public_key, &mut ctx).unwrap();
-        
-        let recipient_key : PKey<_> = EcKey::from_public_key(&group, &point).unwrap().try_into()
-            .map_err(|_| EncryptionError::StartupFailed())?;
-
-        let mut deriver = Deriver::new(&private_key)
+        let server_private = SecretKey::from_sec1_der(server_private_key)
             .map_err(|_| EncryptionError::StartupFailed())?;
         
-        deriver.set_peer(&recipient_key).unwrap();
-        let secret = deriver.derive_to_vec().unwrap();
+        let peer_public = PublicKey::from_public_key_der(in_public_key).unwrap();
 
-        Ok(secret)
+        let secret = diffie_hellman(server_private.to_nonzero_scalar(), peer_public.as_affine());
+
+        Ok(secret.raw_secret_bytes().to_vec())
     }
 
     pub fn init_encryption(&mut self, server_private_key: Vec<u8>, login_packet: LoginPacket) -> Result<Vec<u8>, EncryptionError> {
@@ -117,7 +98,7 @@ impl Encryption {
             .map_err(|_| EncryptionError::MissingKey)?;
 
         //Decode the peer public key using base64
-        let peer_pub_key_der = general_purpose::STANDARD.decode(identity_publickey).unwrap();
+        let peer_pub_key_der = STANDARD.decode(identity_publickey).unwrap();
         let shared_secret = self.compute_shared_secret_ecc(server_private_key.as_slice(), &peer_pub_key_der)
             .map_err(|_| EncryptionError::StartupFailed())?;
 
@@ -136,6 +117,8 @@ impl Encryption {
         //Note that after some reversing, I notice that the first 16 byte of the key will also be used as IV
         self.key = encryption_symmetric_key.clone();
         self.iv = encryption_symmetric_key[0..16].to_vec();
+
+        self.cipher = Aes256Gcm::new(&Key::<Aes256Gcm>::from_slice(&self.key.as_slice()));
 
         Ok(encryption_symmetric_key)
     }

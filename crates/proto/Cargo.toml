@@ -21,7 +21,7 @@ thiserror = "2.0"
 
 jsonwebtoken = "9.3"
 rand = "0.8"
-base64 = "0.22"
+base64 = "0.22.1"
 uuid = { version = "1.11", features = ["v4"] }
 serde_json = "1.0"
 tokio = { version = "1.40", features = ["full"] }
@@ -36,5 +36,6 @@ serde = { version = "1.0", features = ["derive"] }
 
 rak-rs = { version = "0.3", default-features = false, features = ["async_tokio", "mcpe"] }
 
-openssl = "0.10"
-sha2 = "0.10"
+p384 = "0.13.0"
+sha2 = "0.10.8" 
+aes-gcm = "0.10"
