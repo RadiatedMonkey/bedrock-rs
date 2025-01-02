@@ -27,7 +27,10 @@ impl ProtoCodec for String {
         let mut string_buf = vec![0u8; len];
         stream.read_exact(&mut string_buf)?;
 
-        Ok(String::from_utf8(string_buf)?)
+        Ok(
+            String::from_utf8(string_buf)
+                .map_err(|e| ProtoCodecError::Utf8Error(e.utf8_error()))?,
+        )
     }
 
     fn get_size_prediction(&self) -> usize {

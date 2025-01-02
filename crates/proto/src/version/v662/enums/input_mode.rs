@@ -1,6 +1,7 @@
 use bedrockrs_macros::ProtoCodec;
+use serde_repr::Deserialize_repr;
 
-#[derive(ProtoCodec, Clone, Debug)]
+#[derive(ProtoCodec, Deserialize_repr, Clone, Debug)]
 #[enum_repr(u32)]
 #[enum_endianness(var)]
 #[repr(u32)]
