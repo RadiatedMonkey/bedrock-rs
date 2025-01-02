@@ -12,6 +12,7 @@ use crate::v729::packets::login::LoginPacket;
 
 #[derive(Clone)]
 pub struct Encryption {
+    recv_counter: u64,
     send_counter: u64,
     buf: [u8; 8],
     key: Vec<u8>,
