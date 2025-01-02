@@ -6,10 +6,13 @@ use bedrockrs_proto::v662::packets::{
     NetworkSettingsPacket, PlayStatusPacket, ResourcePackStackPacket, ResourcePacksInfoPacket,
 };
 use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
-use bedrockrs_proto::v662::GamePackets;
+use bedrockrs_proto::v662::GamePackets as GamePackets662;
+use bedrockrs_proto::v729::gamepackets::GamePackets as GamePackets729;
 use bedrockrs_proto::v662::ProtoHelperV662;
 use bedrockrs_proto::v729::helper::ProtoHelperV729;
 use tokio::time::Instant;
+use bedrockrs_proto::encryption::Encryption;
+use bedrockrs_proto::v729::packets::handshake_server_to_client::HandshakeServerToClientPacket;
 
 #[tokio::main]
 async fn main() {
@@ -46,7 +49,7 @@ async fn handle_login(mut conn: Connection) {
     let compression = Compression::None;
 
     // NetworkSettings
-    conn.send::<ProtoHelperV662>(&[GamePackets::NetworkSettings(NetworkSettingsPacket {
+    conn.send::<ProtoHelperV662>(&[GamePackets662::NetworkSettings(NetworkSettingsPacket {
         compression_threshold: 1,
         compression_algorithm: PacketCompressionAlgorithm::None,
         client_throttle_enabled: false,
@@ -60,43 +63,68 @@ async fn handle_login(mut conn: Connection) {
     conn.compression = Some(compression);
 
     // Login
-    conn.recv::<ProtoHelperV729>().await.unwrap();
+    let packets = conn.recv::<ProtoHelperV729>().await.unwrap();
+    let public_key = {
+        let first = packets.first().unwrap();
+        let GamePackets729::Login(login) = first else {
+            unreachable!();
+        };
+
+        login.connection_request.public_key.clone()
+    };
+
+    let encryptor = Encryption::new(&public_key).unwrap();
+    let jwt = encryptor.salt_jwt().to_owned();
+    conn.encryption = Some(encryptor);
+
+    conn.send::<ProtoHelperV729>(&[
+        GamePackets729::HandshakeServerToClient(HandshakeServerToClientPacket {
+            jwt
+        })
+    ]).await.unwrap();
+
+    let recv = conn.recv::<ProtoHelperV729>().await.unwrap();
+    dbg!(recv);
+
     println!("Login");
+    dbg!(packets);
 
-    conn.send::<ProtoHelperV662>(&[
-        GamePackets::PlaySatus(PlayStatusPacket {
-            status: PlayStatus::LoginSuccess,
-        }),
-        GamePackets::ResourcePacksInfo(ResourcePacksInfoPacket {
-            resource_pack_required: false,
-            has_addon_packs: false,
-            has_scripts: false,
-            force_server_packs_enabled: false,
-            behaviour_packs: vec![],
-            resource_packs: vec![],
-            cdn_urls: vec![],
-        }),
-        GamePackets::ResourcePackStack(ResourcePackStackPacket {
-            texture_pack_required: false,
-            addon_list: vec![],
-            base_game_version: BaseGameVersion(String::from("1.0")),
-            experiments: Experiments {
-                experiments: vec![],
-                ever_toggled: false,
-            },
-            texture_pack_list: vec![],
-        }),
-    ])
-    .await
-    .unwrap();
-    println!("PlayStatus (LoginSuccess)");
-    println!("ResourcePacksInfo");
-    println!("ResourcePackStack");
+    todo!();
 
-    println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
-    println!("ClientCacheStatus");
-    println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
-    println!("ResourcePackClientResponse");
+    // conn.send::<ProtoHelperV662>(&[
+    //     GamePackets::PlaySatus(PlayStatusPacket {
+    //         status: PlayStatus::LoginSuccess,
+    //     }),
+    //     GamePackets::ResourcePacksInfo(ResourcePacksInfoPacket {
+    //         resource_pack_required: false,
+    //         has_addon_packs: false,
+    //         has_scripts: false,
+    //         force_server_packs_enabled: false,
+    //         behaviour_packs: vec![],
+    //         resource_packs: vec![],
+    //         cdn_urls: vec![],
+    //     }),
+    //     GamePackets::ResourcePackStack(ResourcePackStackPacket {
+    //         texture_pack_required: false,
+    //         addon_list: vec![],
+    //         base_game_version: BaseGameVersion(String::from("1.0")),
+    //         experiments: Experiments {
+    //             experiments: vec![],
+    //             ever_toggled: false,
+    //         },
+    //         texture_pack_list: vec![],
+    //     }),
+    // ])
+    // .await
+    // .unwrap();
+    // println!("PlayStatus (LoginSuccess)");
+    // println!("ResourcePacksInfo");
+    // println!("ResourcePackStack");
+    //
+    // println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
+    // println!("ClientCacheStatus");
+    // println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
+    // println!("ResourcePackClientResponse");
 
     // conn.send::<ProtoHelperV729>(&[GamePackets::DisconnectPlayer(DisconnectPlayerPacket {
     //     reason: DisconnectReason::Unknown,

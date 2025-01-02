@@ -275,7 +275,6 @@ fn parse_client_info_token(token: &str, key: &str) -> Result<ClientInfo, ProtoCo
 
     validation.required_spec_claims.clear();
 
-    dbg!(token);
     let payload = jsonwebtoken::decode(token, &decoding_key, &validation)?;
     Ok(payload.claims)
 }
@@ -302,8 +301,6 @@ impl ProtoCodec for ConnectionRequest {
         todo!()
     }
 
-    // TODO: Add microsoft auth
-    // TODO: Validate jwts (This is hard, Zuri nor Vincent could help me)
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError>
     where
         Self: Sized,
