@@ -1,6 +1,6 @@
 use crate::compression::Compression;
 use crate::connection::Connection;
-use crate::encryption::Encryption;
+use crate::encryption::Encryptor;
 use crate::error::ConnectionError;
 use crate::helper::ProtoHelper;
 use tokio::select;
@@ -105,8 +105,8 @@ pub struct ConnectionShardSender<T: ProtoHelper + Send + Sync> {
     compression_sender: watch::Sender<Option<Compression>>,
     compression_receiver: watch::Receiver<Option<Compression>>,
 
-    encryption_sender: watch::Sender<Option<Encryption>>,
-    encryption_receiver: watch::Receiver<Option<Encryption>>,
+    encryption_sender: watch::Sender<Option<Encryptor>>,
+    encryption_receiver: watch::Receiver<Option<Encryptor>>,
 }
 
 impl<T: ProtoHelper + Send + Sync> ConnectionShardSender<T> {
@@ -143,17 +143,17 @@ impl<T: ProtoHelper + Send + Sync> ConnectionShardSender<T> {
         Ok(())
     }
 
-    pub fn get_encryption(&mut self) -> Result<Option<Encryption>, ConnectionError> {
+    pub fn get_encryption(&mut self) -> Result<Option<Encryptor>, ConnectionError> {
         Ok(self.encryption_receiver.borrow().clone())
     }
 
-    pub fn get_encryption_ref(&mut self) -> Result<Ref<'_, Option<Encryption>>, ConnectionError> {
+    pub fn get_encryption_ref(&mut self) -> Result<Ref<'_, Option<Encryptor>>, ConnectionError> {
         Ok(self.encryption_receiver.borrow())
     }
 
     pub fn set_encryption(
         &mut self,
-        encryption: Option<Encryption>,
+        encryption: Option<Encryptor>,
     ) -> Result<(), ConnectionError> {
         self.encryption_sender
             .send(encryption)
@@ -174,7 +174,7 @@ pub struct ConnectionShardReceiver<T: ProtoHelper + Send + Sync> {
     pub(crate) close_sender: watch::Sender<()>,
 
     pub(crate) compression_receiver: watch::Receiver<Option<Compression>>,
-    pub(crate) encryption_receiver: watch::Receiver<Option<Encryption>>,
+    pub(crate) encryption_receiver: watch::Receiver<Option<Encryptor>>,
 }
 
 impl<T: ProtoHelper + Send + Sync> ConnectionShardReceiver<T> {
@@ -193,11 +193,11 @@ impl<T: ProtoHelper + Send + Sync> ConnectionShardReceiver<T> {
         Ok(self.compression_receiver.borrow())
     }
 
-    pub fn get_encryption(&mut self) -> Result<Option<Encryption>, ConnectionError> {
+    pub fn get_encryption(&mut self) -> Result<Option<Encryptor>, ConnectionError> {
         Ok(self.encryption_receiver.borrow().clone())
     }
 
-    pub fn get_encryption_ref(&mut self) -> Result<Ref<'_, Option<Encryption>>, ConnectionError> {
+    pub fn get_encryption_ref(&mut self) -> Result<Ref<'_, Option<Encryptor>>, ConnectionError> {
         Ok(self.encryption_receiver.borrow())
     }
 

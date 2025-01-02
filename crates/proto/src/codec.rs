@@ -1,5 +1,5 @@
 use crate::compression::Compression;
-use crate::encryption::Encryption;
+use crate::encryption::Encryptor;
 use crate::helper::ProtoHelper;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::sub_client::SubClientID;
@@ -9,7 +9,7 @@ use std::io::Cursor;
 pub fn encode_gamepackets<T: ProtoHelper>(
     gamepackets: &[T::GamePacketType],
     compression: Option<&Compression>,
-    encryption: Option<&mut Encryption>,
+    encryption: Option<&mut Encryptor>,
 ) -> Result<Vec<u8>, ProtoCodecError> {
     log::trace!("Encoding gamepackets");
 
@@ -23,7 +23,7 @@ pub fn encode_gamepackets<T: ProtoHelper>(
 pub fn decode_gamepackets<T: ProtoHelper>(
     mut gamepacket_stream: Vec<u8>,
     compression: Option<&Compression>,
-    encryption: Option<&mut Encryption>,
+    encryption: Option<&mut Encryptor>,
 ) -> Result<Vec<T::GamePacketType>, ProtoCodecError> {
     log::trace!("Decoding gamepackets");
 
@@ -98,7 +98,7 @@ pub fn decompress_gamepackets<T: ProtoHelper>(
 
 pub fn encrypt_gamepackets<T: ProtoHelper>(
     mut gamepacket_stream: Vec<u8>,
-    encryption: Option<&mut Encryption>,
+    encryption: Option<&mut Encryptor>,
 ) -> Result<Vec<u8>, ProtoCodecError> {
     if let Some(encryption) = encryption {
         gamepacket_stream = encryption.encrypt(gamepacket_stream)?;
@@ -109,7 +109,7 @@ pub fn encrypt_gamepackets<T: ProtoHelper>(
 
 pub fn decrypt_gamepackets<T: ProtoHelper>(
     mut gamepacket_stream: Vec<u8>,
-    encryption: Option<&mut Encryption>,
+    encryption: Option<&mut Encryptor>,
 ) -> Result<Vec<u8>, ProtoCodecError> {
     dbg!("Attempting to decrypt");
 

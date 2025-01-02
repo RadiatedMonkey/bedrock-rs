@@ -2,7 +2,7 @@ pub mod shard;
 
 use crate::codec::{decode_gamepackets, encode_gamepackets};
 use crate::compression::Compression;
-use crate::encryption::Encryption;
+use crate::encryption::Encryptor;
 use crate::error::ConnectionError;
 use crate::helper::ProtoHelper;
 use crate::transport::TransportLayerConnection;
@@ -15,7 +15,7 @@ pub struct Connection {
     pub compression: Option<Compression>,
     /// Represents the connections encryption, the encryption gets initialized in the
     /// login process, if encryption is enabled
-    pub encryption: Option<Encryption>,
+    pub encryption: Option<Encryptor>,
 }
 
 impl Connection {
