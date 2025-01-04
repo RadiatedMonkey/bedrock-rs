@@ -3,7 +3,21 @@ use bedrockrs_level::level::level::default_impl::*;
 use bedrockrs_level::level::level::{ChunkSelectionFilter, LevelConfiguration};
 use bedrockrs_level::level::sub_chunk::SubchunkFillFilter;
 use bedrockrs_shared::world::dimension::Dimension;
+use copy_dir::copy_dir;
 use std::path::Path;
+
+#[cfg(feature = "default-impl")]
+fn get_level_with_copy(
+) -> Result<BedrockLevel, BedrockLevelError<RawInterface, BedrockSubChunkDecoder, BedrockSubChunk>>
+{
+    let _ = std::fs::remove_dir_all("./test_level_temp"); // If this errors its fine
+    copy_dir("./test_level", "./test_level_temp").unwrap();
+    BedrockLevel::open(
+        Box::from(Path::new("./test_level_temp")),
+        LevelConfiguration::default(),
+        BedrockState {},
+    )
+}
 
 #[cfg(feature = "default-impl")]
 #[test]
@@ -13,11 +27,7 @@ fn world_test(
 
     println!("Loading World");
 
-    let mut level = BedrockLevel::open(
-        Box::from(Path::new(wld_path)),
-        LevelConfiguration::default(),
-        BedrockState {},
-    )?;
+    let mut level = get_level_with_copy()?;
 
     println!("Collecting Chunks");
     let chunks = level.get_chunk_keys(ChunkSelectionFilter::Dimension(Dimension::Overworld));
