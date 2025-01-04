@@ -56,9 +56,9 @@ pub enum LevelError<DataBaseError: Debug, SubChunkDecodeError: Debug, SubChunkEr
 
 #[derive(Debug)]
 pub struct LevelConfiguration {
-    sub_chunk_range: Vec2<i8>,
-    rw_cache: bool,
-    create_db_if_missing: bool,
+    pub sub_chunk_range: Vec2<i8>,
+    pub rw_cache: bool,
+    pub create_db_if_missing: bool,
 }
 
 impl Default for LevelConfiguration {
