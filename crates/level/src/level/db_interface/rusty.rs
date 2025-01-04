@@ -194,7 +194,7 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
         state: &mut Self::UserState,
     ) -> Result<(), Self::Err> {
         // This looks strange, but it's just a wrapper over writing to the DB
-        Ok(self.set_subchunk_raw(chunk_info, &[], state)?)
+        self.set_subchunk_raw(chunk_info, &[], state)
     }
 
     fn build_key(key: &ChunkKey) -> Vec<u8> {

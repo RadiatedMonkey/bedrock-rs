@@ -66,7 +66,7 @@ fn world_test(
 
     let mut chunk = level.get_chunk::<BedrockChunk>((0, -1).into(), Dimension::Overworld, None)?;
 
-    let mut subchunk = chunk.get_subchunk_mut(0).unwrap();
+    let subchunk = chunk.get_subchunk_mut(0).unwrap();
     subchunk
         .fill(
             &BedrockWorldBlock::new("minecraft:diamond_block".into()),
