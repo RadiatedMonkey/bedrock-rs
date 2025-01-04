@@ -16,11 +16,11 @@ bytemuck = { version = "1.19", features = ["must_cast"] }
 serde = "1.0"
 rusty-leveldb = "3.0"
 miniz_oxide = "0.8"
-
 vek = "0.17"
 
 [dev-dependencies]
 rand = "0.8"
+
 
 [[test]]
 name = "api_test"

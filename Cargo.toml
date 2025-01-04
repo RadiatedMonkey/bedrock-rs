@@ -54,3 +54,8 @@ required-features = ["proto"]
 name = "proto_parsing"
 path = "examples/proto_parsing.rs"
 required-features = ["proto"]
+
+[[example]]
+name = "basic_world_interaction"
+path = "examples/level/basic_world_interaction.rs"
+required-features = ["level"]
