@@ -1,4 +1,0 @@
-Recovered manifest with next_file=46 manifest_num=45 log_num=43 prev_log_num=0 last_seq=4837
-reusing manifest "./test_level/db\\MANIFEST-000041"
-Recovering log file "\\\\?\\G:\\Projects\\rust\\bedrockrs\\crates\\level\\test_level\\db\\000043.log"
-reusing log file "\\\\?\\G:\\Projects\\rust\\bedrockrs\\crates\\level\\test_level\\db\\000043.log"
