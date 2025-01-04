@@ -11,7 +11,7 @@ use varint_rs::VarintWriter;
 #[gamepacket(id = 3)]
 #[derive(Debug, Clone)]
 pub struct HandshakeServerToClientPacket {
-    pub jwt: String
+    pub jwt: String,
 }
 
 impl ProtoCodec for HandshakeServerToClientPacket {

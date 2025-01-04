@@ -111,8 +111,6 @@ pub fn decrypt_gamepackets<T: ProtoHelper>(
     mut gamepacket_stream: Vec<u8>,
     encryption: Option<&mut Encryption>,
 ) -> Result<Vec<u8>, ProtoCodecError> {
-    dbg!("Attempting to decrypt");
-
     if let Some(encryption) = encryption {
         encryption.decrypt(&mut gamepacket_stream)?;
     }
