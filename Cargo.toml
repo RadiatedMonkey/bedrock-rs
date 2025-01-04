@@ -35,14 +35,17 @@ log = "0.4"
 chrono = "0.4"
 
 [features]
+default = ["full"]
 
 addon = ["dep:bedrockrs_addon"]
 form = ["dep:bedrockrs_form"]
 proto = ["dep:bedrockrs_proto", "dep:bedrockrs_proto_core", "dep:bedrockrs_macros", ]
 level = ["dep:bedrockrs_level", "level-default"]
-level-default = ["bedrockrs_level/default-impl"]
 server = ["dep:bedrockrs_server", "proto", "level", "form"]
-full = ["addon", "level", "proto", "server"]
+
+level-default = ["bedrockrs_level/default-impl"]
+
+full = ["addon", "form", "proto", "level", "server", "level-default"]
 
 [[example]]
 name = "proto_server"
