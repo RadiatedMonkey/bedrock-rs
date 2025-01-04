@@ -31,13 +31,24 @@ pub enum FillFilter<UserBlockType: WorldBlockTrait> {
     /// # Parameters
     /// - A boxed function with the following parameters:
     ///   - `&UserBlockType`: The current block being evaluated.
-    ///   - `Vec3<u8>`: The local coordinates of the block within the chunk.
+    ///   - `Vec3<u8>`: The local coordinates of the block within the current subchunk.
     ///   - `Vec2<i32>`: The world-space XZ coordinates of the chunk.
     ///   - `i8`: The subchunk y.
     ///
     /// # Returns
     /// - `bool`: `true` to allow replacing the block, `false` to skip it.
     Precedence(Box<dyn Fn(&UserBlockType, Vec3<u8>, Vec2<i32>, i8) -> bool>),
+}
+
+impl<T: WorldBlockTrait> FillFilter<T> {
+    pub fn may_place(&self, target: &T, position: Vec3<u8>, xz: Vec2<i32>, y: i8) -> bool {
+        match self {
+            FillFilter::Blanket => true,
+            FillFilter::Replace(v) => v == target,
+            FillFilter::Avoid(v) => v != target,
+            FillFilter::Precedence(f) => f(target, position, xz, y),
+        }
+    }
 }
 
 #[derive(Error, Debug)]
@@ -382,15 +393,7 @@ pub mod default_impl {
                             let blk = subchunk
                                 .get_block((x, y, z).into())
                                 .ok_or(FillError::BlockIndexDidntReturn(x, y, z))?;
-                            if match &filter {
-                                FillFilter::Blanket => true,
-                                FillFilter::Replace(mask) =>
-                                    mask == blk,
-                                FillFilter::Avoid(mask) => mask != blk,
-                                FillFilter::Precedence(func) => {
-                                    func(blk, (x, y, z).into(), pos, subchunk.get_y())
-                                }
-                            } {
+                            if filter.may_place(blk, (x, y, z).into(), pos, y_level) {
                                 subchunk.set_block((x, y, z).into(), block.clone()).unwrap()
                             }
                         }
