@@ -1,6 +1,7 @@
 use bedrockrs_level::level::chunk::{FillFilter, LevelChunkTrait};
 use bedrockrs_level::level::level::default_impl::*;
-use bedrockrs_level::level::level::ChunkSelectionFilter;
+use bedrockrs_level::level::level::{ChunkSelectionFilter, LevelConfiguration};
+use bedrockrs_level::level::sub_chunk::SubchunkFillFilter;
 use bedrockrs_shared::world::dimension::Dimension;
 use std::path::Path;
 
@@ -8,14 +9,13 @@ use std::path::Path;
 #[test]
 fn world_test(
 ) -> Result<(), BedrockLevelError<RawInterface, BedrockSubChunkDecoder, BedrockSubChunk>> {
-    let wld_path = "./test_level";
+    let wld_path = "./test_level/db";
 
     println!("Loading World");
 
     let mut level = BedrockLevel::open(
         Box::from(Path::new(wld_path)),
-        false,
-        false,
+        LevelConfiguration::default(),
         BedrockState {},
     )?;
 
@@ -45,17 +45,38 @@ fn world_test(
                     blk.clone(),
                     FillFilter::Precedence(Box::new(|_, _, _, _| rand::random::<f32>() > 0.5)),
                 )
-                .expect("Fill failed");
+                .unwrap();
         }
 
-        chunk.write_to_world(&mut level, None, None)?;
+        chunk.write_to_world(&mut level, None, None).unwrap();
 
         if idx % (len / 10 + 1) == 0 {
             println!("Wrote {idx} out of {len} chunks!");
         }
     }
+    let mut chunk = level.get_chunk::<BedrockChunk>((0, 0).into(), Dimension::Overworld, None)?;
 
-    level.close();
+    chunk
+        .fill_chunk(
+            BedrockWorldBlock::new("minecraft:diamond_block".into()),
+            FillFilter::Precedence(Box::new(|_, _, _, y| y == 0)),
+        )
+        .unwrap();
+    level.set_chunk(chunk)?;
+
+    let mut chunk = level.get_chunk::<BedrockChunk>((0, -1).into(), Dimension::Overworld, None)?;
+
+    let mut subchunk = chunk.get_subchunk_mut(0).unwrap();
+    subchunk
+        .fill(
+            &BedrockWorldBlock::new("minecraft:diamond_block".into()),
+            SubchunkFillFilter::Blanket,
+        )
+        .unwrap();
+
+    level.set_chunk(chunk)?;
+
+    level.close()?;
 
     Ok(())
 }

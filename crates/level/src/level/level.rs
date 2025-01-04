@@ -54,7 +54,22 @@ pub enum LevelError<DataBaseError: Debug, SubChunkDecodeError: Debug, SubChunkEr
     SubChunkError(SubChunkError),
 }
 
-pub struct ClosedLevel;
+#[derive(Debug)]
+pub struct LevelConfiguration {
+    sub_chunk_range: Vec2<i8>,
+    rw_cache: bool,
+    create_db_if_missing: bool,
+}
+
+impl Default for LevelConfiguration {
+    fn default() -> Self {
+        Self {
+            sub_chunk_range: (-4, 20).into(),
+            rw_cache: false,
+            create_db_if_missing: false,
+        }
+    }
+}
 
 #[allow(dead_code)]
 pub struct Level<
@@ -66,7 +81,7 @@ pub struct Level<
 > {
     db: UserWorldInterface,
     state: UserState,
-    rw_cache: bool,
+    config: LevelConfiguration,
     cached_sub_chunks: ClearCacheContainer<SubchunkCacheKey, UserSubChunkType>,
     chunk_existence: HashSet<(Dimension, Vec2<i32>)>,
     _block_type_marker: PhantomData<UserBlockType>,
@@ -89,15 +104,18 @@ where
     /// Simple function used to open the world
     pub fn open(
         path: Box<Path>,
-        create_db_if_missing: bool,
-        rw_cache: bool,
+        level_configuration: LevelConfiguration,
         mut state: UserState,
     ) -> Result<
         Self,
         LevelError<UserWorldInterface::Err, UserSubChunkDecoder::Err, UserSubChunkType::Err>,
     > {
         let db = level_try!(DatabaseError, {
-            let val = UserWorldInterface::new(path.clone(), create_db_if_missing, &mut state);
+            let val = UserWorldInterface::new(
+                path.clone(),
+                level_configuration.create_db_if_missing,
+                &mut state,
+            );
             if val.is_ok() {
                 Ok(val.unwrap())
             } else {
@@ -107,7 +125,7 @@ where
                         buff.push("db");
                         buff.into_boxed_path()
                     },
-                    create_db_if_missing,
+                    level_configuration.create_db_if_missing,
                     &mut state,
                 )
             }
@@ -115,7 +133,7 @@ where
         let mut this = Self {
             db,
             state,
-            rw_cache,
+            config,
             cached_sub_chunks: ClearCacheContainer::with_threshold(1024),
             chunk_existence: HashSet::new(),
             _block_type_marker: PhantomData,
@@ -143,8 +161,18 @@ where
     }
 
     /// Must call before destruction
-    pub fn close(mut self) {
-        self.cull().unwrap();
+    pub fn close(
+        mut self,
+    ) -> Result<
+        (),
+        LevelError<UserWorldInterface::Err, UserSubChunkDecoder::Err, UserSubChunkType::Err>,
+    > {
+        level_try!(DatabaseError, self.flush_existence_buffer());
+        level_try!(SubChunkDecodeError, self.cull());
+
+        // Must come after all the other closing steps
+        level_try!(DatabaseError, self.db.close());
+        Ok(())
     }
 
     /// Returns all chunks (in the form of its key) that exist in the world
@@ -200,7 +228,7 @@ where
         UserSubChunkType,
         LevelError<UserWorldInterface::Err, UserSubChunkDecoder::Err, UserSubChunkType::Err>,
     > {
-        if self.rw_cache {
+        if self.config.rw_cache {
             if let Some(chunk) = self
                 .cached_sub_chunks
                 .get(&SubchunkCacheKey::new(xz, y, dim))
@@ -244,7 +272,7 @@ where
                 }
             }
         }?;
-        if self.rw_cache {
+        if self.config.rw_cache {
             if let Some(data) = &out.1 {
                 let new = data.state_clone(&mut self.state);
                 self.cached_sub_chunks
@@ -269,7 +297,7 @@ where
         (),
         LevelError<UserWorldInterface::Err, UserSubChunkDecoder::Err, UserSubChunkType::Err>,
     > {
-        if self.rw_cache {
+        if self.config.rw_cache {
             self.cached_sub_chunks
                 .insert(SubchunkCacheKey::new(xz, y, dim), data);
             level_try!(SubChunkDecodeError, self.perform_flush());
@@ -295,13 +323,21 @@ where
     /// Sets a whole chunk in the saved position of the chunk and the saved dimension.
     /// `xz_override` lets the xz position be replaced if copying the chunk
     /// `dim_override` lets the dimension of the chunk be changed if copying the chunk
-    pub fn set_chunk<UserChunkType: LevelChunkTrait<Self, UserLevel = Self>>(
+    pub fn set_chunk_ex<UserChunkType: LevelChunkTrait<Self, UserLevel = Self>>(
         &mut self,
         chnk: UserChunkType,
         xz_override: Option<Vec2<i32>>,
         dim_override: Option<Dimension>,
     ) -> Result<(), UserChunkType::Err> {
         chnk.write_to_world(self, xz_override, dim_override)
+    }
+
+    /// Sets a whole chunk in the saved position of the chunk and the saved dimension.
+    pub fn set_chunk<UserChunkType: LevelChunkTrait<Self, UserLevel = Self>>(
+        &mut self,
+        chnk: UserChunkType,
+    ) -> Result<(), UserChunkType::Err> {
+        self.set_chunk_ex(chnk, None, None)
     }
 
     /// Fetches a chunk from the world at the given xz and dimension and with the given bounds
@@ -319,11 +355,16 @@ where
         >,
     >(
         &mut self,
-        min_max: Vec2<i8>,
         xz: Vec2<i32>,
         dim: Dimension,
+        min_max: Option<Vec2<i8>>,
     ) -> Result<UserChunkType, UserChunkType::Err> {
-        UserChunkType::load_from_world(min_max, xz, dim, self)
+        UserChunkType::load_from_world(
+            min_max.unwrap_or(self.config.sub_chunk_range.clone()),
+            xz,
+            dim,
+            self,
+        )
     }
 
     fn handle_exist(&mut self, xz: Vec2<i32>, dim: Dimension) {
@@ -382,6 +423,14 @@ where
             self.db
                 .write_subchunk_marker_batch(exist_info, &mut self.state)
                 .unwrap()
+        }
+        Ok(())
+    }
+
+    fn flush_existence_buffer(&mut self) -> Result<(), UserWorldInterface::Err> {
+        for (dim, pos) in &self.chunk_existence {
+            self.db
+                .exist_chunk(ChunkKey::chunk_marker(*pos, *dim), &mut self.state)?
         }
         Ok(())
     }
