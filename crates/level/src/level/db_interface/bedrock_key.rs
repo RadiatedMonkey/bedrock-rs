@@ -49,7 +49,7 @@ impl LevelDBKey for ChunkKey {
             size += std::mem::size_of::<i32>();
         }
         size += 1; // For the key_type
-        if self.y_index.is_some() {
+        if let Some(_) = self.y_index {
             size += 1;
         }
         size

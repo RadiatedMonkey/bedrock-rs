@@ -104,17 +104,20 @@ where
     /// Simple function used to open the world
     pub fn open(
         path: Box<Path>,
-        config: LevelConfiguration,
+        level_configuration: LevelConfiguration,
         mut state: UserState,
     ) -> Result<
         Self,
         LevelError<UserWorldInterface::Err, UserSubChunkDecoder::Err, UserSubChunkType::Err>,
     > {
         let db = level_try!(DatabaseError, {
-            let val =
-                UserWorldInterface::new(path.clone(), config.create_db_if_missing, &mut state);
-            if let Ok(v) = val {
-                Ok(v)
+            let val = UserWorldInterface::new(
+                path.clone(),
+                level_configuration.create_db_if_missing,
+                &mut state,
+            );
+            if val.is_ok() {
+                Ok(val.unwrap())
             } else {
                 UserWorldInterface::new(
                     {
@@ -122,7 +125,7 @@ where
                         buff.push("db");
                         buff.into_boxed_path()
                     },
-                    config.create_db_if_missing,
+                    level_configuration.create_db_if_missing,
                     &mut state,
                 )
             }
