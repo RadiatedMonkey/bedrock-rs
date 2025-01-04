@@ -367,6 +367,28 @@ where
     /// Fetches a chunk from the world at the given xz and dimension and with the given bounds
     /// ### Note:
     /// `min_max` is the min and max subchunks not blocks
+    pub fn get_chunk_ex<
+        UserChunkType: LevelChunkTrait<
+            Self,
+            UserLevel = Self,
+            Err = LevelError<
+                UserWorldInterface::Err,
+                UserSubChunkDecoder::Err,
+                UserSubChunkType::Err,
+            >,
+        >,
+    >(
+        &mut self,
+        xz: Vec2<i32>,
+        dim: Dimension,
+        min_max: Vec2<i8>,
+    ) -> Result<UserChunkType, UserChunkType::Err> {
+        UserChunkType::load_from_world(min_max, xz, dim, self)
+    }
+
+    /// Fetches a chunk from the world at the given xz and dimension and with the given bounds
+    /// ### Note:
+    /// `min_max` is the min and max subchunks not blocks
     pub fn get_chunk<
         UserChunkType: LevelChunkTrait<
             Self,
@@ -381,14 +403,8 @@ where
         &mut self,
         xz: Vec2<i32>,
         dim: Dimension,
-        min_max: Option<Vec2<i8>>,
     ) -> Result<UserChunkType, UserChunkType::Err> {
-        UserChunkType::load_from_world(
-            min_max.unwrap_or(self.config.sub_chunk_range.clone()),
-            xz,
-            dim,
-            self,
-        )
+        self.get_chunk_ex(xz, dim, self.config.sub_chunk_range.clone())
     }
 
     fn handle_exist(&mut self, xz: Vec2<i32>, dim: Dimension) {
