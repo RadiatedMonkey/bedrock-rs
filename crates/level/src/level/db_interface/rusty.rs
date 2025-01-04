@@ -113,11 +113,17 @@ impl<UserState> RustyDBInterface<UserState> {
     }
 }
 
+impl<T> Drop for RustyDBInterface<T> {
+    fn drop(&mut self) {
+        self.db.close().unwrap();
+    }
+}
+
 impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
     type Err = DBError;
     type UserState = UserState;
 
-    fn set_subchunk_raw(
+    fn write_bytes_to_key(
         &mut self,
         chunk_info: ChunkKey,
         chunk_bytes: &[u8],
@@ -128,7 +134,7 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
         Ok(self.db.write(batch, false)?)
     }
 
-    fn get_subchunk_raw(
+    fn get_bytes_from_key(
         &mut self,
         chunk_info: ChunkKey,
         _: &mut Self::UserState,
@@ -136,12 +142,12 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
         Ok(self.db.get(&Self::build_key(&chunk_info)))
     }
 
-    fn chunk_exists(
+    fn delete_bytes_at_key(
         &mut self,
         chunk_info: ChunkKey,
         _: &mut Self::UserState,
-    ) -> Result<bool, Self::Err> {
-        Ok(self.db.get(&Self::build_key(&chunk_info)).is_some())
+    ) -> Result<(), Self::Err> {
+        Ok(self.db.delete(&Self::build_key(&chunk_info))?)
     }
 
     fn write_subchunk_batch(
@@ -182,14 +188,6 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
         Ok(self.db.write(batch, false)?)
     }
 
-    fn exist_chunk(
-        &mut self,
-        chunk_info: ChunkKey,
-        state: &mut Self::UserState,
-    ) -> Result<(), Self::Err> {
-        Ok(self.set_subchunk_raw(chunk_info, &[], state)?)
-    }
-
     fn build_key(key: &ChunkKey) -> Vec<u8> {
         let mut key_bytes: Vec<u8> = vec![0; key.estimate_size()];
         let mut buff: Cursor<&mut [u8]> = Cursor::new(&mut key_bytes);
@@ -209,6 +207,11 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
             db,
             phantom_data: PhantomData,
         })
+    }
+
+    fn close(&mut self) -> Result<(), Self::Err> {
+        self.db.close()?;
+        Ok(())
     }
 
     fn generated_chunks(

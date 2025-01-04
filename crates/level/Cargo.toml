@@ -4,28 +4,29 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bedrockrs_core = { path = "../core" }
 bedrockrs_shared = { path = "../shared" }
 
 nbtx = { git = "https://github.com/bedrock-crustaceans/nbtx" }
 
+
 thiserror = "2.0"
-byteorder = "1.x"
-uuid = { version = "1.x", features = ["v4"] }
+byteorder = "1.5"
+uuid = { version = "1.11", features = ["v4"] }
 bytemuck = { version = "1.19", features = ["must_cast"] }
-len-trait = "0.6"
-concat-idents = "1.x"
-serde = "1.x.x"
-rusty-leveldb = "3.x"
+serde = "1.0"
+rusty-leveldb = "3.0"
 miniz_oxide = "0.8"
 vek = "0.17"
 
 [dev-dependencies]
 rand = "0.8"
 
-[features]
-default-impl = []
 
 [[test]]
 name = "api_test"
-required-features = ["default-impl"]
+
+
+[features]
+default-impl = []
+default = ["default-impl"]
+
