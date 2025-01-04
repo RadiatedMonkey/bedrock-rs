@@ -54,7 +54,7 @@ fn world_test(
             println!("Wrote {idx} out of {len} chunks!");
         }
     }
-    let mut chunk = level.get_chunk::<BedrockChunk>((0, 0).into(), Dimension::Overworld, None)?;
+    let mut chunk = level.get_chunk::<BedrockChunk>((0, 0).into(), Dimension::Overworld)?;
 
     chunk
         .fill_chunk(
@@ -64,7 +64,7 @@ fn world_test(
         .unwrap();
     level.set_chunk(chunk)?;
 
-    let mut chunk = level.get_chunk::<BedrockChunk>((0, -1).into(), Dimension::Overworld, None)?;
+    let mut chunk = level.get_chunk::<BedrockChunk>((0, -1).into(), Dimension::Overworld)?;
 
     let subchunk = chunk.get_subchunk_mut(0).unwrap();
     subchunk
