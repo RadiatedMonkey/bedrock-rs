@@ -22,3 +22,4 @@ Cargo.lock
 *.bin
 
 # This is a little hack to allow the tests to be ran and not have a merge conflict
+crates/level/test_level/
