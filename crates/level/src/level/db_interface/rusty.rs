@@ -113,6 +113,12 @@ impl<UserState> RustyDBInterface<UserState> {
     }
 }
 
+impl<T> Drop for RustyDBInterface<T> {
+    fn drop(&mut self) {
+        self.db.close().unwrap();
+    }
+}
+
 impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
     type Err = DBError;
     type UserState = UserState;
@@ -187,7 +193,8 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
         chunk_info: ChunkKey,
         state: &mut Self::UserState,
     ) -> Result<(), Self::Err> {
-        Ok(self.set_subchunk_raw(chunk_info, &[], state)?)
+        // This looks strange, but it's just a wrapper over writing to the DB
+        self.set_subchunk_raw(chunk_info, &[], state)
     }
 
     fn build_key(key: &ChunkKey) -> Vec<u8> {
@@ -209,6 +216,11 @@ impl<UserState> RawWorldTrait for RustyDBInterface<UserState> {
             db,
             phantom_data: PhantomData,
         })
+    }
+
+    fn close(&mut self) -> Result<(), Self::Err> {
+        self.db.close()?;
+        Ok(())
     }
 
     fn generated_chunks(

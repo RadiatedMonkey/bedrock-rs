@@ -79,6 +79,8 @@ pub trait RawWorldTrait: Sized {
         state: &mut Self::UserState,
     ) -> Result<Self, Self::Err>;
 
+    fn close(&mut self) -> Result<(), Self::Err>;
+
     fn generated_chunks(
         &mut self,
         state: &mut Self::UserState,

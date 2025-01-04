@@ -1,6 +1,63 @@
+use crate::level::world_block::WorldBlockTrait;
+use std::fmt::Debug;
 use std::io::Cursor;
+use thiserror::Error;
 use vek::Vec3;
+
 pub type BlockLayer<T> = (Box<[u16; 4096]>, Vec<T>);
+
+/// Specifies the type of filter used when filling a region in the world.
+///
+/// # Type Parameters
+/// - `UserBlockType`: A block type that implements the `WorldBlockTrait`.
+pub enum SubchunkFillFilter<UserBlockType: WorldBlockTrait> {
+    /// Fills the entire region unconditionally, overwriting all blocks.
+    Blanket,
+
+    /// Replaces only the blocks that match the specified type.
+    ///
+    /// # Parameters
+    /// - `UserBlockType`: The block type to be replaced.
+    Replace(UserBlockType),
+
+    /// Avoids overwriting blocks that match the specified type.
+    ///
+    /// # Parameters
+    /// - `UserBlockType`: The block type to avoid.
+    Avoid(UserBlockType),
+
+    /// Uses a custom precedence function to determine whether a block should be replaced.
+    ///
+    /// # Parameters
+    /// - A boxed function with the following parameters:
+    ///   - `&UserBlockType`: The current block being evaluated.
+    ///   - `Vec3<u8>`: The local coordinates of the block within the current subchunk.
+    ///   - `i8`: The subchunk y.
+    ///
+    /// # Returns
+    /// - `bool`: `true` to allow replacing the block, `false` to skip it.
+    Precedence(Box<dyn Fn(&UserBlockType, Vec3<u8>, i8) -> bool>),
+}
+
+impl<T: WorldBlockTrait> SubchunkFillFilter<T> {
+    pub fn may_place(&self, target: &T, position: Vec3<u8>, y: i8) -> bool {
+        match self {
+            SubchunkFillFilter::Blanket => true,
+            SubchunkFillFilter::Replace(v) => v == target,
+            SubchunkFillFilter::Avoid(v) => v != target,
+            SubchunkFillFilter::Precedence(f) => f(target, position, y),
+        }
+    }
+}
+
+#[derive(Error, Debug)]
+pub enum SubchunkFillError<T: Debug> {
+    #[error("Attempted to read block at x: {0}, y {1}, z: {2} and got None")]
+    BlockIndexDidntReturn(u8, u8, u8),
+
+    #[error(transparent)]
+    SubchunkError(T),
+}
 
 #[allow(dead_code)]
 pub struct SubchunkTransitionalData<BlockType> {
@@ -103,7 +160,7 @@ pub mod default_impl {
     use crate::types::miner::idx_3_to_1;
     use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
     use nbtx::NbtError;
-    use std::io::{Cursor, Seek, SeekFrom, Write};
+    use std::io::{Cursor, Write};
     use std::marker::PhantomData;
     use std::mem::MaybeUninit;
     use thiserror::Error;
@@ -185,24 +242,19 @@ pub mod default_impl {
                 let palette_count = bytes.read_u32::<LittleEndian>()?;
                 let mut blocks = Vec::with_capacity(palette_count as usize);
                 for _ in 0_usize..palette_count as usize {
-                    let position = bytes.position();
-                    let cursor = &mut Cursor::new(&bytes.get_mut()[position as usize..]);
-
                     if network {
                         blocks.push(Self::BlockType::from_transition(
                             nbtx::from_bytes::<nbtx::NetworkLittleEndian, BlockTransitionalState>(
-                                cursor,
+                                bytes,
                             )?,
                             state,
                         ));
                     } else {
                         blocks.push(Self::BlockType::from_transition(
-                            nbtx::from_bytes::<nbtx::LittleEndian, BlockTransitionalState>(cursor)?,
+                            nbtx::from_bytes::<nbtx::LittleEndian, BlockTransitionalState>(bytes)?,
                             state,
                         ));
                     }
-                    let pos = cursor.position();
-                    bytes.seek(SeekFrom::Start(pos))?;
                 }
                 transitiondata.new_layer((block_indices, blocks));
             }
@@ -269,7 +321,7 @@ pub mod default_impl {
         }
 
         pub fn force_empty(&mut self) {
-            self.is_empty = false;
+            self.is_empty = true;
         }
 
         pub fn replace(&mut self, other: Self) {
@@ -277,6 +329,42 @@ pub mod default_impl {
             self.y_index = other.y_index;
             self.active_layer = other.active_layer;
             self.is_empty = other.is_empty;
+        }
+
+        pub fn full(y_index: i8, block: &UserBlockType) -> Self {
+            let mut val = Self {
+                blocks: Vec::with_capacity(1),
+                y_index,
+                active_layer: 0,
+                is_empty: true,
+                _state_tag: PhantomData,
+            };
+            val.blocks
+                .push(Box::new(std::array::from_fn(|_| block.clone())));
+            val
+        }
+
+        pub fn fill(
+            &mut self,
+            block: &UserBlockType,
+            filter: SubchunkFillFilter<UserBlockType>,
+        ) -> Result<(), SubchunkFillError<<SubChunk<UserBlockType, UserState> as SubChunkTrait>::Err>>
+        {
+            for x in 0..16u8 {
+                for y in 0..16u8 {
+                    for z in 0..16u8 {
+                        let blk = self
+                            .get_block((x, y, z).into())
+                            .ok_or(SubchunkFillError::BlockIndexDidntReturn(x, y, z))?;
+                        if filter.may_place(blk, (x, y, z).into(), self.y_index) {
+                            self.set_block((x, y, z).into(), block.clone())
+                                .map_err(|ele| SubchunkFillError::SubchunkError(ele))?;
+                        }
+                    }
+                }
+            }
+
+            Ok(())
         }
     }
     #[derive(Debug, Error)]
