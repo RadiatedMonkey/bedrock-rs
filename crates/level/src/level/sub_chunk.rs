@@ -2,7 +2,7 @@ use crate::level::world_block::WorldBlockTrait;
 use std::fmt::Debug;
 use std::io::Cursor;
 use thiserror::Error;
-use vek::{Vec2, Vec3};
+use vek::Vec3;
 
 pub type BlockLayer<T> = (Box<[u16; 4096]>, Vec<T>);
 
@@ -160,7 +160,7 @@ pub mod default_impl {
     use crate::types::miner::idx_3_to_1;
     use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
     use nbtx::NbtError;
-    use std::io::{Cursor, Seek, SeekFrom, Write};
+    use std::io::{Cursor, Write};
     use std::marker::PhantomData;
     use std::mem::MaybeUninit;
     use thiserror::Error;
