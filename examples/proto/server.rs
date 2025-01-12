@@ -1,17 +1,17 @@
 use bedrockrs::proto::connection::Connection;
 use bedrockrs::proto::listener::Listener;
 use bedrockrs_proto::compression::Compression;
-use bedrockrs_proto::v766::gamepackets::GamePackets;
-use tokio::time::Instant;
-use uuid::Uuid;
 use bedrockrs_proto::v662::enums::PacketCompressionAlgorithm;
-use bedrockrs_proto::v662::packets::{LoginPacket, NetworkSettingsPacket, PlayStatusPacket};
-use bedrockrs_proto::v662::types::Experiments;
-use bedrockrs_proto::v662::types::BaseGameVersion;
 use bedrockrs_proto::v662::enums::PlayStatus;
+use bedrockrs_proto::v662::packets::{LoginPacket, NetworkSettingsPacket, PlayStatusPacket};
+use bedrockrs_proto::v662::types::BaseGameVersion;
+use bedrockrs_proto::v662::types::Experiments;
 use bedrockrs_proto::v748::packets::ResourcePackStackPacket;
+use bedrockrs_proto::v766::gamepackets::GamePackets;
 use bedrockrs_proto::v766::helper::ProtoHelperV766;
 use bedrockrs_proto::v766::packets::ResourcePacksInfoPacket;
+use tokio::time::Instant;
+use uuid::Uuid;
 
 #[tokio::main]
 async fn main() {
