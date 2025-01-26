@@ -1,4 +1,8 @@
-pub mod ecs;
 pub mod error;
 pub mod login;
-pub mod server;
+mod server;
+pub mod components;
+pub mod systems;
+mod events;
+
+pub use server::*;

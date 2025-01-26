@@ -1,6 +1,11 @@
 use crate::server::Server;
 use bedrockrs_proto::listener::Listener;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use std::sync::Arc;
+use shipyard::{IntoWorkload, World};
+use tokio::sync::{oneshot, Notify};
+use crate::{ServerHandle, ShutdownKind};
+use crate::systems::movement::movement_system;
 
 pub struct ServerBuilder {
     name: String,
@@ -29,14 +34,7 @@ impl ServerBuilder {
         self
     }
 
-    pub async fn build(mut self) -> Server {
-        if self.listeners_info.is_empty() {
-            self.listeners_info.push(SocketAddr::new(
-                IpAddr::V4(Ipv4Addr::new(127, 0, 0, 0)),
-                19132,
-            ));
-        }
-
+    pub async fn build(self) -> (Server, ServerHandle) {
         let mut listeners = Vec::with_capacity(self.listeners_info.len());
 
         for addr in self.listeners_info {
@@ -55,12 +53,23 @@ impl ServerBuilder {
             )
         }
 
-        Server {
+        let world= World::new();
+
+        world.add_workload(|| (movement_system).into_workload());
+
+        let notify = Arc::new(Notify::new());
+        let (sender, receiver) = oneshot::channel::<ShutdownKind>();
+        
+        let server = Server {
             listeners,
-            name: self.name,
-            sub_name: self.sub_name,
-            world: Default::default(),
-        }
+            world,
+            shutdown_notify: notify.clone(),
+            shutdown_recv: receiver,
+        };
+        
+        let handle = ServerHandle::new(sender, notify.clone());
+        
+        (server, handle)
     }
 }
 

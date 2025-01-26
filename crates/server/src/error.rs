@@ -10,7 +10,11 @@ pub enum LoginError {
     #[error("Login aborted, reason: {reason}")]
     Abort { reason: String },
     #[error("Wrong protocol version (client: {client}, server: {server:?})")]
-    WrongProtocolVersion { client: i32, server: Vec<i32> },
+    PVNMismatch { client: i32, server: &'static [i32] },
     #[error("Format Error: {0}")]
-    FormatError(String),
+    FormatError(&'static str),
+}
+
+pub enum ServerError {
+    
 }
