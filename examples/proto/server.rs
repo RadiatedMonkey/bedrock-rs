@@ -1,22 +1,23 @@
 use bedrockrs::proto::connection::Connection;
 use bedrockrs::proto::listener::Listener;
 use bedrockrs_proto::compression::Compression;
-use bedrockrs_proto::v662::enums::{PacketCompressionAlgorithm, PlayStatus};
-use bedrockrs_proto::v766::packets::{ResourcePacksInfoPacket,
-};
-use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
-use bedrockrs_proto::v766::gamepackets::GamePackets;
-use tokio::time::{sleep, Instant};
-use uuid::Uuid;
-use bedrockrs_proto::v662::packets::{NetworkSettingsPacket, PlayStatusPacket};
+use bedrockrs_proto::v662::enums::PacketCompressionAlgorithm;
+use bedrockrs_proto::v662::enums::PlayStatus;
+use bedrockrs_proto::v662::packets::{LoginPacket, NetworkSettingsPacket, PlayStatusPacket};
+use bedrockrs_proto::v662::types::BaseGameVersion;
+use bedrockrs_proto::v662::types::Experiments;
 use bedrockrs_proto::v748::packets::ResourcePackStackPacket;
+use bedrockrs_proto::v766::gamepackets::GamePackets;
 use bedrockrs_proto::v766::helper::ProtoHelperV766;
+use bedrockrs_proto::v766::packets::ResourcePacksInfoPacket;
+use tokio::time::Instant;
+use uuid::Uuid;
 
 #[tokio::main]
 async fn main() {
     let mut listener = Listener::new_raknet(
         "§5Hot Chickens in Your Area!!!".to_string(),
-        "bedrock-rs".to_string(),
+        "bedrockrs".to_string(),
         "1.0".to_string(),
         100,
         10,
@@ -37,36 +38,32 @@ async fn main() {
     }
 }
 
-async fn handle_login(mut conn: Connection) -> Result<(), Box<dyn std::error::Error>> {
+async fn handle_login(mut conn: Connection) {
     let time_start = Instant::now();
 
     // NetworkSettingsRequest
-    let pk = conn.recv::<ProtoHelperV766>().await?;
-    println!("NetworkSettingsRequest {pk:#?}");
+    conn.recv::<ProtoHelperV766>().await.unwrap();
+    println!("NetworkSettingsRequest");
 
     let compression = Compression::None;
 
-    sleep(std::time::Duration::from_millis(1000)).await;
-
     // NetworkSettings
     conn.send::<ProtoHelperV766>(&[GamePackets::NetworkSettings(NetworkSettingsPacket {
-        compression_threshold: 0,
+        compression_threshold: 1,
         compression_algorithm: PacketCompressionAlgorithm::None,
         client_throttle_enabled: false,
         client_throttle_threshold: 0,
         client_throttle_scalar: 0.0,
     })])
-    .await?;
+    .await
+    .unwrap();
     println!("NetworkSettings");
-    sleep(std::time::Duration::from_millis(1000)).await;
 
-    //conn.compression = Some(compression);
+    conn.compression = Some(compression);
 
     // Login
-    let pk = conn.recv::<ProtoHelperV766>().await?;
+    conn.recv::<ProtoHelperV766>().await.unwrap();
     println!("Login");
-
-    println!("{:#?}", pk);
 
     conn.send::<ProtoHelperV766>(&[
         GamePackets::PlaySatus(PlayStatusPacket {
@@ -77,8 +74,8 @@ async fn handle_login(mut conn: Connection) -> Result<(), Box<dyn std::error::Er
             has_addon_packs: false,
             has_scripts: false,
             world_template_uuid: Uuid::nil(),
-            world_template_version: "".to_string(),
             resource_packs: vec![],
+            world_template_version: "".to_string(),
         }),
         GamePackets::ResourcePackStack(ResourcePackStackPacket {
             texture_pack_required: false,
@@ -92,14 +89,15 @@ async fn handle_login(mut conn: Connection) -> Result<(), Box<dyn std::error::Er
             include_editor_packs: false,
         }),
     ])
-    .await?;
+    .await
+    .unwrap();
     println!("PlayStatus (LoginSuccess)");
     println!("ResourcePacksInfo");
     println!("ResourcePackStack");
 
-    println!("{:#?}", conn.recv::<ProtoHelperV766>().await?);
+    println!("{:#?}", conn.recv::<ProtoHelperV766>().await.unwrap());
     println!("ClientCacheStatus");
-    println!("{:#?}", conn.recv::<ProtoHelperV766>().await?);
+    println!("{:#?}", conn.recv::<ProtoHelperV766>().await.unwrap());
     println!("ResourcePackClientResponse");
 
     // conn.send::<ProtoHelperV729>(&[GamePackets::DisconnectPlayer(DisconnectPlayerPacket {
@@ -239,7 +237,5 @@ async fn handle_login(mut conn: Connection) -> Result<(), Box<dyn std::error::Er
         } else {
             break;
         }
-    };
-
-    Ok(())
+    }
 }
