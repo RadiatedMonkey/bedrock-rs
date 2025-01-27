@@ -1,5 +1,5 @@
-mod player;
 mod entity;
+mod player;
 
-pub use player::*;
 pub use entity::*;
+pub use player::*;

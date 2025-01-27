@@ -1,11 +1,11 @@
 use crate::server::Server;
+use crate::systems::movement::movement_system;
+use crate::{ServerHandle, ShutdownKind};
 use bedrockrs_proto::listener::Listener;
+use shipyard::{IntoWorkload, World};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::Arc;
-use shipyard::{IntoWorkload, World};
 use tokio::sync::{oneshot, Notify};
-use crate::{ServerHandle, ShutdownKind};
-use crate::systems::movement::movement_system;
 
 pub struct ServerBuilder {
     name: String,
@@ -53,22 +53,22 @@ impl ServerBuilder {
             )
         }
 
-        let world= World::new();
+        let world = World::new();
 
         world.add_workload(|| (movement_system).into_workload());
 
         let notify = Arc::new(Notify::new());
         let (sender, receiver) = oneshot::channel::<ShutdownKind>();
-        
+
         let server = Server {
             listeners,
             world,
             shutdown_notify: notify.clone(),
             shutdown_recv: receiver,
         };
-        
+
         let handle = ServerHandle::new(sender, notify.clone());
-        
+
         (server, handle)
     }
 }

@@ -6,4 +6,3 @@ macro_rules! export {
 }
 
 export!(spawn);
-

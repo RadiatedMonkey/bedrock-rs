@@ -15,6 +15,4 @@ pub enum LoginError {
     FormatError(&'static str),
 }
 
-pub enum ServerError {
-    
-}
+pub enum ServerError {}

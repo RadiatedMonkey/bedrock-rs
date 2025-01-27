@@ -15,7 +15,7 @@ pub struct Server {
     listeners: Vec<Listener>,
     world: World,
     shutdown_notify: Arc<Notify>,
-    shutdown_recv: Receiver<ShutdownKind>
+    shutdown_recv: Receiver<ShutdownKind>,
 }
 
 impl Server {
@@ -24,36 +24,36 @@ impl Server {
 
     pub async fn run(&mut self) {
         self.load().await;
-        
+
         for listener in &mut self.listeners {
             listener.start().await.unwrap();
         }
-        
+
         loop {
             if let Ok(kind) = self.shutdown_recv.try_recv() {
                 if kind == ShutdownKind::Graceful {
                     self.save().await;
                 }
-                
+
                 break;
             };
 
             let tick_start = Instant::now();
 
             self.tick();
-            
+
             println!("TICK");
 
             let elapsed = tick_start.elapsed();
-            
+
             if elapsed < Self::TICK_DURATION {
                 sleep(Self::TICK_DURATION - elapsed).await;
             }
         }
-        
+
         self.shutdown_notify.notify_one();
     }
-    
+
     fn tick(&mut self) {
         self.world.run_default_workload().unwrap()
     }

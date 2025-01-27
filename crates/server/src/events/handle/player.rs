@@ -6,6 +6,4 @@ impl PlayerHandle {
     pub fn id(&self) -> EntityId {
         self.0
     }
-    
-    
 }

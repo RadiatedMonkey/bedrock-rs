@@ -1,8 +1,8 @@
+pub mod components;
 pub mod error;
+mod events;
 pub mod login;
 mod server;
-pub mod components;
 pub mod systems;
-mod events;
 
 pub use server::*;

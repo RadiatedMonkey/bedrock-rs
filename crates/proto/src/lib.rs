@@ -1,3 +1,4 @@
+mod adapter;
 pub mod codec;
 pub mod compression;
 pub mod connection;

@@ -9,17 +9,17 @@ async fn main() {
         .sub_name("bedrock-rs")
         .build()
         .await;
-    
+
     println!("Server started");
-    
+
     tokio::spawn(async move {
         println!("Server starting");
         server.run().await
     });
-    
+
     sleep(Duration::from_secs(5)).await;
-    
+
     handle.shutdown_graceful().await;
-    
+
     println!("server shutdown");
 }
