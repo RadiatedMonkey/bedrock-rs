@@ -1,9 +1,9 @@
 mod events;
 
+use crate::adapter::events::emote::EmotePacketEvent;
 use crate::v662::types::ActorRuntimeID;
 use crate::v748;
 use xuid::Xuid;
-use crate::adapter::events::emote::EmotePacketEvent;
 
 pub enum GamePacketEvents {
     EmoteEvent(EmotePacketEvent),
@@ -19,7 +19,6 @@ impl From<v748::gamepackets::GamePackets> for GamePacketEvents {
             //         xuid: packet.xuid,
             //     })
             // }
-
             _ => todo!(),
         }
     }

@@ -2,6 +2,4 @@ use shipyard::EntityId;
 
 pub struct DimensionHandle;
 
-impl DimensionHandle {
-
-}
+impl DimensionHandle {}

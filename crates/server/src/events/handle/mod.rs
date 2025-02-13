@@ -1,7 +1,7 @@
+mod dimension;
 mod entity;
 mod player;
-mod dimension;
 
+pub use dimension::*;
 pub use entity::*;
 pub use player::*;
-pub use dimension::*;

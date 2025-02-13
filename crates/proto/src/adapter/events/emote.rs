@@ -1,5 +1,5 @@
-use xuid::Xuid;
 use bedrockrs_shared::actor_runtime_id::ActorRuntimeID;
+use xuid::Xuid;
 
 pub struct EmotePacketEvent {
     pub actor_runtime_id: ActorRuntimeID,
