@@ -16,6 +16,7 @@ rayon = "1.10"
 vek = "0.17"
 
 xuid = "1.0"
+async-trait = "0.1.86"
 
 [features]
 scoreboard = []

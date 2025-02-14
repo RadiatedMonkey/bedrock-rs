@@ -6,3 +6,4 @@ macro_rules! export {
 }
 
 export!(spawn);
+export!(chat);
