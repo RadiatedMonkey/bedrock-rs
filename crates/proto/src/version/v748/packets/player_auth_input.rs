@@ -35,6 +35,100 @@ pub struct PlayerAuthInputPacket {
     pub camera_orientation: Vec3<f32>,
 }
 
+// VERIFY: ProtoCodec impl
+
+pub struct PlayerAuthInputFlags;
+
+impl PlayerAuthInputFlags {
+    pub const ASCEND: u64 = 1 << 0;
+    pub const DESCEND: u64 = 1 << 1;
+    #[deprecated]
+    pub const NORTH_JUMP: u64 = 1 << 2;
+    pub const JUMP_DOWN: u64 = 1 << 3;
+    pub const SPRINT_DOWN: u64 = 1 << 4;
+    pub const CHANGE_HEIGHT: u64 = 1 << 5;
+    pub const JUMPING: u64 = 1 << 6;
+    pub const AUTO_JUMPING_IN_WATER: u64 = 1 << 7;
+    pub const SNEAKING: u64 = 1 << 8;
+    pub const SNEAK_DOWN: u64 = 1 << 9;
+    pub const UP: u64 = 1 << 10;
+    pub const DOWN: u64 = 1 << 11;
+    pub const LEFT: u64 = 1 << 12;
+    pub const RIGHT: u64 = 1 << 13;
+    pub const UP_LEFT: u64 = 1 << 14;
+    pub const UP_RIGHT: u64 = 1 << 15;
+    pub const WANT_UP: u64 = 1 << 16;
+    pub const WANT_DOWN: u64 = 1 << 17;
+    pub const WANT_DOWN_SLOW: u64 = 1 << 18;
+    pub const WANT_UP_SLOW: u64 = 1 << 19;
+    pub const SPRINTING: u64 = 1 << 20;
+    pub const ASCEND_BLOCK: u64 = 1 << 21;
+    pub const DESCEND_BLOCK: u64 = 1 << 22;
+    pub const SNEAK_TOGGLE_DOWN: u64 = 1 << 23;
+    pub const PERSIST_SNEAK: u64 = 1 << 24;
+    pub const START_SPRINTING: u64 = 1 << 25;
+    pub const STOP_SPRINTING: u64 = 1 << 26;
+    pub const START_SNEAKING: u64 = 1 << 27;
+    pub const STOP_SNEAKING: u64 = 1 << 28;
+    pub const START_SWIMMING: u64 = 1 << 29;
+    pub const STOP_SWIMMING: u64 = 1 << 30;
+    pub const START_JUMPING: u64 = 1 << 31;
+    pub const START_GLIDING: u64 = 1 << 32;
+    pub const STOP_GLIDING: u64 = 1 << 33;
+    pub const PERFORM_ITEM_INTERACTION: u64 = 1 << 34;
+    pub const PERFORM_BLOCK_ACTIONS: u64 = 1 << 35;
+    pub const PERFORM_ITEM_STACK_REQUEST: u64 = 1 << 36;
+    pub const HANDLE_TELEPORT: u64 = 1 << 37;
+    pub const EMOTING: u64 = 1 << 38;
+    pub const MISSED_SWING: u64 = 1 << 39;
+    pub const START_CRAWLING: u64 = 1 << 40;
+    pub const STOP_CRAWLING: u64 = 1 << 41;
+    pub const START_FLYING: u64 = 1 << 42;
+    pub const STOP_FLYING: u64 = 1 << 43;
+    pub const RECEIVED_SERVER_DATA: u64 = 1 << 44;
+    pub const IS_IN_CLIENT_PREDICTED_VEHICLE: u64 = 1 << 45;
+    pub const PADDLE_LEFT: u64 = 1 << 46;
+    pub const PADDLE_RIGHT: u64 = 1 << 47;
+    pub const BLOCK_BREAKING_DELAY_ENABLED: u64 = 1 << 48;
+    pub const HORIZONTAL_COLLISION: u64 = 1 << 49;
+    pub const VERTICAL_COLLISION: u64 = 1 << 50;
+    pub const DOWN_LEFT: u64 = 1 << 51;
+    pub const DOWN_RIGHT: u64 = 1 << 52;
+    pub const START_USING_ITEM: u64 = 1 << 53;
+    pub const IS_CAMERA_RELATIVE_MOVEMENT_ENABLED: u64 = 1 << 54;
+    pub const IS_ROT_CONTROLLED_BY_MOVE_DIRECTION: u64 = 1 << 55;
+    pub const START_SPIN_ATTACK: u64 = 1 << 56;
+    pub const STOP_SPIN_ATTACK: u64 = 1 << 57;
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct PerformItemStackRequestData {
+    #[endianness(var)]
+    pub client_request_id: u32,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub actions: Vec<ActionsEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub strings_to_filter: Vec<String>,
+    pub strings_to_filter_origin: TextProcessingEventOrigin,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct ClientPredictedVehicleData {
+    #[endianness(le)]
+    pub vehicle_rotation: Vec2<f32>,
+    pub client_predicted_vehicle: ActorUniqueID,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct ActionsEntry {
+    pub action_type: ItemStackRequestActionType,
+    pub amount: i8,
+    pub source: ItemStackRequestSlotInfo,
+    pub destination: ItemStackRequestSlotInfo,
+}
+
 impl ProtoCodec for PlayerAuthInputPacket {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
         <Vec2<f32> as ProtoCodecLE>::proto_serialize(&self.player_rotation, stream)?;
@@ -176,98 +270,4 @@ impl ProtoCodec for PlayerAuthInputPacket {
             + ProtoCodecLE::get_size_prediction(&self.analog_move_vector)
             + ProtoCodecLE::get_size_prediction(&self.camera_orientation)
     }
-}
-
-// VERIFY: ProtoCodec impl
-
-pub struct PlayerAuthInputFlags;
-
-impl PlayerAuthInputFlags {
-    pub const ASCEND: u64 = 1 << 0;
-    pub const DESCEND: u64 = 1 << 1;
-    #[deprecated]
-    pub const NORTH_JUMP: u64 = 1 << 2;
-    pub const JUMP_DOWN: u64 = 1 << 3;
-    pub const SPRINT_DOWN: u64 = 1 << 4;
-    pub const CHANGE_HEIGHT: u64 = 1 << 5;
-    pub const JUMPING: u64 = 1 << 6;
-    pub const AUTO_JUMPING_IN_WATER: u64 = 1 << 7;
-    pub const SNEAKING: u64 = 1 << 8;
-    pub const SNEAK_DOWN: u64 = 1 << 9;
-    pub const UP: u64 = 1 << 10;
-    pub const DOWN: u64 = 1 << 11;
-    pub const LEFT: u64 = 1 << 12;
-    pub const RIGHT: u64 = 1 << 13;
-    pub const UP_LEFT: u64 = 1 << 14;
-    pub const UP_RIGHT: u64 = 1 << 15;
-    pub const WANT_UP: u64 = 1 << 16;
-    pub const WANT_DOWN: u64 = 1 << 17;
-    pub const WANT_DOWN_SLOW: u64 = 1 << 18;
-    pub const WANT_UP_SLOW: u64 = 1 << 19;
-    pub const SPRINTING: u64 = 1 << 20;
-    pub const ASCEND_BLOCK: u64 = 1 << 21;
-    pub const DESCEND_BLOCK: u64 = 1 << 22;
-    pub const SNEAK_TOGGLE_DOWN: u64 = 1 << 23;
-    pub const PERSIST_SNEAK: u64 = 1 << 24;
-    pub const START_SPRINTING: u64 = 1 << 25;
-    pub const STOP_SPRINTING: u64 = 1 << 26;
-    pub const START_SNEAKING: u64 = 1 << 27;
-    pub const STOP_SNEAKING: u64 = 1 << 28;
-    pub const START_SWIMMING: u64 = 1 << 29;
-    pub const STOP_SWIMMING: u64 = 1 << 30;
-    pub const START_JUMPING: u64 = 1 << 31;
-    pub const START_GLIDING: u64 = 1 << 32;
-    pub const STOP_GLIDING: u64 = 1 << 33;
-    pub const PERFORM_ITEM_INTERACTION: u64 = 1 << 34;
-    pub const PERFORM_BLOCK_ACTIONS: u64 = 1 << 35;
-    pub const PERFORM_ITEM_STACK_REQUEST: u64 = 1 << 36;
-    pub const HANDLE_TELEPORT: u64 = 1 << 37;
-    pub const EMOTING: u64 = 1 << 38;
-    pub const MISSED_SWING: u64 = 1 << 39;
-    pub const START_CRAWLING: u64 = 1 << 40;
-    pub const STOP_CRAWLING: u64 = 1 << 41;
-    pub const START_FLYING: u64 = 1 << 42;
-    pub const STOP_FLYING: u64 = 1 << 43;
-    pub const RECEIVED_SERVER_DATA: u64 = 1 << 44;
-    pub const IS_IN_CLIENT_PREDICTED_VEHICLE: u64 = 1 << 45;
-    pub const PADDLE_LEFT: u64 = 1 << 46;
-    pub const PADDLE_RIGHT: u64 = 1 << 47;
-    pub const BLOCK_BREAKING_DELAY_ENABLED: u64 = 1 << 48;
-    pub const HORIZONTAL_COLLISION: u64 = 1 << 49;
-    pub const VERTICAL_COLLISION: u64 = 1 << 50;
-    pub const DOWN_LEFT: u64 = 1 << 51;
-    pub const DOWN_RIGHT: u64 = 1 << 52;
-    pub const START_USING_ITEM: u64 = 1 << 53;
-    pub const IS_CAMERA_RELATIVE_MOVEMENT_ENABLED: u64 = 1 << 54;
-    pub const IS_ROT_CONTROLLED_BY_MOVE_DIRECTION: u64 = 1 << 55;
-    pub const START_SPIN_ATTACK: u64 = 1 << 56;
-    pub const STOP_SPIN_ATTACK: u64 = 1 << 57;
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ActionsEntry {
-    pub action_type: ItemStackRequestActionType,
-    pub amount: i8,
-    pub source: ItemStackRequestSlotInfo,
-    pub destination: ItemStackRequestSlotInfo,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct PerformItemStackRequestData {
-    #[endianness(var)]
-    pub client_request_id: u32,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub actions: Vec<ActionsEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub strings_to_filter: Vec<String>,
-    pub strings_to_filter_origin: TextProcessingEventOrigin,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ClientPredictedVehicleData {
-    #[endianness(le)]
-    pub vehicle_rotation: Vec2<f32>,
-    pub client_predicted_vehicle: ActorUniqueID,
 }

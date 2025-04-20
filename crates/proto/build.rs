@@ -1,14 +1,14 @@
+use proc_macro2::TokenTree;
 use std::collections::{HashMap, HashSet};
-use std::{env, fs};
 use std::error::Error;
 use std::ffi::OsStr;
-use std::fs::{create_dir_all, read_to_string, File, OpenOptions};
 use std::fs::read_dir;
+use std::fs::{create_dir_all, read_to_string, OpenOptions};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
-use proc_macro2::TokenTree;
-use syn::{Expr, ExprLit, Item, ItemConst, ItemEnum, ItemStruct, Lit, Type};
+use std::env;
 use syn::__private::ToTokens;
+use syn::{Expr, ExprLit, Item, ItemConst, Lit};
 
 #[derive(Clone, Debug)]
 struct TokenInfo {
@@ -29,13 +29,13 @@ impl Version {
             self.find_usages_in_file(name.as_str(), &token_info.file_path)
         }
 
-        let types = self.types.clone();
-        for (name, token_info) in types {
-            self.find_usages_in_file(name.as_str(), &token_info.file_path)
-        }
-
         let packets = self.packets.clone();
         for (name, token_info) in packets {
+            self.find_usages_in_file(name.as_str(), &token_info.file_path)
+        }
+        
+        let types = self.types.clone();
+        for (name, token_info) in types {
             self.find_usages_in_file(name.as_str(), &token_info.file_path)
         }
     }
@@ -323,6 +323,21 @@ fn get_first_enum_name_in_file(file: &PathBuf) -> Option<String> {
 fn get_first_struct_name_in_file(file: &PathBuf) -> Option<String> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
+    
+    if (file.file_name() == Some(OsStr::new("player_auth_input.rs"))) {
+        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+
+        let log_dir = Path::new(&manifest_dir).join("src").join("gen").join("log");
+        let log_file_path = log_dir.join("paip.txt");
+        
+        let mut log_file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(log_file_path).unwrap();
+        
+        log_file.write_all(format!("{:?}", syn_tree.items.iter().filter_map(|e| if let Item::Struct(s) = e { Some(s.ident.to_string()) } else { None }).collect::<Vec<_>>()).as_bytes()).ok()?;
+    }
 
     for item in syn_tree.items {
         if let Item::Struct(item_struct) = item {

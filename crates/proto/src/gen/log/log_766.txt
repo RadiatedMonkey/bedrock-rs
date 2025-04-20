@@ -25,15 +25,15 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "PlayerBlockActionData",
-        [
-            "player_block_actions.rs",
-        ],
-    ),
-    (
         "CraftingDataEntry",
         [
             "crafting_data.rs",
+        ],
+    ),
+    (
+        "PlayerBlockActions",
+        [
+            "player_auth_input.rs",
         ],
     ),
     (
@@ -43,9 +43,9 @@ TYPE USAGES: [
         ],
     ),
     (
-        "PlayerBlockActions",
+        "PlayerBlockActionData",
         [
-            "player_auth_input.rs",
+            "player_block_actions.rs",
         ],
     ),
 ]

@@ -2,34 +2,9 @@ VERSION: 748,
 
 ENUM USAGES: [
     (
-        "CodeBuilderExecutionState",
-        [
-            "code_builder_source.rs",
-        ],
-    ),
-    (
         "ItemStackNetResult",
         [
             "item_stack_response_info.rs",
-        ],
-    ),
-    (
-        "RecipeUnlockingContext",
-        [
-            "recipe_unlocking_requirement.rs",
-        ],
-    ),
-    (
-        "SoftEnumUpdateType",
-        [
-            "update_soft_enum.rs",
-        ],
-    ),
-    (
-        "PlayerActionType",
-        [
-            "player_block_action_data.rs",
-            "player_action.rs",
         ],
     ),
     (
@@ -44,16 +19,34 @@ ENUM USAGES: [
             "data_item.rs",
         ],
     ),
-],
-
-PACKET USAGES: [
     (
-        "ActionsEntry",
+        "CodeBuilderExecutionState",
         [
-            "player_auth_input.rs",
+            "code_builder_source.rs",
+        ],
+    ),
+    (
+        "PlayerActionType",
+        [
+            "player_action.rs",
+            "player_block_action_data.rs",
+        ],
+    ),
+    (
+        "RecipeUnlockingContext",
+        [
+            "recipe_unlocking_requirement.rs",
+        ],
+    ),
+    (
+        "SoftEnumUpdateType",
+        [
+            "update_soft_enum.rs",
         ],
     ),
 ],
+
+PACKET USAGES: [],
 
 TYPE USAGES: [
     (
@@ -63,19 +56,24 @@ TYPE USAGES: [
         ],
     ),
     (
-        "FullContainerName",
+        "PlayerBlockActionData",
         [
-            "item_stack_response_container_info.rs",
-            "item_stack_request_slot_info.rs",
-            "inventory_slot.rs",
-            "inventory_content.rs",
-            "container_registry_cleanup.rs",
+            "player_block_actions.rs",
         ],
     ),
     (
-        "CameraPreset",
+        "RecipeUnlockingRequirement",
         [
-            "camera_presets.rs",
+            "shapeless_recipe.rs",
+            "shaped_recipe.rs",
+        ],
+    ),
+    (
+        "DataItem",
+        [
+            "set_actor_data.rs",
+            "add_player.rs",
+            "add_item_actor.rs",
         ],
     ),
     (
@@ -85,9 +83,21 @@ TYPE USAGES: [
         ],
     ),
     (
+        "ItemStackResponseInfo",
+        [
+            "item_stack_response.rs",
+        ],
+    ),
+    (
         "ItemStackRequestSlotInfo",
         [
             "item_stack_request.rs",
+        ],
+    ),
+    (
+        "CameraInstruction",
+        [
+            "camera_instruction.rs",
         ],
     ),
     (
@@ -103,24 +113,10 @@ TYPE USAGES: [
         ],
     ),
     (
-        "DataItem",
+        "ActorLink",
         [
+            "set_actor_link.rs",
             "add_player.rs",
-            "set_actor_data.rs",
-            "add_item_actor.rs",
-        ],
-    ),
-    (
-        "PlayerBlockActionData",
-        [
-            "player_block_actions.rs",
-        ],
-    ),
-    (
-        "RecipeUnlockingRequirement",
-        [
-            "shaped_recipe.rs",
-            "shapeless_recipe.rs",
         ],
     ),
     (
@@ -130,16 +126,19 @@ TYPE USAGES: [
         ],
     ),
     (
-        "ActorLink",
+        "FullContainerName",
         [
-            "add_player.rs",
-            "set_actor_link.rs",
+            "item_stack_response_container_info.rs",
+            "item_stack_request_slot_info.rs",
+            "inventory_content.rs",
+            "inventory_slot.rs",
+            "container_registry_cleanup.rs",
         ],
     ),
     (
-        "ItemStackResponseInfo",
+        "CameraPreset",
         [
-            "item_stack_response.rs",
+            "camera_presets.rs",
         ],
     ),
 ]
