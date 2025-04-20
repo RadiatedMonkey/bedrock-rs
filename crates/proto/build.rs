@@ -71,9 +71,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_dir = env::var("OUT_DIR").unwrap();
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
     
-    let gen_dir = Path::new(&manifest_dir).join("gen");
     let src_dir = Path::new(&manifest_dir).join("src");
     let version_dir = src_dir.join("version");
+    let gen_dir = src_dir.join("gen");
     
     let mut version_dirs: Vec<_> = read_dir(version_dir)?
         .filter_map(|entry| {
