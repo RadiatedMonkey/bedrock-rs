@@ -1,1 +1,1 @@
-pub const PROTOCOL_VERSION: i32 = 662;
+pub const PROTOCOL_VERSION: u16 = 662;
