@@ -2,12 +2,15 @@ use std::collections::HashMap;
 use std::{env, fs};
 use std::error::Error;
 use std::ffi::OsStr;
-use std::fs::read_to_string;
+use std::fs::{create_dir_all, read_to_string, File, OpenOptions};
 use std::fs::read_dir;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
-use syn::{Expr, ExprLit, Item, ItemConst, ItemEnum, ItemStruct, Lit};
+use proc_macro2::TokenTree;
+use syn::{Expr, ExprLit, Item, ItemConst, ItemEnum, ItemStruct, Lit, Type};
+use syn::__private::ToTokens;
 
+#[derive(Clone, Debug)]
 struct TokenInfo {
     pub file_path: PathBuf,
     pub usages: Vec<PathBuf>
@@ -17,18 +20,58 @@ struct Version {
     pub enums: HashMap<String, TokenInfo>,
     pub packets: HashMap<String, TokenInfo>,
     pub types: HashMap<String, TokenInfo>,
+}
+
+impl Version {
+    pub fn analyze_usages_in_files(&mut self) {
+        let enums = self.enums.clone();
+        for (name, token_info) in enums {
+            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+        }
+
+        let types = self.types.clone();
+        for (name, token_info) in types {
+            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+        }
+
+        let packets = self.packets.clone();
+        for (name, token_info) in packets {
+            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+        }
+    }
     
-    enum_files: Vec<PathBuf>,
-    packet_files: Vec<PathBuf>,
-    type_files: Vec<PathBuf>,
-    
-    enum_usages: HashMap<String, Vec<PathBuf>>
+    fn analyze_usages_in_file(&mut self, ignore: &str, file: &PathBuf) {
+        let content = read_to_string(file).unwrap();
+        let syn_tree = syn::parse_file(&content).unwrap();
+
+        let tokens = syn_tree.to_token_stream();
+
+        for token in tokens {
+            if let TokenTree::Ident(ident) = token {
+                let name = ident.to_string();
+                if name == ignore { continue; }
+
+                if let Some(token_info) = self.enums.get_mut(&name) {
+                    token_info.usages.push(file.clone())
+                }
+
+                if let Some(token_info) = self.types.get_mut(&name) {
+                    token_info.usages.push(file.clone())
+                }
+
+                if let Some(token_info) = self.packets.get_mut(&name) {
+                    token_info.usages.push(file.clone())
+                }
+            }
+        }
+    }
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let out_dir = env::var("OUT_DIR").unwrap();
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
     
+    let gen_dir = Path::new(&manifest_dir).join("gen");
     let src_dir = Path::new(&manifest_dir).join("src");
     let version_dir = src_dir.join("version");
     
@@ -57,11 +100,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         
         let content = read_to_string(&info_file_path)?;
         if let Some(protocol_version) = parse_protocol_version(&content) {
-            let enum_files = find_version_enums(&dir.path()).unwrap_or(Vec::new());
-            let packet_files = find_version_packets(&dir.path()).unwrap_or(Vec::new());
-            let type_files = find_version_types(&dir.path()).unwrap_or(Vec::new());
-            
-            let enums: HashMap<String, TokenInfo> = enum_files.iter()
+            let enums: HashMap<String, TokenInfo> = find_version_enums(&dir.path())
+                .unwrap_or(Vec::new())
+                .iter()
                 .filter_map(|path| {
                     let name = get_enum_name_in_file(path)?;
                     
@@ -74,7 +115,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                 })
                 .collect();
 
-            let packets: HashMap<String, TokenInfo> = packet_files.iter()
+            let packets: HashMap<String, TokenInfo> = find_version_packets(&dir.path())
+                .unwrap_or(Vec::new())
+                .iter()
                 .filter_map(|path| {
                     let name = get_struct_name_in_file(path)?;
 
@@ -87,7 +130,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                 })
                 .collect();
 
-            let types: HashMap<String, TokenInfo> = type_files.iter()
+            let types: HashMap<String, TokenInfo> = find_version_types(&dir.path())
+                .unwrap_or(Vec::new())
+                .iter()
                 .filter_map(|path| {
                     let name = get_struct_name_in_file(path)?;
 
@@ -99,28 +144,90 @@ fn main() -> Result<(), Box<dyn Error>> {
                     Some((name, token_info))
                 })
                 .collect();
+            
+            let mut version = Version {
+                enums,
+                packets,
+                types,
+            };
+            
+            version.analyze_usages_in_files();
 
-            println!(
-                "cargo:warning=PROTOCOL_VERSION: {}, enums: {}, packets: {}, types: {}",
+            let log_str = format!(
+                "VERSION: {:#?},\n\nENUM USAGES: {:#?},\n\nPACKET USAGES: {:#?},\n\nTYPE USAGES: {:#?}",
                 protocol_version,
-                enums.len(),
-                packets.len(),
-                types.len()
+                version.enums.iter()
+                    .filter_map(|(name, e)| 
+                        if (e.usages.len() > 0) {
+                            Some(
+                                (
+                                    name,
+                                    e.usages
+                                        .iter()
+                                        .map(|p|
+                                            p.file_name().unwrap()
+                                        )
+                                        .collect::<Vec<_>>()
+                                )
+                            )
+                        }
+                        else { None }
+                    )
+                    .collect::<Vec<_>>(),
+                version.packets.iter()
+                    .filter_map(|(name, e)| 
+                        if (e.usages.len() > 0) {
+                            Some(
+                                (
+                                    name, 
+                                    e.usages
+                                        .iter()
+                                        .map(|p|
+                                            p.file_name().unwrap()
+                                        )
+                                        .collect::<Vec<_>>()
+                                )
+                            )
+                        }
+                        else { None }
+                    )
+                    .collect::<Vec<_>>(),
+                version.types.iter()
+                    .filter_map(|(name, e)|
+                        if (e.usages.len() > 0) {
+                            Some(
+                                (
+                                    name,
+                                    e.usages
+                                        .iter()
+                                        .map(|p|
+                                            p.file_name().unwrap()
+                                        )
+                                        .collect::<Vec<_>>()
+                                )
+                            )
+                        }
+                        else { None }
+                    )
+                    .collect::<Vec<_>>(),
             );
+            
+            let log_dir = gen_dir.join("log");
+            create_dir_all(&log_dir)?;
+            
+            let log_file = log_dir.join(format!("log_{}.txt", protocol_version));
+            
+            let mut file = OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(&log_file)?;
+            
+            file.write_all(log_str.as_bytes())?;
             
             versions.insert(
                 protocol_version, 
-                Version {
-                    enums,
-                    packets,
-                    types,
-                    
-                    enum_files, 
-                    packet_files, 
-                    type_files,
-                    
-                    enum_usages: Default::default(),
-                }
+                version
             );
         }
     }
@@ -228,4 +335,4 @@ fn get_struct_name_in_file(file: &PathBuf) -> Option<String> {
     }
 
     None
-} 
+}
