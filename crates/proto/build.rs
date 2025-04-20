@@ -16,6 +16,7 @@ struct TokenInfo {
     pub usages: HashSet<PathBuf>
 }
 
+#[derive(Debug)]
 struct Version {
     pub enums: HashMap<String, TokenInfo>,
     pub packets: HashMap<String, TokenInfo>,
@@ -55,11 +56,11 @@ impl Version {
                     token_info.usages.insert(file.clone());
                 }
 
-                if let Some(token_info) = self.types.get_mut(&name) {
+                if let Some(token_info) = self.packets.get_mut(&name) {
                     token_info.usages.insert(file.clone());
                 }
 
-                if let Some(token_info) = self.packets.get_mut(&name) {
+                if let Some(token_info) = self.types.get_mut(&name) {
                     token_info.usages.insert(file.clone());
                 }
             }
@@ -215,14 +216,27 @@ fn main() -> Result<(), Box<dyn Error>> {
             create_dir_all(&log_dir)?;
             
             let log_file = log_dir.join(format!("log_{}.txt", protocol_version));
-            
+
             let mut file = OpenOptions::new()
                 .write(true)
                 .create(true)
                 .truncate(true)
                 .open(&log_file)?;
-            
+
             file.write_all(log_str.as_bytes())?;
+
+            let log_verbose_dir = log_dir.join("verbose");
+            create_dir_all(&log_verbose_dir)?;
+            
+            let log_verbose_file = log_verbose_dir.join(format!("log_verbose_{}.txt", protocol_version));
+
+            let file_full = OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(&log_verbose_file)?;
+
+            write!(&file_full, "{:#?}", version)?;
             
             versions.insert(
                 protocol_version, 
@@ -324,21 +338,6 @@ fn get_first_struct_name_in_file(file: &PathBuf) -> Option<String> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
     
-    if (file.file_name() == Some(OsStr::new("player_auth_input.rs"))) {
-        let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-
-        let log_dir = Path::new(&manifest_dir).join("src").join("gen").join("log");
-        let log_file_path = log_dir.join("paip.txt");
-        
-        let mut log_file = OpenOptions::new()
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(log_file_path).unwrap();
-        
-        log_file.write_all(format!("{:?}", syn_tree.items.iter().filter_map(|e| if let Item::Struct(s) = e { Some(s.ident.to_string()) } else { None }).collect::<Vec<_>>()).as_bytes()).ok()?;
-    }
-
     for item in syn_tree.items {
         if let Item::Struct(item_struct) = item {
             return Some(item_struct.ident.to_string());

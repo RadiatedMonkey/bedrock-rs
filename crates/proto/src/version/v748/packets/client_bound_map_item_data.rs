@@ -7,14 +7,6 @@ use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use std::io::Cursor;
 use std::mem::size_of;
 
-#[repr(u32)]
-pub enum Type {
-    Invalid = 0x0,
-    TextureUpdate = 0x2,
-    DecorationUpdate = 0x4,
-    Creation = 0x8,
-}
-
 #[gamepacket(id = 67)]
 #[derive(Clone, Debug)]
 pub struct ClientBoundMapItemDataPacket {
@@ -32,6 +24,14 @@ pub struct ClientBoundMapItemDataPacket {
     pub x_tex_coordinate: Option<i32>,
     pub y_tex_coordinate: Option<i32>,
     pub pixels: Option<Vec<u32>>,
+}
+
+#[repr(u32)]
+pub enum Type {
+    Invalid = 0x0,
+    TextureUpdate = 0x2,
+    DecorationUpdate = 0x4,
+    Creation = 0x8,
 }
 
 impl ProtoCodec for ClientBoundMapItemDataPacket {

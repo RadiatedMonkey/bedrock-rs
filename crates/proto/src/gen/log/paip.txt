@@ -1,1 +1,0 @@
-["PlayerAuthInputFlags", "ActionsEntry", "PerformItemStackRequestData", "ClientPredictedVehicleData", "PlayerAuthInputPacket"]

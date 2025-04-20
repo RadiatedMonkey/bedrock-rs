@@ -1,0 +1,27 @@
+Version {
+    enums: {},
+    packets: {
+        "PackEntry": TokenInfo {
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\packets\\resource_pack_stack.rs",
+            usages: {},
+        },
+        "UpdatePlayerGameTypePacket": TokenInfo {
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\packets\\update_player_game_type.rs",
+            usages: {},
+        },
+    },
+    types: {
+        "ShapedRecipe": TokenInfo {
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
+            usages: {},
+        },
+        "ShapedChemistryRecipe": TokenInfo {
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_chemistry_recipe.rs",
+            usages: {},
+        },
+        "LevelSettings": TokenInfo {
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\level_settings.rs",
+            usages: {},
+        },
+    },
+}

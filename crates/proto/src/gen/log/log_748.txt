@@ -2,12 +2,6 @@ VERSION: 748,
 
 ENUM USAGES: [
     (
-        "ItemStackNetResult",
-        [
-            "item_stack_response_info.rs",
-        ],
-    ),
-    (
         "BossEventUpdateType",
         [
             "boss_event.rs",
@@ -23,6 +17,12 @@ ENUM USAGES: [
         "CodeBuilderExecutionState",
         [
             "code_builder_source.rs",
+        ],
+    ),
+    (
+        "ItemStackNetResult",
+        [
+            "item_stack_response_info.rs",
         ],
     ),
     (
@@ -50,63 +50,6 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "ItemStackResponseContainerInfo",
-        [
-            "item_stack_net_result.rs",
-        ],
-    ),
-    (
-        "PlayerBlockActionData",
-        [
-            "player_block_actions.rs",
-        ],
-    ),
-    (
-        "RecipeUnlockingRequirement",
-        [
-            "shapeless_recipe.rs",
-            "shaped_recipe.rs",
-        ],
-    ),
-    (
-        "DataItem",
-        [
-            "set_actor_data.rs",
-            "add_player.rs",
-            "add_item_actor.rs",
-        ],
-    ),
-    (
-        "CameraPresets",
-        [
-            "camera_presets.rs",
-        ],
-    ),
-    (
-        "ItemStackResponseInfo",
-        [
-            "item_stack_response.rs",
-        ],
-    ),
-    (
-        "ItemStackRequestSlotInfo",
-        [
-            "item_stack_request.rs",
-        ],
-    ),
-    (
-        "CameraInstruction",
-        [
-            "camera_instruction.rs",
-        ],
-    ),
-    (
-        "PlayerBlockActions",
-        [
-            "player_auth_input.rs",
-        ],
-    ),
-    (
         "ItemStackResponseSlotInfo",
         [
             "item_stack_response_container_info.rs",
@@ -120,25 +63,82 @@ TYPE USAGES: [
         ],
     ),
     (
-        "LevelSettings",
+        "DataItem",
         [
-            "start_game.rs",
+            "add_item_actor.rs",
+            "set_actor_data.rs",
+            "add_player.rs",
+        ],
+    ),
+    (
+        "PlayerBlockActions",
+        [
+            "player_auth_input.rs",
         ],
     ),
     (
         "FullContainerName",
         [
             "item_stack_response_container_info.rs",
-            "item_stack_request_slot_info.rs",
+            "container_registry_cleanup.rs",
             "inventory_content.rs",
             "inventory_slot.rs",
-            "container_registry_cleanup.rs",
+            "item_stack_request_slot_info.rs",
+        ],
+    ),
+    (
+        "PlayerBlockActionData",
+        [
+            "player_block_actions.rs",
+        ],
+    ),
+    (
+        "CameraPresets",
+        [
+            "camera_presets.rs",
+        ],
+    ),
+    (
+        "LevelSettings",
+        [
+            "start_game.rs",
+        ],
+    ),
+    (
+        "CameraInstruction",
+        [
+            "camera_instruction.rs",
+        ],
+    ),
+    (
+        "ItemStackResponseContainerInfo",
+        [
+            "item_stack_net_result.rs",
+        ],
+    ),
+    (
+        "ItemStackResponseInfo",
+        [
+            "item_stack_response.rs",
         ],
     ),
     (
         "CameraPreset",
         [
             "camera_presets.rs",
+        ],
+    ),
+    (
+        "ItemStackRequestSlotInfo",
+        [
+            "item_stack_request.rs",
+        ],
+    ),
+    (
+        "RecipeUnlockingRequirement",
+        [
+            "shapeless_recipe.rs",
+            "shaped_recipe.rs",
         ],
     ),
 ]

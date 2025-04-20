@@ -2,57 +2,27 @@ VERSION: 662,
 
 ENUM USAGES: [
     (
-        "ItemUseInventoryTransactionType",
+        "ItemDescriptorInternalType",
         [
-            "packed_item_use_legacy_inventory_transaction.rs",
+            "recipe_ingredient.rs",
         ],
     ),
     (
-        "ItemUseMethod",
+        "ConnectionFailReason",
         [
-            "completed_using_item.rs",
-        ],
-    ),
-    (
-        "ContainerName",
-        [
-            "item_stack_request_slot_info.rs",
-        ],
-    ),
-    (
-        "CommandOriginType",
-        [
-            "command_origin_data.rs",
-        ],
-    ),
-    (
-        "PredictionType",
-        [
-            "correct_player_move_prediction.rs",
-        ],
-    ),
-    (
-        "ActorType",
-        [
-            "set_last_hurt_by.rs",
-        ],
-    ),
-    (
-        "CraftingDataEntryType",
-        [
-            "crafting_data_entry.rs",
-        ],
-    ),
-    (
-        "PlayerRespawnState",
-        [
-            "respawn.rs",
+            "disconnect.rs",
         ],
     ),
     (
         "MultiplayerSettingsPacketType",
         [
             "multiplayer_settings.rs",
+        ],
+    ),
+    (
+        "BookEditAction",
+        [
+            "book_edit.rs",
         ],
     ),
     (
@@ -63,27 +33,28 @@ ENUM USAGES: [
         ],
     ),
     (
-        "SpawnPositionType",
+        "LevelEvent",
         [
-            "set_spawn_position.rs",
+            "level_event_generic.rs",
+            "level_event.rs",
         ],
     ),
     (
-        "ComplexInventoryTransactionType",
+        "ObjectiveSortOrder",
         [
-            "inventory_transaction.rs",
+            "set_display_objective.rs",
         ],
     ),
     (
-        "ItemDescriptorInternalType",
+        "ModalFormCancelReason",
         [
-            "recipe_ingredient.rs",
+            "modal_form_response.rs",
         ],
     ),
     (
-        "ItemStackNetResult",
+        "ItemUseInventoryTransactionType",
         [
-            "item_stack_response_info.rs",
+            "packed_item_use_legacy_inventory_transaction.rs",
         ],
     ),
     (
@@ -93,21 +64,33 @@ ENUM USAGES: [
         ],
     ),
     (
-        "LabTableReactionType",
+        "CommandOutputType",
         [
-            "lab_table.rs",
+            "command_output.rs",
         ],
     ),
     (
-        "PhotoType",
+        "ShowStoreOfferRedirectType",
         [
-            "photo_transfer.rs",
+            "show_store_offer.rs",
         ],
     ),
     (
-        "ServerAuthMovementMode",
+        "PacketCompressionAlgorithm",
         [
-            "synced_player_movement_settings.rs",
+            "network_settings.rs",
+        ],
+    ),
+    (
+        "AgentActionType",
+        [
+            "agent_action_event.rs",
+        ],
+    ),
+    (
+        "BuildPlatform",
+        [
+            "player_list_packet_type.rs",
         ],
     ),
     (
@@ -118,39 +101,33 @@ ENUM USAGES: [
         ],
     ),
     (
-        "SoftEnumUpdateType",
+        "PlayerListPacketType",
         [
-            "update_soft_enum.rs",
+            "player_list.rs",
         ],
     ),
     (
-        "TextPacketType",
+        "LabTableReactionType",
         [
-            "text.rs",
+            "lab_table.rs",
         ],
     ),
     (
-        "SimulationType",
+        "EnchantType",
         [
-            "simulation_type.rs",
+            "item_enchants.rs",
         ],
     ),
     (
-        "AbilitiesIndex",
+        "BossEventUpdateType",
         [
-            "request_ability.rs",
+            "boss_event.rs",
         ],
     ),
     (
-        "ActorLinkType",
+        "CommandPermissionLevel",
         [
-            "actor_link.rs",
-        ],
-    ),
-    (
-        "AgentActionType",
-        [
-            "agent_action_event.rs",
+            "available_commands.rs",
         ],
     ),
     (
@@ -160,9 +137,27 @@ ENUM USAGES: [
         ],
     ),
     (
-        "ActorEvent",
+        "PlayerRespawnState",
         [
-            "actor_event.rs",
+            "respawn.rs",
+        ],
+    ),
+    (
+        "ScoreboardIdentityPacketType",
+        [
+            "set_scoreboard_identity.rs",
+        ],
+    ),
+    (
+        "TextPacketType",
+        [
+            "text.rs",
+        ],
+    ),
+    (
+        "ContainerName",
+        [
+            "item_stack_request_slot_info.rs",
         ],
     ),
     (
@@ -172,38 +167,53 @@ ENUM USAGES: [
         ],
     ),
     (
+        "ActorEvent",
+        [
+            "actor_event.rs",
+        ],
+    ),
+    (
+        "GameType",
+        [
+            "set_default_game_type.rs",
+            "update_player_game_type.rs",
+            "start_game.rs",
+            "set_player_game_type.rs",
+        ],
+    ),
+    (
         "ContainerID",
         [
+            "inventory_slot.rs",
+            "player_hotbar.rs",
             "container_close.rs",
             "inventory_source_type.rs",
             "container_set_data.rs",
-            "player_hotbar.rs",
             "mob_equipment.rs",
-            "inventory_slot.rs",
         ],
     ),
     (
-        "PlayerPermissionLevel",
+        "EasingType",
         [
-            "request_permissions.rs",
+            "camera_instruction.rs",
         ],
     ),
     (
-        "InventorySourceType",
+        "SoftEnumUpdateType",
         [
-            "inventory_source.rs",
+            "update_soft_enum.rs",
         ],
     ),
     (
-        "ScorePacketType",
+        "StructureTemplateResponseType",
         [
-            "set_score.rs",
+            "structure_data_response.rs",
         ],
     ),
     (
-        "ModalFormCancelReason",
+        "ItemStackNetResult",
         [
-            "modal_form_response.rs",
+            "item_stack_response_info.rs",
         ],
     ),
     (
@@ -214,84 +224,105 @@ ENUM USAGES: [
         ],
     ),
     (
-        "CommandOutputType",
-        [
-            "command_output.rs",
-        ],
-    ),
-    (
-        "BuildPlatform",
-        [
-            "player_list_packet_type.rs",
-        ],
-    ),
-    (
-        "ConnectionFailReason",
-        [
-            "disconnect.rs",
-        ],
-    ),
-    (
-        "CommandBlockMode",
-        [
-            "command_block_update.rs",
-        ],
-    ),
-    (
-        "BossEventUpdateType",
-        [
-            "boss_event.rs",
-        ],
-    ),
-    (
         "DataItemType",
         [
             "data_item.rs",
         ],
     ),
     (
-        "EnchantType",
+        "IdentityDefinitionType",
         [
-            "item_enchants.rs",
+            "score_packet_type.rs",
         ],
     ),
     (
-        "CommandPermissionLevel",
+        "PredictionType",
         [
-            "available_commands.rs",
+            "correct_player_move_prediction.rs",
         ],
     ),
     (
-        "ObjectiveSortOrder",
+        "ResourcePackResponse",
         [
-            "set_display_objective.rs",
+            "resource_pack_client_response.rs",
         ],
     ),
     (
-        "GameType",
+        "InventorySourceType",
         [
-            "start_game.rs",
-            "update_player_game_type.rs",
-            "set_default_game_type.rs",
-            "set_player_game_type.rs",
+            "inventory_source.rs",
         ],
     ),
     (
-        "PlayerPositionMode",
+        "PlayerPermissionLevel",
         [
-            "move_player.rs",
+            "request_permissions.rs",
         ],
     ),
     (
-        "ShowStoreOfferRedirectType",
+        "ScorePacketType",
         [
-            "show_store_offer.rs",
+            "set_score.rs",
         ],
     ),
     (
-        "BookEditAction",
+        "SimulationType",
         [
-            "book_edit.rs",
+            "simulation_type.rs",
+        ],
+    ),
+    (
+        "SpawnBiomeType",
+        [
+            "spawn_settings.rs",
+        ],
+    ),
+    (
+        "Difficulty",
+        [
+            "set_difficulty.rs",
+        ],
+    ),
+    (
+        "StructureTemplateRequestOperation",
+        [
+            "structure_data_request.rs",
+        ],
+    ),
+    (
+        "ItemUseMethod",
+        [
+            "completed_using_item.rs",
+        ],
+    ),
+    (
+        "PackType",
+        [
+            "resource_pack_data_info.rs",
+        ],
+    ),
+    (
+        "CraftingDataEntryType",
+        [
+            "crafting_data_entry.rs",
+        ],
+    ),
+    (
+        "CommandOriginType",
+        [
+            "command_origin_data.rs",
+        ],
+    ),
+    (
+        "AbilitiesIndex",
+        [
+            "request_ability.rs",
+        ],
+    ),
+    (
+        "CommandBlockMode",
+        [
+            "command_block_update.rs",
         ],
     ),
     (
@@ -302,76 +333,45 @@ ENUM USAGES: [
         ],
     ),
     (
-        "ResourcePackResponse",
+        "SpawnPositionType",
         [
-            "resource_pack_client_response.rs",
+            "set_spawn_position.rs",
         ],
     ),
     (
-        "Difficulty",
+        "PhotoType",
         [
-            "set_difficulty.rs",
+            "photo_transfer.rs",
         ],
     ),
     (
-        "ScoreboardIdentityPacketType",
+        "ComplexInventoryTransactionType",
         [
-            "set_scoreboard_identity.rs",
+            "inventory_transaction.rs",
         ],
     ),
     (
-        "StructureTemplateResponseType",
+        "PlayerPositionMode",
         [
-            "structure_data_response.rs",
+            "move_player.rs",
         ],
     ),
     (
-        "EasingType",
+        "ActorLinkType",
         [
-            "camera_instruction.rs",
+            "actor_link.rs",
         ],
     ),
     (
-        "SpawnBiomeType",
+        "ServerAuthMovementMode",
         [
-            "spawn_settings.rs",
+            "synced_player_movement_settings.rs",
         ],
     ),
     (
-        "PlayerListPacketType",
+        "ActorType",
         [
-            "player_list.rs",
-        ],
-    ),
-    (
-        "LevelEvent",
-        [
-            "level_event.rs",
-            "level_event_generic.rs",
-        ],
-    ),
-    (
-        "IdentityDefinitionType",
-        [
-            "score_packet_type.rs",
-        ],
-    ),
-    (
-        "StructureTemplateRequestOperation",
-        [
-            "structure_data_request.rs",
-        ],
-    ),
-    (
-        "PacketCompressionAlgorithm",
-        [
-            "network_settings.rs",
-        ],
-    ),
-    (
-        "PackType",
-        [
-            "resource_pack_data_info.rs",
+            "set_last_hurt_by.rs",
         ],
     ),
 ],
@@ -380,9 +380,15 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "InventoryTransaction",
+        "ActorLink",
         [
-            "inventory_transaction.rs",
+            "set_actor_link.rs",
+        ],
+    ),
+    (
+        "EntityNetID",
+        [
+            "remove_volume_entity.rs",
         ],
     ),
     (
@@ -393,72 +399,6 @@ TYPE USAGES: [
         ],
     ),
     (
-        "BlockPos",
-        [
-            "data_item_type.rs",
-            "game_test_request.rs",
-            "player_action_type.rs",
-            "block_pick_request.rs",
-            "lab_table.rs",
-        ],
-    ),
-    (
-        "ScoreboardId",
-        [
-            "score_packet_type.rs",
-            "scoreboard_identity_packet_type.rs",
-        ],
-    ),
-    (
-        "AdventureSettings",
-        [
-            "update_adventure_settings.rs",
-        ],
-    ),
-    (
-        "RecipeIngredient",
-        [
-            "smithing_trim_recipe.rs",
-        ],
-    ),
-    (
-        "CameraPreset",
-        [
-            "camera_presets.rs",
-        ],
-    ),
-    (
-        "ChunkPos",
-        [
-            "level_chunk.rs",
-        ],
-    ),
-    (
-        "WebSocketPacketData",
-        [
-            "automation_client_connect.rs",
-        ],
-    ),
-    (
-        "ActorUniqueID",
-        [
-            "map_create_locked_copy.rs",
-            "map_info_request.rs",
-            "remove_actor.rs",
-            "boss_event.rs",
-            "boss_event_update_type.rs",
-            "update_player_game_type.rs",
-            "camera.rs",
-            "update_trade.rs",
-            "update_equip.rs",
-            "actor_link.rs",
-            "debug_info.rs",
-            "change_mob_property.rs",
-            "legacy_telemetry_event.rs",
-            "identity_definition_type.rs",
-        ],
-    ),
-    (
         "PositionTrackingId",
         [
             "position_tracking_db_client_request.rs",
@@ -466,9 +406,36 @@ TYPE USAGES: [
         ],
     ),
     (
-        "MoveActorDeltaData",
+        "NetworkBlockPosition",
         [
-            "move_actor_delta.rs",
+            "open_sign.rs",
+            "set_spawn_position.rs",
+            "update_block_synced.rs",
+            "update_sub_chunk_blocks.rs",
+            "block_actor_data.rs",
+            "anvil_damage.rs",
+            "block_event.rs",
+            "update_block.rs",
+            "lectern_update.rs",
+            "play_sound.rs",
+        ],
+    ),
+    (
+        "ItemStackResponseSlotInfo",
+        [
+            "item_stack_response_container_info.rs",
+        ],
+    ),
+    (
+        "PlayerBlockActionData",
+        [
+            "player_block_actions.rs",
+        ],
+    ),
+    (
+        "InventoryTransaction",
+        [
+            "inventory_transaction.rs",
         ],
     ),
     (
@@ -478,33 +445,22 @@ TYPE USAGES: [
         ],
     ),
     (
-        "SubChunkPos",
+        "ActorUniqueID",
         [
-            "sub_chunk_request.rs",
-        ],
-    ),
-    (
-        "ActorRuntimeID",
-        [
-            "mob_effect.rs",
-            "set_actor_motion.rs",
-            "motion_prediction_hints.rs",
-            "move_actor_absolute_data.rs",
-            "interact.rs",
-            "animate_entity.rs",
-            "animate.rs",
-            "update_attributes.rs",
-            "agent_animation.rs",
-            "actor_event.rs",
-            "respawn.rs",
-            "move_player.rs",
-            "take_item_actor.rs",
-            "move_actor_delta_data.rs",
-            "emote.rs",
-            "set_local_player_as_initialized.rs",
-            "show_credits.rs",
-            "emote_list.rs",
-            "npc_request.rs",
+            "boss_event_update_type.rs",
+            "debug_info.rs",
+            "map_info_request.rs",
+            "change_mob_property.rs",
+            "map_create_locked_copy.rs",
+            "update_trade.rs",
+            "identity_definition_type.rs",
+            "remove_actor.rs",
+            "legacy_telemetry_event.rs",
+            "update_equip.rs",
+            "update_player_game_type.rs",
+            "actor_link.rs",
+            "camera.rs",
+            "boss_event.rs",
         ],
     ),
     (
@@ -514,9 +470,75 @@ TYPE USAGES: [
         ],
     ),
     (
-        "ActorLink",
+        "CameraPreset",
         [
-            "set_actor_link.rs",
+            "camera_presets.rs",
+        ],
+    ),
+    (
+        "ActorRuntimeID",
+        [
+            "set_actor_motion.rs",
+            "npc_request.rs",
+            "motion_prediction_hints.rs",
+            "mob_effect.rs",
+            "animate.rs",
+            "move_actor_absolute_data.rs",
+            "move_player.rs",
+            "update_attributes.rs",
+            "emote.rs",
+            "move_actor_delta_data.rs",
+            "actor_event.rs",
+            "take_item_actor.rs",
+            "agent_animation.rs",
+            "interact.rs",
+            "respawn.rs",
+            "show_credits.rs",
+            "set_local_player_as_initialized.rs",
+            "animate_entity.rs",
+            "emote_list.rs",
+        ],
+    ),
+    (
+        "EduSharedUriResource",
+        [
+            "edu_uri_resource.rs",
+        ],
+    ),
+    (
+        "EducationLevelSettings",
+        [
+            "education_settings.rs",
+        ],
+    ),
+    (
+        "StructureSettings",
+        [
+            "structure_editor_data.rs",
+        ],
+    ),
+    (
+        "WebSocketPacketData",
+        [
+            "automation_client_connect.rs",
+        ],
+    ),
+    (
+        "MoveActorAbsoluteData",
+        [
+            "move_actor_absolute.rs",
+        ],
+    ),
+    (
+        "MoveActorDeltaData",
+        [
+            "move_actor_delta.rs",
+        ],
+    ),
+    (
+        "AdventureSettings",
+        [
+            "update_adventure_settings.rs",
         ],
     ),
     (
@@ -526,9 +548,15 @@ TYPE USAGES: [
         ],
     ),
     (
-        "EntityNetID",
+        "RecipeIngredient",
         [
-            "remove_volume_entity.rs",
+            "smithing_trim_recipe.rs",
+        ],
+    ),
+    (
+        "ChunkPos",
+        [
+            "level_chunk.rs",
         ],
     ),
     (
@@ -538,30 +566,25 @@ TYPE USAGES: [
         ],
     ),
     (
+        "BlockPos",
+        [
+            "player_action_type.rs",
+            "data_item_type.rs",
+            "block_pick_request.rs",
+            "lab_table.rs",
+            "game_test_request.rs",
+        ],
+    ),
+    (
         "SubChunkPosOffset",
         [
             "sub_chunk_request.rs",
         ],
     ),
     (
-        "NetworkBlockPosition",
+        "SubChunkPos",
         [
-            "update_sub_chunk_blocks.rs",
-            "open_sign.rs",
-            "block_event.rs",
-            "lectern_update.rs",
-            "set_spawn_position.rs",
-            "update_block.rs",
-            "anvil_damage.rs",
-            "update_block_synced.rs",
-            "block_actor_data.rs",
-            "play_sound.rs",
-        ],
-    ),
-    (
-        "EducationLevelSettings",
-        [
-            "education_settings.rs",
+            "sub_chunk_request.rs",
         ],
     ),
     (
@@ -572,39 +595,16 @@ TYPE USAGES: [
         ],
     ),
     (
-        "ItemStackResponseSlotInfo",
-        [
-            "item_stack_response_container_info.rs",
-        ],
-    ),
-    (
-        "StructureSettings",
-        [
-            "structure_editor_data.rs",
-        ],
-    ),
-    (
         "CameraPresets",
         [
             "camera_presets.rs",
         ],
     ),
     (
-        "MoveActorAbsoluteData",
+        "ScoreboardId",
         [
-            "move_actor_absolute.rs",
-        ],
-    ),
-    (
-        "PlayerBlockActionData",
-        [
-            "player_block_actions.rs",
-        ],
-    ),
-    (
-        "EduSharedUriResource",
-        [
-            "edu_uri_resource.rs",
+            "score_packet_type.rs",
+            "scoreboard_identity_packet_type.rs",
         ],
     ),
 ]

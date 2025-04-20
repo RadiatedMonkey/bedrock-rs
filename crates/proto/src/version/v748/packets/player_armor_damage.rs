@@ -3,19 +3,19 @@ use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use std::io::Cursor;
 
+#[gamepacket(id = 149)]
+#[derive(Clone, Debug)]
+pub struct PlayerArmorDamagePacket {
+    pub slot_bitset: i8,
+    pub damage: [i32; 5],
+}
+
 pub enum PlayerArmorDamageFlag {
     Helmet = 1 << 0,
     Chestplate = 1 << 1,
     Leggings = 1 << 2,
     Boots = 1 << 3,
     Body = 1 << 4,
-}
-
-#[gamepacket(id = 149)]
-#[derive(Clone, Debug)]
-pub struct PlayerArmorDamagePacket {
-    pub slot_bitset: i8,
-    pub damage: [i32; 5],
 }
 
 impl ProtoCodec for PlayerArmorDamagePacket {
