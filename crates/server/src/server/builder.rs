@@ -1,7 +1,7 @@
 use crate::server::Server;
 use bedrockrs_proto::listener::Listener;
-use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use bedrockrs_proto::v766;
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 pub struct ServerBuilder {
     name: String,
