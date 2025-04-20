@@ -5,9 +5,9 @@ use std::io::{Cursor, Write};
 
 pub enum TransportLayerConnection {
     RakNet(rak_rs::connection::Connection),
-    // TOOD NetherNet(nethernet::connection::Connection),
-    // TODO Quic(s2n_quic::stream::BidirectionalStream),
-    // TODO Tcp(net::TcpStream),
+    // TODO: NetherNet(nethernet::connection::Connection),
+    // TODO: Quic(s2n_quic::stream::BidirectionalStream),
+    // TODO: Tcp(net::TcpStream),
 }
 
 impl TransportLayerConnection {
