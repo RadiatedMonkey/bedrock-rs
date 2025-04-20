@@ -8,6 +8,23 @@ use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
 use std::io::Cursor;
 use vek::Vec3;
 
+#[derive(Clone, Debug)]
+pub struct PackedItemUseLegacyInventoryTransaction {
+    id: i32,
+    container_slots: Option<Vec<ContainerSlotEntry>>,
+    action: InventoryTransaction,
+    action_type: ItemUseInventoryTransactionType,
+    trigger_type: TriggerType,
+    position: NetworkBlockPosition,
+    face: i32,
+    slot: i32,
+    item: NetworkItemStackDescriptor,
+    from_position: Vec3<f32>,
+    click_position: Vec3<f32>,
+    target_block_id: u32,
+    predicted_result: PredictedResult,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct ContainerSlotEntry {
     pub container_enum_name: String,
@@ -32,23 +49,6 @@ pub enum TriggerType {
 pub enum PredictedResult {
     Failure = 0,
     Success = 1,
-}
-
-#[derive(Clone, Debug)]
-pub struct PackedItemUseLegacyInventoryTransaction {
-    id: i32,
-    container_slots: Option<Vec<ContainerSlotEntry>>,
-    action: InventoryTransaction,
-    action_type: ItemUseInventoryTransactionType,
-    trigger_type: TriggerType,
-    position: NetworkBlockPosition,
-    face: i32,
-    slot: i32,
-    item: NetworkItemStackDescriptor,
-    from_position: Vec3<f32>,
-    click_position: Vec3<f32>,
-    target_block_id: u32,
-    predicted_result: PredictedResult,
 }
 
 impl ProtoCodec for PackedItemUseLegacyInventoryTransaction {

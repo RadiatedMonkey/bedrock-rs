@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::{env, fs};
 use std::error::Error;
 use std::ffi::OsStr;
@@ -13,7 +13,7 @@ use syn::__private::ToTokens;
 #[derive(Clone, Debug)]
 struct TokenInfo {
     pub file_path: PathBuf,
-    pub usages: Vec<PathBuf>
+    pub usages: HashSet<PathBuf>
 }
 
 struct Version {
@@ -52,15 +52,15 @@ impl Version {
                 if name == ignore { continue; }
 
                 if let Some(token_info) = self.enums.get_mut(&name) {
-                    token_info.usages.push(file.clone())
+                    token_info.usages.insert(file.clone());
                 }
 
                 if let Some(token_info) = self.types.get_mut(&name) {
-                    token_info.usages.push(file.clone())
+                    token_info.usages.insert(file.clone());
                 }
 
                 if let Some(token_info) = self.packets.get_mut(&name) {
-                    token_info.usages.push(file.clone())
+                    token_info.usages.insert(file.clone());
                 }
             }
         }
@@ -68,7 +68,6 @@ impl Version {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let out_dir = env::var("OUT_DIR").unwrap();
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
     
     let src_dir = Path::new(&manifest_dir).join("src");
@@ -104,11 +103,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_enum_name_in_file(path)?;
+                    let name = get_first_enum_name_in_file(path)?;
                     
                     let token_info = TokenInfo {
                         file_path: path.clone(),
-                        usages: vec![],
+                        usages: HashSet::new(),
                     };
                     
                     Some((name, token_info))
@@ -119,11 +118,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_struct_name_in_file(path)?;
+                    let name = get_first_struct_name_in_file(path)?;
 
                     let token_info = TokenInfo {
                         file_path: path.clone(),
-                        usages: vec![],
+                        usages: HashSet::new(),
                     };
 
                     Some((name, token_info))
@@ -134,11 +133,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_struct_name_in_file(path)?;
+                    let name = get_first_struct_name_in_file(path)?;
 
                     let token_info = TokenInfo {
                         file_path: path.clone(),
-                        usages: vec![],
+                        usages: HashSet::new(),
                     };
 
                     Some((name, token_info))
@@ -232,9 +231,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
     
-    println!("cargo:warning=OUT_DIR is {}", out_dir);
-    println!("cargo:warning=SRC_DIR is {:?}", src_dir);
-    
     Ok(())
 }
 
@@ -311,20 +307,20 @@ fn find_version_types(path: &PathBuf) -> Option<Vec<PathBuf>> {
     Some(rs_files)
 }
 
-fn get_enum_name_in_file(file: &PathBuf) -> Option<String> {
+fn get_first_enum_name_in_file(file: &PathBuf) -> Option<String> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
     
     for item in syn_tree.items {
-        if let Item::Enum(ItemEnum { ident, .. }) = item {
-            return Some(ident.to_string());
+        if let Item::Enum(item_enum) = item {
+            return Some(item_enum.ident.to_string());
         }
     }
     
     None
 }
 
-fn get_struct_name_in_file(file: &PathBuf) -> Option<String> {
+fn get_first_struct_name_in_file(file: &PathBuf) -> Option<String> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
 
