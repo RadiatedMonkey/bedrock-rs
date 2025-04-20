@@ -1,15 +1,28 @@
-use std::collections::{HashMap, HashSet};
-use std::env;
+use std::collections::HashMap;
+use std::{env, fs};
 use std::error::Error;
-use std::fs::read_dir;
+use std::ffi::OsStr;
 use std::fs::read_to_string;
+use std::fs::read_dir;
+use std::io::Read;
 use std::path::{Path, PathBuf};
-use syn::{Expr, ExprLit, Item, ItemConst, Lit, LitInt};
+use syn::{Expr, ExprLit, Item, ItemConst, ItemEnum, ItemStruct, Lit};
+
+struct TokenInfo {
+    pub file_path: PathBuf,
+    pub usages: Vec<PathBuf>
+}
 
 struct Version {
-    enum_files: Vec<syn::File>,
-    packet_files: Vec<syn::File>,
-    type_files: Vec<syn::File>,
+    pub enums: HashMap<String, TokenInfo>,
+    pub packets: HashMap<String, TokenInfo>,
+    pub types: HashMap<String, TokenInfo>,
+    
+    enum_files: Vec<PathBuf>,
+    packet_files: Vec<PathBuf>,
+    type_files: Vec<PathBuf>,
+    
+    enum_usages: HashMap<String, Vec<PathBuf>>
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -34,7 +47,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     });
     
     
-    let versions: HashMap<u16, Version> = HashMap::new();
+    let mut versions: HashMap<u16, Version> = HashMap::new();
     
     for dir in &version_dirs {
         if !dir.path().is_dir() { continue; }
@@ -44,10 +57,70 @@ fn main() -> Result<(), Box<dyn Error>> {
         
         let content = read_to_string(&info_file_path)?;
         if let Some(protocol_version) = parse_protocol_version(&content) {
+            let enum_files = find_version_enums(&dir.path()).unwrap_or(Vec::new());
+            let packet_files = find_version_packets(&dir.path()).unwrap_or(Vec::new());
+            let type_files = find_version_types(&dir.path()).unwrap_or(Vec::new());
+            
+            let enums: HashMap<String, TokenInfo> = enum_files.iter()
+                .filter_map(|path| {
+                    let name = get_enum_name_in_file(path)?;
+                    
+                    let token_info = TokenInfo {
+                        file_path: path.clone(),
+                        usages: vec![],
+                    };
+                    
+                    Some((name, token_info))
+                })
+                .collect();
+
+            let packets: HashMap<String, TokenInfo> = packet_files.iter()
+                .filter_map(|path| {
+                    let name = get_struct_name_in_file(path)?;
+
+                    let token_info = TokenInfo {
+                        file_path: path.clone(),
+                        usages: vec![],
+                    };
+
+                    Some((name, token_info))
+                })
+                .collect();
+
+            let types: HashMap<String, TokenInfo> = type_files.iter()
+                .filter_map(|path| {
+                    let name = get_struct_name_in_file(path)?;
+
+                    let token_info = TokenInfo {
+                        file_path: path.clone(),
+                        usages: vec![],
+                    };
+
+                    Some((name, token_info))
+                })
+                .collect();
+
             println!(
-                "cargo:warning=Folder: {}, Protocol version: {}",
-                dir.file_name().to_string_lossy(),
-                protocol_version
+                "cargo:warning=PROTOCOL_VERSION: {}, enums: {}, packets: {}, types: {}",
+                protocol_version,
+                enums.len(),
+                packets.len(),
+                types.len()
+            );
+            
+            versions.insert(
+                protocol_version, 
+                Version {
+                    enums,
+                    packets,
+                    types,
+                    
+                    enum_files, 
+                    packet_files, 
+                    type_files,
+                    
+                    enum_usages: Default::default(),
+                }
             );
         }
     }
@@ -73,3 +146,86 @@ fn parse_protocol_version(content: &str) -> Option<u16> {
     
     None
 }
+
+fn find_version_enums(path: &PathBuf) -> Option<Vec<PathBuf>> {
+    let enums_folder = path.join("enums");
+    if !enums_folder.exists() { return None; }
+    
+    let rs_files: Vec<_> = read_dir(enums_folder).ok()?
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            if entry.path().is_file() 
+                && entry.path().extension() == Some(OsStr::new("rs")) 
+                && entry.path().file_name() != Some(OsStr::new("mod.rs"))
+            {
+                Some(entry.path())
+            } else { None }
+        })
+        .collect();
+    
+    Some(rs_files)
+}
+
+fn find_version_packets(path: &PathBuf) -> Option<Vec<PathBuf>> {
+    let packets_folder = path.join("packets");
+    if !packets_folder.exists() { return None; }
+
+    let rs_files: Vec<_> = read_dir(packets_folder).ok()?
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            if entry.path().is_file()
+                && entry.path().extension() == Some(OsStr::new("rs"))
+                && entry.path().file_name() != Some(OsStr::new("mod.rs"))
+            {
+                Some(entry.path())
+            } else { None }
+        })
+        .collect();
+
+    Some(rs_files)
+}
+
+fn find_version_types(path: &PathBuf) -> Option<Vec<PathBuf>> {
+    let types_folder = path.join("types");
+    if !types_folder.exists() { return None; }
+
+    let rs_files: Vec<_> = read_dir(types_folder).ok()?
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            if entry.path().is_file()
+                && entry.path().extension() == Some(OsStr::new("rs"))
+                && entry.path().file_name() != Some(OsStr::new("mod.rs"))
+            {
+                Some(entry.path())
+            } else { None }
+        })
+        .collect();
+
+    Some(rs_files)
+}
+
+fn get_enum_name_in_file(file: &PathBuf) -> Option<String> {
+    let content = read_to_string(file).ok()?;
+    let syn_tree = syn::parse_file(&content).ok()?;
+    
+    for item in syn_tree.items {
+        if let Item::Enum(ItemEnum { ident, .. }) = item {
+            return Some(ident.to_string());
+        }
+    }
+    
+    None
+}
+
+fn get_struct_name_in_file(file: &PathBuf) -> Option<String> {
+    let content = read_to_string(file).ok()?;
+    let syn_tree = syn::parse_file(&content).ok()?;
+
+    for item in syn_tree.items {
+        if let Item::Struct(item_struct) = item {
+            return Some(item_struct.ident.to_string());
+        }
+    }
+
+    None
+} 
