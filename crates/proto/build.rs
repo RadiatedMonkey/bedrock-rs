@@ -23,24 +23,24 @@ struct Version {
 }
 
 impl Version {
-    pub fn analyze_usages_in_files(&mut self) {
+    pub fn find_usages(&mut self) {
         let enums = self.enums.clone();
         for (name, token_info) in enums {
-            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_in_file(name.as_str(), &token_info.file_path)
         }
 
         let types = self.types.clone();
         for (name, token_info) in types {
-            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_in_file(name.as_str(), &token_info.file_path)
         }
 
         let packets = self.packets.clone();
         for (name, token_info) in packets {
-            self.analyze_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_in_file(name.as_str(), &token_info.file_path)
         }
     }
     
-    fn analyze_usages_in_file(&mut self, ignore: &str, file: &PathBuf) {
+    fn find_usages_in_file(&mut self, ignore: &str, file: &PathBuf) {
         let content = read_to_string(file).unwrap();
         let syn_tree = syn::parse_file(&content).unwrap();
 
@@ -150,7 +150,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 types,
             };
             
-            version.analyze_usages_in_files();
+            version.find_usages();
 
             let log_str = format!(
                 "VERSION: {:#?},\n\nENUM USAGES: {:#?},\n\nPACKET USAGES: {:#?},\n\nTYPE USAGES: {:#?}",
