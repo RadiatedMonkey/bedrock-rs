@@ -14,7 +14,7 @@ use syn::{Attribute, Expr, ExprLit, Item, ItemConst, Lit, Type};
 struct TokenInfo {
     pub name: String,
     pub file_path: PathBuf,
-    pub usages: HashMap<String, PathBuf>
+    pub usages: HashMap<String, PathBuf>,
 }
 
 #[derive(Debug)]
@@ -36,17 +36,17 @@ impl Version {
         for (name, token_info) in packets {
             self.find_usages_from_token(name.as_str(), &token_info)
         }
-        
+
         let types = self.types.clone();
         for (name, token_info) in types {
             self.find_usages_from_token(name.as_str(), &token_info)
         }
     }
-    
+
     fn find_usages_from_token(&mut self, ignore: &str, other: &TokenInfo) {
         let content = read_to_string(&other.file_path).unwrap();
         let syn_tree = syn::parse_file(&content).unwrap();
-        
+
         let mut finder = UsageFinder {
             ignore,
             other,
@@ -54,7 +54,7 @@ impl Version {
             packets: &mut self.packets,
             types: &mut self.types,
         };
-        
+
         finder.visit_file(&syn_tree);
     }
 }
@@ -88,14 +88,14 @@ impl<'ast, 'a> Visit<'ast> for UsageFinder<'a> {
                 }
             }
         }
-        
+
         visit_type(self, i);
     }
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-    
+
     let src_dir = Path::new(&manifest_dir).join("src");
     let version_dir = src_dir.join("version");
     let gen_dir = src_dir.join("gen");
@@ -105,29 +105,28 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let log_verbose_dir = log_dir.join("verbose");
     create_dir_all(&log_verbose_dir)?;
-    
+
     let mut version_dirs: Vec<_> = read_dir(version_dir)?
         .filter_map(|entry| {
             let entry = entry.ok()?;
             if entry.path().is_dir() {
                 Some(entry)
-            }
-            else { None }
+            } else { None }
         })
         .collect();
-    
+
     version_dirs.sort_by_key(|dir| {
         dir.file_name().to_string_lossy().trim_start_matches("v").parse::<i32>().unwrap_or(0)
     });
-    
+
     let mut versions: Vec<Version> = Vec::new();
-    
+
     for dir in &version_dirs {
         if !dir.path().is_dir() { continue; }
-        
+
         let info_file_path = dir.path().join("info.rs");
         if !info_file_path.exists() { continue; }
-        
+
         let content = read_to_string(&info_file_path)?;
         if let Some(protocol_version) = parse_protocol_version(&content) {
             let enums: HashMap<String, TokenInfo> = find_version_enums(&dir.path())
@@ -135,7 +134,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .iter()
                 .filter_map(|path| {
                     let token_names = find_proto_gen_types_in_file(path);
-                    
+
                     if let Some(token_names) = token_names {
                         let tokens = token_names.iter()
                             .map(|n|
@@ -216,21 +215,21 @@ fn main() -> Result<(), Box<dyn Error>> {
                 })
                 .flatten()
                 .collect();
-            
+
             let mut version = Version {
                 version: protocol_version,
                 enums,
                 packets,
                 types,
             };
-            
+
             version.find_usages();
 
             let log_str = format!(
                 "VERSION: {:#?},\n\nENUM USAGES: {:#?},\n\nPACKET USAGES: {:#?},\n\nTYPE USAGES: {:#?}",
                 protocol_version,
                 version.enums.iter()
-                    .filter_map(|(name, e)| 
+                    .filter_map(|(name, e)|
                         if (e.usages.len() > 0) {
                             Some(
                                 (
@@ -240,29 +239,27 @@ fn main() -> Result<(), Box<dyn Error>> {
                                         .map(|(n, p)|
                                             (n, p.file_name().unwrap())
                                         )
-                                        .collect::<Vec<_>>()
+                                        .collect::<HashMap<_, _>>()
                                 )
                             )
-                        }
-                        else { None }
+                        } else { None }
                     )
                     .collect::<Vec<_>>(),
                 version.packets.iter()
-                    .filter_map(|(name, e)| 
+                    .filter_map(|(name, e)|
                         if (e.usages.len() > 0) {
                             Some(
                                 (
-                                    name, 
+                                    name,
                                     e.usages
                                         .iter()
                                         .map(|(n, p)|
                                             (n, p.file_name().unwrap())
                                         )
-                                        .collect::<Vec<_>>()
+                                        .collect::<HashMap<_, _>>()
                                 )
                             )
-                        }
-                        else { None }
+                        } else { None }
                     )
                     .collect::<Vec<_>>(),
                 version.types.iter()
@@ -276,15 +273,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                                         .map(|(n, p)|
                                             (n, p.file_name().unwrap())
                                         )
-                                        .collect::<Vec<_>>()
+                                        .collect::<HashMap<_, _>>()
                                 )
                             )
-                        }
-                        else { None }
+                        } else { None }
                     )
                     .collect::<Vec<_>>(),
             );
-            
+
             let log_file = log_dir.join(format!("log_{}.txt", protocol_version));
 
             let mut file = OpenOptions::new()
@@ -294,7 +290,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .open(&log_file)?;
 
             file.write_all(log_str.as_bytes())?;
-            
+
             let log_verbose_file = log_verbose_dir.join(format!("log_verbose_{}.txt", protocol_version));
 
             let file_full = OpenOptions::new()
@@ -304,26 +300,26 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .open(&log_verbose_file)?;
 
             write!(&file_full, "{:#?}", version)?;
-            
+
             versions.push(version);
         }
     }
-    
+
     let log_verbose_path = log_verbose_dir.join("log_verbose.txt");
     let log_verbose_file = OpenOptions::new()
         .write(true)
         .create(true)
         .truncate(true)
         .open(&log_verbose_path)?;
-    
+
     write!(&log_verbose_file, "{:#?}", versions)?;
-    
+
     Ok(())
 }
 
 fn parse_protocol_version(content: &str) -> Option<i32> {
     let syn_tree = syn::parse_file(&content).ok()?;
-    
+
     for item in syn_tree.items {
         if let Item::Const(ItemConst { ident, expr, .. }) = item {
             if ident == "PROTOCOL_VERSION" {
@@ -333,26 +329,26 @@ fn parse_protocol_version(content: &str) -> Option<i32> {
             }
         }
     }
-    
+
     None
 }
 
 fn find_version_enums(path: &PathBuf) -> Option<Vec<PathBuf>> {
     let enums_folder = path.join("enums");
     if !enums_folder.exists() { return None; }
-    
+
     let rs_files: Vec<_> = read_dir(enums_folder).ok()?
         .filter_map(|entry| {
             let entry = entry.ok()?;
-            if entry.path().is_file() 
-                && entry.path().extension() == Some(OsStr::new("rs")) 
+            if entry.path().is_file()
+                && entry.path().extension() == Some(OsStr::new("rs"))
                 && entry.path().file_name() != Some(OsStr::new("mod.rs"))
             {
                 Some(entry.path())
             } else { None }
         })
         .collect();
-    
+
     Some(rs_files)
 }
 
@@ -397,23 +393,23 @@ fn find_version_types(path: &PathBuf) -> Option<Vec<PathBuf>> {
 fn find_proto_gen_types_in_file(file: &PathBuf) -> Option<Vec<String>> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
-    
+
     let mut proto_gen_types: Vec<String> = Vec::new();
-    
+
     for item in syn_tree.items {
         if let Item::Struct(item_struct) = &item {
             if has_proto_gen_attr(&item_struct.attrs) {
                 proto_gen_types.push(item_struct.ident.to_string());
             }
         }
-        
+
         if let Item::Enum(item_enum) = &item {
             if has_proto_gen_attr(&item_enum.attrs) {
                 proto_gen_types.push(item_enum.ident.to_string());
             }
         }
     }
-    
+
     if proto_gen_types.is_empty() { None } else { Some(proto_gen_types) }
 }
 
