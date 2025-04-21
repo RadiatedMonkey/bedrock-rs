@@ -12,8 +12,9 @@ use syn::{Expr, ExprLit, Item, ItemConst, Lit};
 
 #[derive(Clone, Debug)]
 struct TokenInfo {
+    pub name: String,
     pub file_path: PathBuf,
-    pub usages: HashSet<PathBuf>
+    pub usages: HashMap<String, PathBuf>
 }
 
 #[derive(Debug)]
@@ -27,22 +28,22 @@ impl Version {
     pub fn find_usages(&mut self) {
         let enums = self.enums.clone();
         for (name, token_info) in enums {
-            self.find_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_from_token(name.as_str(), &token_info)
         }
 
         let packets = self.packets.clone();
         for (name, token_info) in packets {
-            self.find_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_from_token(name.as_str(), &token_info)
         }
         
         let types = self.types.clone();
         for (name, token_info) in types {
-            self.find_usages_in_file(name.as_str(), &token_info.file_path)
+            self.find_usages_from_token(name.as_str(), &token_info)
         }
     }
     
-    fn find_usages_in_file(&mut self, ignore: &str, file: &PathBuf) {
-        let content = read_to_string(file).unwrap();
+    fn find_usages_from_token(&mut self, ignore: &str, other: &TokenInfo) {
+        let content = read_to_string(&other.file_path).unwrap();
         let syn_tree = syn::parse_file(&content).unwrap();
 
         let tokens = syn_tree.to_token_stream();
@@ -53,15 +54,15 @@ impl Version {
                 if name == ignore { continue; }
 
                 if let Some(token_info) = self.enums.get_mut(&name) {
-                    token_info.usages.insert(file.clone());
+                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
                 }
 
                 if let Some(token_info) = self.packets.get_mut(&name) {
-                    token_info.usages.insert(file.clone());
+                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
                 }
 
                 if let Some(token_info) = self.types.get_mut(&name) {
-                    token_info.usages.insert(file.clone());
+                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
                 }
             }
         }
@@ -104,11 +105,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_first_enum_name_in_file(path)?;
+                    let name = get_enum_from_filename(path).or_else(|| {
+                        get_first_enum_name_in_file(path)
+                    })?;
                     
                     let token_info = TokenInfo {
+                        name: name.clone(),
                         file_path: path.clone(),
-                        usages: HashSet::new(),
+                        usages: HashMap::new(),
                     };
                     
                     Some((name, token_info))
@@ -119,11 +123,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_first_struct_name_in_file(path)?;
+                    let name = get_struct_from_filename(path).or_else(|| {
+                        get_first_struct_name_in_file(path)
+                    })?;
 
                     let token_info = TokenInfo {
+                        name: name.clone(),
                         file_path: path.clone(),
-                        usages: HashSet::new(),
+                        usages: HashMap::new(),
                     };
 
                     Some((name, token_info))
@@ -134,11 +141,14 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_first_struct_name_in_file(path)?;
+                    let name = get_struct_from_filename(path).or_else(|| {
+                        get_first_struct_name_in_file(path)
+                    })?;
 
                     let token_info = TokenInfo {
+                        name: name.clone(),
                         file_path: path.clone(),
-                        usages: HashSet::new(),
+                        usages: HashMap::new(),
                     };
 
                     Some((name, token_info))
@@ -164,8 +174,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                                     name,
                                     e.usages
                                         .iter()
-                                        .map(|p|
-                                            p.file_name().unwrap()
+                                        .map(|(n, p)|
+                                            (n, p.file_name().unwrap())
                                         )
                                         .collect::<Vec<_>>()
                                 )
@@ -182,8 +192,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                                     name, 
                                     e.usages
                                         .iter()
-                                        .map(|p|
-                                            p.file_name().unwrap()
+                                        .map(|(n, p)|
+                                            (n, p.file_name().unwrap())
                                         )
                                         .collect::<Vec<_>>()
                                 )
@@ -200,8 +210,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                                     name,
                                     e.usages
                                         .iter()
-                                        .map(|p|
-                                            p.file_name().unwrap()
+                                        .map(|(n, p)|
+                                            (n, p.file_name().unwrap())
                                         )
                                         .collect::<Vec<_>>()
                                 )
@@ -346,3 +356,50 @@ fn get_first_struct_name_in_file(file: &PathBuf) -> Option<String> {
 
     None
 }
+
+fn snake_to_pascal(s: &str) -> String {
+    s
+        .split('_')
+        .map(|word| {
+            let mut chars = word.chars();
+            chars.next()
+                .map(|c| c.to_uppercase().collect::<String>() + chars.as_str())
+                .unwrap_or_default()
+        })
+        .collect::<String>()
+}
+
+fn get_enum_from_filename(file: &PathBuf) -> Option<String> {
+    let content = read_to_string(file).ok()?;
+    let syn_tree = syn::parse_file(&content).ok()?;
+    
+    let expected_name = snake_to_pascal(file.file_name()?.to_str()?);
+
+    for item in syn_tree.items {
+        if let Item::Enum(item_enum) = item {
+            if item_enum.ident.to_string() == expected_name {
+                return Some(item_enum.ident.to_string());
+            }
+        }
+    }
+
+    None
+}
+
+fn get_struct_from_filename(file: &PathBuf) -> Option<String> {
+    let content = read_to_string(file).ok()?;
+    let syn_tree = syn::parse_file(&content).ok()?;
+    
+    let expected_name = snake_to_pascal(file.file_name()?.to_str()?);
+
+    for item in syn_tree.items {
+        if let Item::Struct(item_struct) = item {
+            if item_struct.ident.to_string() == expected_name {
+                return Some(item_struct.ident.to_string());
+            }
+        }
+    }
+
+    None
+}
+
