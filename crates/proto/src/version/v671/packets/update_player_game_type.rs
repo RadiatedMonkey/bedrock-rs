@@ -1,5 +1,5 @@
-use crate::version::v662::enums::GameType;
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::GameType;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 151)]

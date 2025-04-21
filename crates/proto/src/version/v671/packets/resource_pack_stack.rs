@@ -1,4 +1,4 @@
-use crate::version::v662::types::{BaseGameVersion, Experiments};
+use super::super::types::{BaseGameVersion, Experiments};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 7)]
