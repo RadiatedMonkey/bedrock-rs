@@ -7,7 +7,6 @@ use uuid::Uuid;
 
 #[gamepacket(id = 11)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct StartGamePacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

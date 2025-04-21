@@ -4,7 +4,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 29)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct UpdateAttributesPacket {
     pub target_runtime_id: ActorRuntimeID,
     #[vec_repr(u32)]

@@ -7,7 +7,6 @@ use std::mem::size_of;
 use uuid::Uuid;
 
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ShapedRecipe {
     pub recipe_unique_id: String,
     pub ingredient_grid: Vec<Vec<RecipeIngredient>>,

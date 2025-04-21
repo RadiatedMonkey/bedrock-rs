@@ -6,7 +6,6 @@ use vek::Vec3;
 #[enum_repr(u32)]
 #[enum_endianness(var)]
 #[repr(u32)]
-#[allow(proto_gen)]
 pub enum DataItemType {
     Byte(i8) = 0,
     Short(#[endianness(le)] i16) = 1,

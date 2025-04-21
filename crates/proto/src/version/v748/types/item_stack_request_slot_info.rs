@@ -2,7 +2,6 @@ use crate::v748::types::FullContainerName;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ItemStackRequestSlotInfo {
     pub full_container_name: FullContainerName,
     pub slot: i8,

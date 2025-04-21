@@ -5,7 +5,6 @@ use crate::version::v748::types::{ActorLink, DataItem};
 
 #[gamepacket(id = 13)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AddActorPacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

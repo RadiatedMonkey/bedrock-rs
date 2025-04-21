@@ -15,7 +15,6 @@ use crate::version::v766::types::PlayerBlockActions;
 
 #[gamepacket(id = 144)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerAuthInputPacket {
     pub player_rotation: Vec2<f32>,
     pub player_position: Vec3<f32>,

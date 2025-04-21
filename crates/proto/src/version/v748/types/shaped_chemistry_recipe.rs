@@ -3,7 +3,6 @@ use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ShapedChemistryRecipe {
     pub recipe_id: String,
     #[endianness(var)]

@@ -3,7 +3,6 @@ use vek::Vec2;
 
 #[gamepacket(id = 316)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CameraAimAssistPacket {
     pub preset_id: String,
     #[endianness(le)]

@@ -5,7 +5,6 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(u32)]
 #[enum_endianness(var)]
 #[repr(u32)]
-#[allow(proto_gen)]
 pub enum BossEventUpdateType {
     Add {
         name: String,

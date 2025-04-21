@@ -3,7 +3,6 @@ use crate::version::v662::types::{BaseGameVersion, EduSharedUriResource, Experim
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct LevelSettings {
     #[endianness(le)]
     pub seed: u64,

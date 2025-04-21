@@ -4,7 +4,6 @@ use crate::version::v748::types::DataItem;
 
 #[gamepacket(id = 39)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetActorDataPacket {
     pub target_runtime_id: ActorRuntimeID,
     #[vec_repr(u32)]

@@ -9,7 +9,6 @@ use std::io::Cursor;
 use vek::Vec3;
 
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PackedItemUseLegacyInventoryTransaction {
     id: i32,
     container_slots: Option<Vec<ContainerSlotEntry>>,

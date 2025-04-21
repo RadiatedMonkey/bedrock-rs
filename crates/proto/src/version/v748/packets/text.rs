@@ -7,7 +7,6 @@ use std::io::{Cursor, Read};
 
 #[gamepacket(id = 9)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct TextPacket {
     pub message_type: TextPacketType,
     pub localize: bool,

@@ -9,7 +9,6 @@ use uuid::Uuid;
 
 #[derive(Clone, Debug)]
 #[repr(i8)]
-#[allow(proto_gen)]
 pub enum PlayerListPacketType {
     Add {
         add_player_list: Vec<AddPlayerListEntry>,

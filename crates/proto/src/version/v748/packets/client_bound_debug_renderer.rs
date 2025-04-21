@@ -3,7 +3,6 @@ use vek::Vec3;
 
 #[gamepacket(id = 163)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ClientBoundDebugRendererPacket {
     pub debug_marker_type: Type,
 }

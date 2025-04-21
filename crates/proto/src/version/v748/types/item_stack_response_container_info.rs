@@ -3,7 +3,6 @@ use bedrockrs_macros::ProtoCodec;
 use crate::v748::types::FullContainerName;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ItemStackResponseContainerInfo {
     pub full_container_name: FullContainerName,
     #[vec_repr(u32)]

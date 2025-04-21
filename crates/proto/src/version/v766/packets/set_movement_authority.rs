@@ -3,7 +3,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 319)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetMovementAuthorityPacket {
     pub new_auth_movement_mode: AuthMovementMode,
 }

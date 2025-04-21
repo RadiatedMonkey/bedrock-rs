@@ -1,7 +1,6 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct BaseDescription {
     pub deferred_descriptor: DeferredDescriptor,
     pub internal_item_descriptor: InternalItemDescriptor,

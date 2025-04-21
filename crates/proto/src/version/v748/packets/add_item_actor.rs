@@ -5,7 +5,6 @@ use crate::version::v748::types::DataItem;
 
 #[gamepacket(id = 15)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AddItemActorPacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,
