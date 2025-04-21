@@ -9,6 +9,7 @@ use std::mem::size_of;
 
 #[gamepacket(id = 67)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ClientBoundMapItemDataPacket {
     pub map_id: ActorUniqueID,
     pub type_flags: u32,

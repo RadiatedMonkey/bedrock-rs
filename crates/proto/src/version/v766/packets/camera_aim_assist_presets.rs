@@ -1,5 +1,17 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 320)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct CameraAimAssistPresetsPacket {
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub categories: Vec<CategoriesDefinition>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub presets: Vec<PresetDefinition>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CategoriesDefinition {
     pub identifier: String,
@@ -56,15 +68,4 @@ pub struct PresetDefinition {
     pub item_settings: Vec<ItemSettingsEntry>,
     pub default_item_settings: String,
     pub hand_settings: String,
-}
-
-#[gamepacket(id = 320)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CameraAimAssistPresetsPacket {
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub categories: Vec<CategoriesDefinition>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub presets: Vec<PresetDefinition>,
 }

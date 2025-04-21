@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(i32)]
 #[enum_endianness(le)]
 #[repr(i32)]
+#[allow(proto_gen)]
 pub enum AttributeModifierOperation {
     Addition = 0,
     MultiplyBase = 1,

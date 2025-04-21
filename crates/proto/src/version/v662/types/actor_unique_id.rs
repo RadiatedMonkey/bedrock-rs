@@ -5,6 +5,7 @@ use std::mem::size_of;
 use varint_rs::{VarintReader, VarintWriter};
 
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ActorUniqueID(pub u64);
 
 impl ProtoCodec for ActorUniqueID {

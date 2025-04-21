@@ -8,6 +8,7 @@ use std::mem::size_of;
 
 #[gamepacket(id = 78)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CommandBlockUpdatePacket {
     pub is_block: bool,
     pub target_runtime_id: Option<ActorRuntimeID>, // Only if is_block is false

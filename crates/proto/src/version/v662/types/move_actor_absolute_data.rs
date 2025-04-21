@@ -3,6 +3,7 @@ use bedrockrs_macros::ProtoCodec;
 use vek::Vec3;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MoveActorAbsoluteData {
     pub actor_runtime_id: ActorRuntimeID,
     pub header: i8,

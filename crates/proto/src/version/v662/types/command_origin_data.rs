@@ -6,6 +6,7 @@ use uuid::Uuid;
 use varint_rs::{VarintReader, VarintWriter};
 
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CommandOriginData {
     pub command_type: CommandOriginType,
     pub command_uuid: Uuid,

@@ -5,6 +5,14 @@ use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
 use varint_rs::{VarintReader, VarintWriter};
 
+#[gamepacket(id = 44)]
+#[derive(Clone, Debug)]
+#[allow(proto_gen)]
+pub struct AnimatePacket {
+    pub action: Action,
+    pub target_runtime_id: ActorRuntimeID,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i32)]
 #[enum_endianness(var)]
@@ -23,13 +31,6 @@ pub enum Action {
         #[endianness(le)]
         rowing_time: f32,
     } = 129,
-}
-
-#[gamepacket(id = 44)]
-#[derive(Clone, Debug)]
-pub struct AnimatePacket {
-    pub action: Action,
-    pub target_runtime_id: ActorRuntimeID,
 }
 
 impl ProtoCodec for AnimatePacket {

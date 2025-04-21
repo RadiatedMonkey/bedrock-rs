@@ -8,6 +8,7 @@ use std::mem::size_of;
 
 #[gamepacket(id = 97)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct BookEditPacket {
     pub action: BookEditAction,
     pub book_slot: i8,

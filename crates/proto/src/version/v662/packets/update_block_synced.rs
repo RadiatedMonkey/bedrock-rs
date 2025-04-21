@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 110)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct UpdateBlockSyncedPacket {
     pub block_position: NetworkBlockPosition,
     #[endianness(var)]

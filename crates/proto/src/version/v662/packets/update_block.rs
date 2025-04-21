@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 21)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct UpdateBlockPacket {
     pub block_position: NetworkBlockPosition,
     #[endianness(var)]

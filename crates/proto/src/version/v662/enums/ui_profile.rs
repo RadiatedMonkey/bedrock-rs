@@ -1,4 +1,5 @@
 /// UNUSED
+#[allow(proto_gen)]
 pub enum UIProfile {
     Classic = 0,
     Pocket = 1,

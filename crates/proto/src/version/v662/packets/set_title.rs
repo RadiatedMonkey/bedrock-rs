@@ -1,5 +1,21 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 88)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct SetTitlePacket {
+    pub title_type: TitleType,
+    pub title_text: String,
+    #[endianness(var)]
+    pub fade_in_time: i32,
+    #[endianness(var)]
+    pub stay_time: i32,
+    #[endianness(var)]
+    pub fade_out_time: i32,
+    pub xuid: String,
+    pub platform_online_id: String,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i32)]
 #[enum_endianness(var)]
@@ -14,19 +30,4 @@ pub enum TitleType {
     TitleTextObject = 6,
     SubtitleTextObject = 7,
     ActionbarTextObject = 8,
-}
-
-#[gamepacket(id = 88)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct SetTitlePacket {
-    pub title_type: TitleType,
-    pub title_text: String,
-    #[endianness(var)]
-    pub fade_in_time: i32,
-    #[endianness(var)]
-    pub stay_time: i32,
-    #[endianness(var)]
-    pub fade_out_time: i32,
-    pub xuid: String,
-    pub platform_online_id: String,
 }

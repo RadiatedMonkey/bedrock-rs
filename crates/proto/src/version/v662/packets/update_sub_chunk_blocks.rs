@@ -7,6 +7,19 @@ use std::io::Cursor;
 use std::mem::size_of;
 use varint_rs::{VarintReader, VarintWriter};
 
+#[gamepacket(id = 172)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct UpdateSubChunkBlocksPacket {
+    pub sub_chunk_block_position: NetworkBlockPosition,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub standard_blocks_changed: Vec<BlocksChangedEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub extra_blocks_changed: Vec<BlocksChangedEntry>,
+}
+
 #[derive(Clone, Debug)]
 pub struct BlocksChangedEntry {
     pub pos: NetworkBlockPosition,
@@ -60,18 +73,6 @@ impl ProtoCodec for BlocksChangedEntry {
             + self.sync_message_entity_unique_id.get_size_prediction()
             + size_of::<u32>()
     }
-}
-
-#[gamepacket(id = 172)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct UpdateSubChunkBlocksPacket {
-    pub sub_chunk_block_position: NetworkBlockPosition,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub standard_blocks_changed: Vec<BlocksChangedEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub extra_blocks_changed: Vec<BlocksChangedEntry>,
 }
 
 // VERIFY: ProtoCodec impl

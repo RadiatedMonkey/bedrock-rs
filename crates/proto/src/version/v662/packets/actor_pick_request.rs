@@ -2,6 +2,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 35)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ActorPickRequestPacket {
     #[endianness(le)]
     pub actor_id: i64,

@@ -5,6 +5,14 @@ use bedrockrs_proto_core::ProtoCodec;
 use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io::{Cursor, Read};
 
+#[gamepacket(id = 33)]
+#[derive(Clone, Debug)]
+#[allow(proto_gen)]
+pub struct InteractPacket {
+    pub action: Action,
+    pub target_runtime_id: ActorRuntimeID,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 #[repr(i8)]
@@ -28,13 +36,6 @@ pub enum Action {
     } = 4,
     NpcOpen = 5,
     OpenInventory = 6,
-}
-
-#[gamepacket(id = 33)]
-#[derive(Clone, Debug)]
-pub struct InteractPacket {
-    pub action: Action,
-    pub target_runtime_id: ActorRuntimeID,
 }
 
 impl ProtoCodec for InteractPacket {

@@ -1,6 +1,14 @@
 use crate::version::v662::enums::AbilitiesIndex;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 184)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct RequestAbilityPacket {
+    pub ability: AbilitiesIndex,
+    pub value_type: Type,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 #[repr(i8)]
@@ -19,10 +27,3 @@ pub enum Type {
 }
 
 // VERIFY: default_values. They seem to be incorrectly documented.
-
-#[gamepacket(id = 184)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct RequestAbilityPacket {
-    pub ability: AbilitiesIndex,
-    pub value_type: Type,
-}

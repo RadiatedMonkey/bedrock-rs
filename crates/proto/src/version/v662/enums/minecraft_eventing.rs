@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(i32)]
 #[enum_endianness(var)]
 #[repr(i32)]
+#[allow(proto_gen)]
 pub enum InteractionType {
     Breeding = 1,
     Taming = 2,
@@ -27,6 +28,7 @@ pub enum InteractionType {
 #[enum_repr(i32)]
 #[enum_endianness(var)]
 #[repr(i32)]
+#[allow(proto_gen)]
 pub enum POIBlockInteractionType {
     None = 0,
     Extend = 1,
@@ -60,6 +62,7 @@ pub enum POIBlockInteractionType {
 #[enum_repr(i32)]
 #[enum_endianness(le)]
 #[repr(i32)]
+#[allow(proto_gen)]
 pub enum TeleportationCause {
     Unknown = 0,
     Projectile = 1,

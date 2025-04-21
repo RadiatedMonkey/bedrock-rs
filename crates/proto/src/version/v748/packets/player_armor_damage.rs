@@ -5,6 +5,7 @@ use std::io::Cursor;
 
 #[gamepacket(id = 149)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PlayerArmorDamagePacket {
     pub slot_bitset: i8,
     pub damage: [i32; 5],

@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 36)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PlayerActionPacket {
     pub player_runtime_id: ActorRuntimeID,
     pub action: PlayerActionType,

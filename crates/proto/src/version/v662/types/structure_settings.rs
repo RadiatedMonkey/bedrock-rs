@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 use vek::Vec3;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct StructureSettings {
     pub structure_palette_name: String,
     pub ignore_entities: bool,

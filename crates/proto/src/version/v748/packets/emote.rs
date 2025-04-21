@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 138)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct EmotePacket {
     pub actor_runtime_id: ActorRuntimeID,
     pub emote_id: String,

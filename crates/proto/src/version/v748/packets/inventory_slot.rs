@@ -5,6 +5,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 50)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct InventorySlotPacket {
     pub container_id: ContainerID,
     #[endianness(var)]

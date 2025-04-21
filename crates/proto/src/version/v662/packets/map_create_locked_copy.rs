@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 131)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MapCreateLockedCopyPacket {
     pub original_map_id: ActorUniqueID,
     pub new_map_id: ActorUniqueID,

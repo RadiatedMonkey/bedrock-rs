@@ -5,6 +5,7 @@ use vek::{Vec2, Vec3};
 // VERIFY: SetInstruction & FadeInstruction
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CameraInstruction {
     pub set: Option<SetInstruction>,
     pub clear: Option<bool>,

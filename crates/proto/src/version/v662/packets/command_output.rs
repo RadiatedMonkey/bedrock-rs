@@ -7,6 +7,16 @@ use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io::{Cursor, Read};
 use std::mem::size_of;
 
+#[gamepacket(id = 79)]
+#[derive(Clone, Debug)]
+#[allow(proto_gen)]
+pub struct CommandOutputPacket {
+    pub origin_data: CommandOriginData,
+    pub output_type: CommandOutputType,
+    pub success_count: u32,
+    pub output_messages: Vec<OutputMessagesEntry>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct OutputMessagesEntry {
     pub successful: bool,
@@ -14,15 +24,6 @@ pub struct OutputMessagesEntry {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub parameters: Vec<String>,
-}
-
-#[gamepacket(id = 79)]
-#[derive(Clone, Debug)]
-pub struct CommandOutputPacket {
-    pub origin_data: CommandOriginData,
-    pub output_type: CommandOutputType,
-    pub success_count: u32,
-    pub output_messages: Vec<OutputMessagesEntry>,
 }
 
 impl ProtoCodec for CommandOutputPacket {

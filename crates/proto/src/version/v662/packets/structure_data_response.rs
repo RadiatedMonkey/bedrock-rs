@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 133)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct StructureDataResponsePacket {
     pub structure_name: String,
     #[nbt]

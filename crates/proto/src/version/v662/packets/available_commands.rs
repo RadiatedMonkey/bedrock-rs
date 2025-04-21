@@ -5,6 +5,33 @@ use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
 use std::io::Cursor;
 use std::mem::size_of;
 
+#[gamepacket(id = 76)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct AvailableCommandsPacket {
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub enum_values: Vec<String>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub post_fixes: Vec<String>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub enum_data: Vec<EnumDataEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub chained_sub_command_data: Vec<ChainedSubCommandDataEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub commands: Vec<CommandsEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub soft_enums: Vec<SoftEnumsEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub constraints: Vec<ConstraintsEntry>,
+}
+
 #[derive(Clone, Debug)]
 pub struct EnumDataEntry {
     name: String,
@@ -179,32 +206,6 @@ pub struct ChainedSubCommandDataEntry {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub sub_command_values: Vec<SubCommandValues>,
-}
-
-#[gamepacket(id = 76)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct AvailableCommandsPacket {
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub enum_values: Vec<String>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub post_fixes: Vec<String>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub enum_data: Vec<EnumDataEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub chained_sub_command_data: Vec<ChainedSubCommandDataEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub commands: Vec<CommandsEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub soft_enums: Vec<SoftEnumsEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub constraints: Vec<ConstraintsEntry>,
 }
 
 // VERIFY: ProtoCodec impl

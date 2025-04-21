@@ -2,6 +2,7 @@ use crate::version::v748::enums::RecipeUnlockingContext;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct RecipeUnlockingRequirement {
     pub unlocking_context: RecipeUnlockingContext,
 }

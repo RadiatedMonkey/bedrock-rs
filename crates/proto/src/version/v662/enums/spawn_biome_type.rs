@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(i16)]
 #[enum_endianness(le)]
 #[repr(i16)]
+#[allow(proto_gen)]
 pub enum SpawnBiomeType {
     Default = 0,
     UserDefined = 1,

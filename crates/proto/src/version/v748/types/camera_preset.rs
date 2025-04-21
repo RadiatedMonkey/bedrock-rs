@@ -2,6 +2,7 @@ use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CameraPreset {
     pub name: String,
     pub inherit_from: String,

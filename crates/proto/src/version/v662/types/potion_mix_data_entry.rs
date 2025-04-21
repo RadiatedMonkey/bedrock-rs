@@ -1,6 +1,7 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PotionMixDataEntry {
     #[endianness(var)]
     pub input_potion_id: i32,

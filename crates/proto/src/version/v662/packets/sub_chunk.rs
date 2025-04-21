@@ -6,6 +6,16 @@ use std::cmp::PartialEq;
 use std::io::Cursor;
 use std::mem::size_of;
 
+#[gamepacket(id = 174)]
+#[derive(Clone, Debug)]
+#[allow(proto_gen)]
+pub struct SubChunkPacket {
+    pub cache_enabled: bool,
+    pub dimension_type: i32,
+    pub center_pos: SubChunkPos,
+    pub sub_chunk_data: Vec<SubChunkDataEntry>,
+}
+
 #[derive(ProtoCodec, Clone, Debug, PartialEq)]
 #[enum_repr(i8)]
 #[repr(i8)]
@@ -37,15 +47,6 @@ pub struct SubChunkDataEntry {
     pub height_map_data_type: HeightMapDataType,
     pub sub_chunk_height_map: Option<[[i8; 16]; 16]>, // If height_map_data_type == HasData (vec sizes are i8)
     pub blob_id: Option<u64>,                         // If cache_enabled == true
-}
-
-#[gamepacket(id = 174)]
-#[derive(Clone, Debug)]
-pub struct SubChunkPacket {
-    pub cache_enabled: bool,
-    pub dimension_type: i32,
-    pub center_pos: SubChunkPos,
-    pub sub_chunk_data: Vec<SubChunkDataEntry>,
 }
 
 impl ProtoCodec for SubChunkPacket {

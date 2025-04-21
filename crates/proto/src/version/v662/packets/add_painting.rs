@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 22)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct AddPaintingPacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

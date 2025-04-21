@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 99)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PhotoTransferPacket {
     pub photo_name: String,
     pub photo_data: String,

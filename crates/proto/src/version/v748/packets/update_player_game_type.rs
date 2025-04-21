@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 151)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct UpdatePlayerGameTypePacket {
     pub player_game_type: GameType,
     pub target_player: ActorUniqueID,

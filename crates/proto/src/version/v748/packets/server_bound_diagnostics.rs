@@ -2,6 +2,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 315)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ServerBoundDiagnosticsPacket {
     #[endianness(le)]
     pub average_fps: f32,

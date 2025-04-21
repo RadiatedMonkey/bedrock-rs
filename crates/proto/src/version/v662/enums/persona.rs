@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(u32)]
 #[enum_endianness(le)]
 #[repr(u32)]
+#[allow(proto_gen)]
 pub enum AnimatedTextureType {
     None = 0,
     Face = 1,
@@ -15,6 +16,7 @@ pub enum AnimatedTextureType {
 #[enum_repr(u32)]
 #[enum_endianness(le)]
 #[repr(u32)]
+#[allow(proto_gen)]
 pub enum AnimationExpression {
     Linear = 0,
     Blinking = 1,

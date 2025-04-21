@@ -3,6 +3,7 @@ use vek::Vec2;
 
 #[gamepacket(id = 316)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CameraAimAssistPacket {
     #[endianness(le)]
     pub view_angle: Vec2<f32>,

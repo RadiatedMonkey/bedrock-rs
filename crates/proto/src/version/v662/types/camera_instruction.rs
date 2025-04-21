@@ -3,6 +3,16 @@ use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct CameraInstruction {
+    pub set: Option<SetInstruction>,
+    pub clear: Option<bool>,
+    pub fade: Option<FadeInstruction>,
+}    
+
+// VERIFY: SetInstruction & FadeInstruction
+
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct EaseData {
     pub ease_type: EasingType,
     #[endianness(le)]
@@ -49,11 +59,3 @@ pub struct FadeInstruction {
     pub color: Option<Color>,
 }
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CameraInstruction {
-    pub set: Option<SetInstruction>,
-    pub clear: Option<bool>,
-    pub fade: Option<FadeInstruction>,
-}
-
-// VERIFY: SetInstruction & FadeInstruction

@@ -2,6 +2,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 103)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ServerSettingsResponsePacket {
     #[endianness(var)]
     pub form_id: u32,

@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 121)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct NetworkChunkPublisherUpdatePacket {
     pub new_view_position: BlockPos,
     #[endianness(var)]

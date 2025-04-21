@@ -2,6 +2,15 @@ use crate::version::v662::enums::{ItemStackRequestActionType, TextProcessingEven
 use crate::version::v662::types::ItemStackRequestSlotInfo;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 147)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct ItemStackRequestPacket {
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub requests: Vec<RequestsEntry>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct ActionsEntry {
     pub action_type: ItemStackRequestActionType,
@@ -21,12 +30,4 @@ pub struct RequestsEntry {
     #[vec_endianness(var)]
     pub strings_to_filter: Vec<String>,
     pub strings_to_filter_origin: TextProcessingEventOrigin,
-}
-
-#[gamepacket(id = 147)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ItemStackRequestPacket {
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub requests: Vec<RequestsEntry>,
 }

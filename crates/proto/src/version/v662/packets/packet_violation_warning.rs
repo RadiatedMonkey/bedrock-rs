@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 156)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PacketViolationWarningPacket {
     pub violation_type: PacketViolationType,
     pub violation_severity: PacketViolationSeverity,

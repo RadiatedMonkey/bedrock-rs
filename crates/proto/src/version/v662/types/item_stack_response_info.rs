@@ -5,6 +5,7 @@ use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io::{Cursor, Read};
 
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ItemStackResponseInfo {
     pub result: ItemStackNetResult,
     pub client_request_id: i32,

@@ -6,6 +6,7 @@ use std::io::Cursor;
 
 #[gamepacket(id = 5)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct DisconnectPacket {
     pub reason: ConnectionFailReason,
     pub message: Option<String>,

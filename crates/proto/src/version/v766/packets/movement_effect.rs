@@ -3,6 +3,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 318)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MovementEffectPacket {
     pub target_runtime_id: ActorRuntimeID,
     #[endianness(var)]

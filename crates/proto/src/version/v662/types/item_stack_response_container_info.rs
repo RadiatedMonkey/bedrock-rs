@@ -2,6 +2,7 @@ use crate::version::v662::types::ItemStackResponseSlotInfo;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ItemStackResponseContainerInfo {
     pub container_net_id: i8,
     #[vec_repr(u32)]

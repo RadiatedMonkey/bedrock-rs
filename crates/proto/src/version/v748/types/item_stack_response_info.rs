@@ -5,6 +5,7 @@ use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ItemStackResponseInfo {
     pub result: ItemStackNetResult,
     pub client_request_id: i32,

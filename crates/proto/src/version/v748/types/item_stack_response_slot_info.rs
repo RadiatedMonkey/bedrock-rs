@@ -1,6 +1,7 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ItemStackResponseSlotInfo {
     pub requested_slot: i8,
     pub slot: i8,

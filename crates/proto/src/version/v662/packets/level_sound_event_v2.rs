@@ -10,7 +10,8 @@ use vek::Vec3;
 
 #[gamepacket(id = 120)]
 #[derive(Clone, Debug)]
-pub struct LevelSoundEventV2Packet {
+#[allow(proto_gen)]
+pub struct LevelSoundEventPacketV2 {
     pub event_id: LevelSoundEventType,
     pub position: Vec3<f32>,
     pub data: i32,
@@ -19,7 +20,7 @@ pub struct LevelSoundEventV2Packet {
     pub global: bool,
 }
 
-impl ProtoCodec for LevelSoundEventV2Packet {
+impl ProtoCodec for LevelSoundEventPacketV2 {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
         let mut event_id_stream: Vec<u8> = Vec::new();
         LevelSoundEventType::proto_serialize(

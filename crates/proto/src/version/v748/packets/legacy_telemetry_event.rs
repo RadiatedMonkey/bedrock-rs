@@ -9,6 +9,7 @@ use varint_rs::{VarintReader, VarintWriter};
 
 #[gamepacket(id = 65)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct LegacyTelemetryEventPacket {
     pub target_actor_id: ActorUniqueID,
     pub event_type: Type,

@@ -2,6 +2,7 @@ use crate::version::v662::types::RecipeIngredient;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct SmithingTrimRecipe {
     pub recipe_id: String,
     pub template_ingredient: RecipeIngredient,

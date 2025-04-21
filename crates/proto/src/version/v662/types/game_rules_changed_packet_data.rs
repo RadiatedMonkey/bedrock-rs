@@ -1,6 +1,14 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct GameRulesChangedPacketData {
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub rules_list: Vec<GameRuleChanged>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(u32)]
 #[enum_endianness(var)]
 #[repr(u32)]
@@ -16,12 +24,5 @@ pub struct GameRuleChanged {
     pub rule_name: String,
     pub can_be_modified_by_player: bool,
     pub rule_type: Type,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct GameRulesChangedPacketData {
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub rules_list: Vec<GameRuleChanged>,
 }
 

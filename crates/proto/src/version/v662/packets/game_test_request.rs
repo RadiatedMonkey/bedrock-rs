@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 194)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct GameTestRequestPacket {
     #[endianness(var)]
     pub max_tests_per_batch: i32,

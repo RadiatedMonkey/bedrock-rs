@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 161)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CorrectPlayerMovePredictionPacket {
     pub prediction_type: PredictionType,
     #[endianness(le)]

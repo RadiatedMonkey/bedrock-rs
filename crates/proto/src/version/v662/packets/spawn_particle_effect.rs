@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 118)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct SpawnParticleEffectPacket {
     pub dimension_id: i8,
     pub actor_id: ActorUniqueID,

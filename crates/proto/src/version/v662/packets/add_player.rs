@@ -6,6 +6,7 @@ use vek::{Vec2, Vec3};
 
 #[gamepacket(id = 12)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct AddPlayerPacket {
     pub uuid: Uuid,
     pub player_name: String,

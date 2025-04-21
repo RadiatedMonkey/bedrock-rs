@@ -9,6 +9,7 @@ use vek::{Vec2, Vec3};
 
 #[gamepacket(id = 19)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MovePlayerPacket {
     pub player_runtime_id: ActorRuntimeID,
     pub position: Vec3<f32>,

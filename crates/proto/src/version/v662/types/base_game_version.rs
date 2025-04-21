@@ -3,6 +3,7 @@ use bedrockrs_proto_core::ProtoCodec;
 use std::io::Cursor;
 
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct BaseGameVersion(pub String);
 
 impl ProtoCodec for BaseGameVersion {

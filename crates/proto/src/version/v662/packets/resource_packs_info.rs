@@ -1,5 +1,24 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 6)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct ResourcePacksInfoPacket {
+    pub resource_pack_required: bool,
+    pub has_addon_packs: bool,
+    pub has_scripts: bool,
+    pub force_server_packs_enabled: bool,
+    #[vec_repr(u16)]
+    #[vec_endianness(le)]
+    pub behaviour_packs: Vec<BehaviourPackEntry>,
+    #[vec_repr(u16)]
+    #[vec_endianness(le)]
+    pub resource_packs: Vec<ResourcePackEntry>,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub cdn_urls: Vec<CDNUrl>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct BehaviourPackEntry {
     pub id: String,
@@ -29,22 +48,4 @@ pub struct ResourcePackEntry {
 pub struct CDNUrl {
     pub first: String,
     pub second: String,
-}
-
-#[gamepacket(id = 6)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ResourcePacksInfoPacket {
-    pub resource_pack_required: bool,
-    pub has_addon_packs: bool,
-    pub has_scripts: bool,
-    pub force_server_packs_enabled: bool,
-    #[vec_repr(u16)]
-    #[vec_endianness(le)]
-    pub behaviour_packs: Vec<BehaviourPackEntry>,
-    #[vec_repr(u16)]
-    #[vec_endianness(le)]
-    pub resource_packs: Vec<ResourcePackEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub cdn_urls: Vec<CDNUrl>,
 }

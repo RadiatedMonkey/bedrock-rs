@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 158)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct AnimateEntityPacket {
     pub animation: String,
     pub next_state: String,

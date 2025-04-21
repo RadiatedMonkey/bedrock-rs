@@ -3,6 +3,7 @@ use crate::version::v662::types::StructureSettings;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct StructureEditorData {
     pub structure_name: String,
     pub data_field: String,

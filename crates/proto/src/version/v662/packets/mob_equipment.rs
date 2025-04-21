@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 31)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MobEquipmentPacket {
     pub target_runtime_id: ActorRuntimeID,
     pub item: NetworkItemStackDescriptor,

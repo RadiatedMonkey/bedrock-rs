@@ -2,6 +2,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 6)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ResourcePacksInfoPacket {
     pub resource_pack_required: bool,
     pub has_addon_packs: bool,

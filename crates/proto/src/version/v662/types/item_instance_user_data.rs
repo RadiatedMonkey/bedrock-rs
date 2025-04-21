@@ -1,6 +1,7 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ItemInstanceUserData {
     #[endianness(le)]
     pub serialization_marker: i16,

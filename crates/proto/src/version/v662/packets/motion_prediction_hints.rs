@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 157)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct MotionPredictionHintsPacket {
     pub runtime_id: ActorRuntimeID,
     #[endianness(le)]

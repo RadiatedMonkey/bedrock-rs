@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 132)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct StructureDataRequestPacket {
     pub structure_name: String,
     pub structure_position: NetworkBlockPosition,

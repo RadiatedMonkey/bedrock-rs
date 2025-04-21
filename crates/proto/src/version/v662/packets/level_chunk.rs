@@ -1,14 +1,9 @@
 use crate::version::v662::types::ChunkPos;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CacheBlobEntry {
-    #[endianness(var)]
-    blob: u64,
-}
-
 #[gamepacket(id = 58)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct LevelChunkPacket {
     pub chunk_position: ChunkPos,
     #[endianness(var)]
@@ -19,6 +14,12 @@ pub struct LevelChunkPacket {
     #[vec_endianness(var)]
     pub cache_blobs: Vec<CacheBlobEntry>,
     pub serialized_chunk_data: String,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct CacheBlobEntry {
+    #[endianness(var)]
+    blob: u64,
 }
 
 // TODO: this whole thing is terrible

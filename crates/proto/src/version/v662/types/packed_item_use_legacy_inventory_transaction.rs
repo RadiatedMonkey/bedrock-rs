@@ -8,15 +8,8 @@ use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
 use std::io::Cursor;
 use vek::Vec3;
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ContainerSlotEntry {
-    pub container_enum_name: String,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub slots: Vec<i8>,
-}
-
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PackedItemUseLegacyInventoryTransaction {
     id: i32,
     container_slots: Option<Vec<ContainerSlotEntry>>,
@@ -29,6 +22,14 @@ pub struct PackedItemUseLegacyInventoryTransaction {
     from_position: Vec3<f32>,
     click_position: Vec3<f32>,
     target_block_id: u32,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct ContainerSlotEntry {
+    pub container_enum_name: String,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub slots: Vec<i8>,
 }
 
 impl ProtoCodec for PackedItemUseLegacyInventoryTransaction {

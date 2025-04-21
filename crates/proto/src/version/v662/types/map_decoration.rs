@@ -1,6 +1,18 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct MapDecoration {
+    pub map_decoration_type: MapDecorationType,
+    pub rotation: i8,
+    pub x: i8,
+    pub y: i8,
+    pub label: String,
+    #[endianness(var)]
+    pub color_argb: u32,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 pub enum MapDecorationType {
     MarkerWhite = 0,
@@ -36,15 +48,4 @@ impl MapDecorationType {
     pub const PLAYER_OFF_LIMITS: MapDecorationType = MapDecorationType::SmallSquareWhite;
     pub const PLAYER_HIDDEN: MapDecorationType = MapDecorationType::NoDraw;
     pub const ITEM_FRAME: MapDecorationType = MapDecorationType::MarkerGreen;
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct MapDecoration {
-    pub map_decoration_type: MapDecorationType,
-    pub rotation: i8,
-    pub x: i8,
-    pub y: i8,
-    pub label: String,
-    #[endianness(var)]
-    pub color_argb: u32,
 }

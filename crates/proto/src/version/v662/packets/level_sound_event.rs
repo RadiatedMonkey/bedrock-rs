@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 123)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct LevelSoundEventPacket {
     pub event_id: LevelSoundEventType,
     #[endianness(le)]

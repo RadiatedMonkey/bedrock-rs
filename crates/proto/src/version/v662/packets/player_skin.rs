@@ -4,6 +4,7 @@ use uuid::Uuid;
 
 #[gamepacket(id = 93)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PlayerSkinPacket {
     pub uuid: Uuid,
     pub serialized_skin: SerializedSkin,

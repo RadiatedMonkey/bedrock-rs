@@ -2,6 +2,18 @@ use crate::version::v662::enums::{AttributeModifierOperation, AttributeOperands}
 use crate::version::v662::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 29)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct UpdateAttributesPacket {
+    pub target_runtime_id: ActorRuntimeID,
+    #[vec_repr(u32)]
+    #[vec_endianness(var)]
+    pub attribute_list: Vec<AttributeData>,
+    #[endianness(var)]
+    pub ticks_since_sim_started: u64,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct AttributeModifier {
     pub id: String,
@@ -27,15 +39,4 @@ pub struct AttributeData {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub attribute_modifiers: Vec<AttributeModifier>,
-}
-
-#[gamepacket(id = 29)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct UpdateAttributesPacket {
-    pub target_runtime_id: ActorRuntimeID,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub attribute_list: Vec<AttributeData>,
-    #[endianness(var)]
-    pub ticks_since_sim_started: u64,
 }

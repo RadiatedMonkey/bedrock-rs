@@ -1,3 +1,4 @@
+#[allow(proto_gen)]
 pub enum ActorFlags {
     Unknown = -1,
     OnFire = 0,

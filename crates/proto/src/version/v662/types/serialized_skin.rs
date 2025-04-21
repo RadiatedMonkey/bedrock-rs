@@ -2,34 +2,7 @@ use crate::version::v662::enums::{AnimatedTextureType, AnimationExpression};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-pub struct SerializedSkinAnimationFrame {
-    #[endianness(le)]
-    pub image_width: u32,
-    #[endianness(le)]
-    pub image_height: u32,
-    pub image_bytes: String,
-    pub animation_type: AnimatedTextureType,
-    #[endianness(le)]
-    pub frame_count: f32,
-    pub animation_expression: AnimationExpression,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct PersonaPiecesEntry {
-    pub piece_id: String,
-    pub piece_type: String,
-    pub pack_id: String,
-    pub is_default_piece: bool,
-    pub product_id: String,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct PieceTintColorsEntry {
-    pub piece_type: String,
-    pub piece_tint_color: String,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct SerializedSkin {
     pub skin_id: String,
     pub play_fab_id: String,
@@ -65,4 +38,32 @@ pub struct SerializedSkin {
     pub is_persona_cape_on_classic_skin: bool,
     pub is_primary_user: bool,
     pub overrides_player_appearance: bool,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct SerializedSkinAnimationFrame {
+    #[endianness(le)]
+    pub image_width: u32,
+    #[endianness(le)]
+    pub image_height: u32,
+    pub image_bytes: String,
+    pub animation_type: AnimatedTextureType,
+    #[endianness(le)]
+    pub frame_count: f32,
+    pub animation_expression: AnimationExpression,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct PersonaPiecesEntry {
+    pub piece_id: String,
+    pub piece_type: String,
+    pub pack_id: String,
+    pub is_default_piece: bool,
+    pub product_id: String,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct PieceTintColorsEntry {
+    pub piece_type: String,
+    pub piece_tint_color: String,
 }

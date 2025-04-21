@@ -3,6 +3,7 @@ use crate::version::v662::types::ActorUniqueID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ActorLink {
     pub actor_unique_id_a: ActorUniqueID,
     pub actor_unique_id_b: ActorUniqueID,

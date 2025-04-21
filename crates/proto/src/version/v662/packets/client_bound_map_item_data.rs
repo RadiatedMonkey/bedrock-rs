@@ -5,6 +5,17 @@ use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
 use varint_rs::{VarintReader, VarintWriter};
 
+#[gamepacket(id = 67)]
+#[derive(Clone, Debug)]
+#[allow(proto_gen)]
+pub struct ClientBoundMapItemDataPacket {
+    pub map_id: ActorUniqueID,
+    pub type_flags: Type,
+    pub dimension: i8,
+    pub is_locked: bool,
+    pub map_origin: BlockPos,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct PixelsEntry {
     #[endianness(var)]
@@ -43,16 +54,6 @@ pub enum Type {
         #[vec_endianness(var)]
         map_id_list: Vec<ActorUniqueID>,
     } = 0x8,
-}
-
-#[gamepacket(id = 67)]
-#[derive(Clone, Debug)]
-pub struct ClientBoundMapItemDataPacket {
-    pub map_id: ActorUniqueID,
-    pub type_flags: Type,
-    pub dimension: i8,
-    pub is_locked: bool,
-    pub map_origin: BlockPos,
 }
 
 impl ProtoCodec for ClientBoundMapItemDataPacket {

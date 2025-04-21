@@ -3,6 +3,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 66)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct SpawnExperienceOrbPacket {
     #[endianness(le)]
     pub position: Vec3<f32>,

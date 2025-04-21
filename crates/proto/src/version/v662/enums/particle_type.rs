@@ -1,5 +1,6 @@
 /// UNUSED
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub enum ParticleType {
     Undefined = 0,
     Bubble = 1,

@@ -2,25 +2,7 @@ use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(i8)]
-#[repr(i8)]
-pub enum AudioListener {
-    Camera = 0,
-    Player = 1,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CameraPresetAimAssist {
-    pub id: String,
-    #[endianness(le)]
-    pub target_mode: i32,
-    #[endianness(le)]
-    pub angle: Vec2<f32>,
-    #[endianness(le)]
-    pub distance: f32,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CameraPreset {
     pub name: String,
     pub inherit_from: String,
@@ -54,4 +36,23 @@ pub struct CameraPreset {
     pub player_effects: Option<bool>,
     pub align_target_and_camera_forward: Option<bool>,
     pub aim_assist: Option<CameraPresetAimAssist>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i8)]
+#[repr(i8)]
+pub enum AudioListener {
+    Camera = 0,
+    Player = 1,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct CameraPresetAimAssist {
+    pub id: String,
+    #[endianness(le)]
+    pub target_mode: i32,
+    #[endianness(le)]
+    pub angle: Vec2<f32>,
+    #[endianness(le)]
+    pub distance: f32,
 }

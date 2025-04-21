@@ -1,6 +1,17 @@
 use crate::version::v662::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 98)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct NpcRequestPacket {
+    pub npc_runtime_id: ActorRuntimeID,
+    pub request_type: RequestType,
+    pub actions: String,
+    pub action_index: i8,
+    pub scene_name: String,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 #[repr(i8)]
@@ -12,14 +23,4 @@ pub enum RequestType {
     SetSkin = 4,
     SetInteractText = 5,
     ExecuteOpeningCommands = 6,
-}
-
-#[gamepacket(id = 98)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct NpcRequestPacket {
-    pub npc_runtime_id: ActorRuntimeID,
-    pub request_type: RequestType,
-    pub actions: String,
-    pub action_index: i8,
-    pub scene_name: String,
 }

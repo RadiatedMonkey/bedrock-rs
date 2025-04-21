@@ -5,6 +5,7 @@ use vek::Vec3;
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 #[repr(i8)]
+#[allow(proto_gen)]
 pub enum DataItemType {
     Byte(i8) = 0,
     Short(#[endianness(le)] i16) = 1,

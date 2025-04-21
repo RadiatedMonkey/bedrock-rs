@@ -4,6 +4,7 @@ use uuid::Uuid;
 
 #[gamepacket(id = 152)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct EmoteListPacket {
     pub runtime_id: ActorRuntimeID,
     #[vec_repr(u32)]

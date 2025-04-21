@@ -3,6 +3,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 61)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ChangeDimensionPacket {
     #[endianness(var)]
     pub dimension_id: i32,

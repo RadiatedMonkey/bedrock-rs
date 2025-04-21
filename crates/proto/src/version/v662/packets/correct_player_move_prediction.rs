@@ -4,6 +4,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 161)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CorrectPlayerMovePredictionPacket {
     #[endianness(le)]
     pub position: Vec3<f32>,

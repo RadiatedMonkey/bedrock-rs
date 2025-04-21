@@ -5,6 +5,7 @@ use vek::Vec3;
 
 #[gamepacket(id = 45)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct RespawnPacket {
     #[endianness(le)]
     pub position: Vec3<f32>,

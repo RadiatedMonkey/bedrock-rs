@@ -1,14 +1,7 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(i8)]
-#[repr(i8)]
-pub enum AudioListener {
-    Camera = 0,
-    Player = 1,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CameraPreset {
     pub name: String,
     pub inherit_from: String,
@@ -24,4 +17,12 @@ pub struct CameraPreset {
     pub rot_y: Option<f32>,
     pub listener: Option<AudioListener>,
     pub player_effects: Option<bool>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i8)]
+#[repr(i8)]
+pub enum AudioListener {
+    Camera = 0,
+    Player = 1,
 }

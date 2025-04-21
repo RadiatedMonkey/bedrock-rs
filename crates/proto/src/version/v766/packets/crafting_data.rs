@@ -4,6 +4,7 @@ use crate::v766::types::CraftingDataEntry;
 
 #[gamepacket(id = 52)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct CraftingDataPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

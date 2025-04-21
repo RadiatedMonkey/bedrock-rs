@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 27)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ActorEventPacket {
     pub target_runtime_id: ActorRuntimeID,
     pub event_id: ActorEvent,

@@ -4,6 +4,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(u32)]
 #[enum_endianness(le)]
 #[repr(u32)]
+#[allow(proto_gen)]
 pub enum SoftEnumUpdateType {
     Add = 0,
     Remove = 1,

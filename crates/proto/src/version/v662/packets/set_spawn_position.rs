@@ -4,6 +4,7 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 43)]
 #[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
 pub struct SetSpawnPositionPacket {
     pub spawn_position_type: SpawnPositionType,
     pub block_position: NetworkBlockPosition,

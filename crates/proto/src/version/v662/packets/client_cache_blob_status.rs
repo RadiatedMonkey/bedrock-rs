@@ -6,6 +6,7 @@ use std::mem::size_of;
 
 #[gamepacket(id = 135)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct ClientCacheBlobStatusPacket {
     pub missing_blobs: Vec<u64>,
     pub obtained_blobs: Vec<u64>,
