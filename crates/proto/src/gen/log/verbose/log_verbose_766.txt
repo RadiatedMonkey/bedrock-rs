@@ -8,13 +8,6 @@ Version {
                 "PlayerListPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_list.rs",
             },
         },
-        "PlayerActionType": TokenInfo {
-            name: "PlayerActionType",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\enums\\player_action_type.rs",
-            usages: {
-                "PlayerBlockActionData": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_block_action_data.rs",
-            },
-        },
         "CraftingDataEntryType": TokenInfo {
             name: "CraftingDataEntryType",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\enums\\crafting_data_entry_type.rs",
@@ -22,16 +15,18 @@ Version {
                 "CraftingDataEntry": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\crafting_data_entry.rs",
             },
         },
+        "PlayerActionType": TokenInfo {
+            name: "PlayerActionType",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\enums\\player_action_type.rs",
+            usages: {
+                "PlayerBlockActionData": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_block_action_data.rs",
+            },
+        },
     },
     packets: {
         "SetMovementAuthorityPacket": TokenInfo {
             name: "SetMovementAuthorityPacket",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\set_movement_authority.rs",
-            usages: {},
-        },
-        "PlayerAuthInputPacket": TokenInfo {
-            name: "PlayerAuthInputPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_auth_input.rs",
             usages: {},
         },
         "ResourcePacksInfoPacket": TokenInfo {
@@ -44,9 +39,9 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\camera_aim_assist_presets.rs",
             usages: {},
         },
-        "MovementEffectPacket": TokenInfo {
-            name: "MovementEffectPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\movement_effect.rs",
+        "PlayerListPacket": TokenInfo {
+            name: "PlayerListPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_list.rs",
             usages: {},
         },
         "CameraAimAssistPacket": TokenInfo {
@@ -54,9 +49,9 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\camera_aim_assist.rs",
             usages: {},
         },
-        "PlayerListPacket": TokenInfo {
-            name: "PlayerListPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_list.rs",
+        "PlayerAuthInputPacket": TokenInfo {
+            name: "PlayerAuthInputPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_auth_input.rs",
             usages: {},
         },
         "CraftingDataPacket": TokenInfo {
@@ -64,8 +59,20 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\crafting_data.rs",
             usages: {},
         },
+        "MovementEffectPacket": TokenInfo {
+            name: "MovementEffectPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\movement_effect.rs",
+            usages: {},
+        },
     },
     types: {
+        "PlayerBlockActions": TokenInfo {
+            name: "PlayerBlockActions",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_block_actions.rs",
+            usages: {
+                "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_auth_input.rs",
+            },
+        },
         "CraftingDataEntry": TokenInfo {
             name: "CraftingDataEntry",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\crafting_data_entry.rs",
@@ -73,9 +80,9 @@ Version {
                 "CraftingDataPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\crafting_data.rs",
             },
         },
-        "PlayerInputTick": TokenInfo {
-            name: "PlayerInputTick",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_input_tick.rs",
+        "BaseDescription": TokenInfo {
+            name: "BaseDescription",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\base_description.rs",
             usages: {},
         },
         "UserDataShapelessRecipe": TokenInfo {
@@ -85,26 +92,14 @@ Version {
                 "CraftingDataEntryType": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\enums\\crafting_data_entry_type.rs",
             },
         },
+        "PlayerInputTick": TokenInfo {
+            name: "PlayerInputTick",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_input_tick.rs",
+            usages: {},
+        },
         "ItemStackResponseSlotInfo": TokenInfo {
             name: "ItemStackResponseSlotInfo",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\item_stack_response_slot_info.rs",
-            usages: {},
-        },
-        "BaseDescription": TokenInfo {
-            name: "BaseDescription",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\base_description.rs",
-            usages: {},
-        },
-        "PlayerBlockActions": TokenInfo {
-            name: "PlayerBlockActions",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_block_actions.rs",
-            usages: {
-                "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\packets\\player_auth_input.rs",
-            },
-        },
-        "CameraPreset": TokenInfo {
-            name: "CameraPreset",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\camera_preset.rs",
             usages: {},
         },
         "PlayerBlockActionData": TokenInfo {
@@ -113,6 +108,11 @@ Version {
             usages: {
                 "PlayerBlockActions": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\player_block_actions.rs",
             },
+        },
+        "CameraPreset": TokenInfo {
+            name: "CameraPreset",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v766\\types\\camera_preset.rs",
+            usages: {},
         },
     },
 }

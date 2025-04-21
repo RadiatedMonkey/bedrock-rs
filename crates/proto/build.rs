@@ -438,7 +438,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         let current = &versions[i];
         
         println!("cargo:warning=PROCESSING {:?}", current.version);
-        for j in (0..i).rev() {
+        
+        let mut full_flat_usage_set: HashMap<String, TokenInfo> = HashMap::new();
+        
+        for j in 0..i {
             if i == j { continue; }
             
             let prev = &versions[j];
@@ -447,7 +450,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             
             let prev_version_tokens = prev.get_all_tokens();
             
-            let mut full_usage_set: HashMap<String, TokenInfo> = HashMap::new();
+            let mut flat_usage_set: HashMap<String, TokenInfo> = HashMap::new();
             
             let mut token_name_queue: Vec<String> = current.get_all_tokens().iter().map(|(n, _)| n.clone()).collect();
             while !token_name_queue.is_empty() {
@@ -456,7 +459,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Some(usage_names) = token_usages.get(&token_name) {
                     for usage_name in usage_names {
                         if let Some(usage_token) = prev_version_tokens.get(usage_name) {
-                            full_usage_set.insert(token_name.clone(), usage_token.clone());
+                            flat_usage_set.insert(token_name.clone(), usage_token.clone());
                         }
                         
                         if let Some(sub_usages) = token_usages.get(usage_name) {
@@ -474,9 +477,22 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .truncate(true)
                 .open(&log_verbose_usages_path)?;
 
-            write!(&log_verbose_usages_file, "{:#?}", full_usage_set)?;
+            write!(&log_verbose_usages_file, "{:#?}", flat_usage_set)?;
             // endregion
+            
+            full_flat_usage_set.extend(flat_usage_set);
         }
+
+        // region Logging
+        let log_verbose_usages_path = log_verbose_dir.join(format!("log_verbose_usages_{}.txt", current.version));
+        let log_verbose_usages_file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(true)
+            .open(&log_verbose_usages_path)?;
+
+        write!(&log_verbose_usages_file, "{:#?}", full_flat_usage_set)?;
+        // endregion
     }
 
     Ok(())
