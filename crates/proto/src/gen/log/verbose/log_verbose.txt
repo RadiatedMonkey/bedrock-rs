@@ -1,0 +1,38 @@
+[
+    Version {
+        version: 662,
+        enums: {},
+        packets: {},
+        types: {},
+    },
+    Version {
+        version: 671,
+        enums: {},
+        packets: {},
+        types: {},
+    },
+    Version {
+        version: 729,
+        enums: {},
+        packets: {},
+        types: {},
+    },
+    Version {
+        version: 748,
+        enums: {},
+        packets: {
+            "PlayerAuthInputPacket": TokenInfo {
+                name: "PlayerAuthInputPacket",
+                file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
+                usages: {},
+            },
+        },
+        types: {},
+    },
+    Version {
+        version: 766,
+        enums: {},
+        packets: {},
+        types: {},
+    },
+]

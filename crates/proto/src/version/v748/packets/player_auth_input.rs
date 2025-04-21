@@ -15,6 +15,7 @@ use crate::version::v748::types::{ItemStackRequestSlotInfo, PackedItemUseLegacyI
 
 #[gamepacket(id = 144)]
 #[derive(Clone, Debug)]
+#[allow(proto_gen)]
 pub struct PlayerAuthInputPacket {
     pub player_rotation: Vec2<f32>,
     pub player_position: Vec3<f32>,

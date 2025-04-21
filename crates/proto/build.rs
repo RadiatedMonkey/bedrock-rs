@@ -1,14 +1,14 @@
 use proc_macro2::TokenTree;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
+use std::env;
 use std::error::Error;
 use std::ffi::OsStr;
 use std::fs::read_dir;
 use std::fs::{create_dir_all, read_to_string, OpenOptions};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
-use std::env;
 use syn::__private::ToTokens;
-use syn::{Expr, ExprLit, Item, ItemConst, Lit};
+use syn::{Attribute, Expr, ExprLit, Item, ItemConst, Lit, Meta};
 
 #[derive(Clone, Debug)]
 struct TokenInfo {
@@ -19,6 +19,7 @@ struct TokenInfo {
 
 #[derive(Debug)]
 struct Version {
+    pub version: i32,
     pub enums: HashMap<String, TokenInfo>,
     pub packets: HashMap<String, TokenInfo>,
     pub types: HashMap<String, TokenInfo>,
@@ -75,6 +76,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let src_dir = Path::new(&manifest_dir).join("src");
     let version_dir = src_dir.join("version");
     let gen_dir = src_dir.join("gen");
+
+    let log_dir = gen_dir.join("log");
+    create_dir_all(&log_dir)?;
+
+    let log_verbose_dir = log_dir.join("verbose");
+    create_dir_all(&log_verbose_dir)?;
     
     let mut version_dirs: Vec<_> = read_dir(version_dir)?
         .filter_map(|entry| {
@@ -87,11 +94,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         .collect();
     
     version_dirs.sort_by_key(|dir| {
-        dir.file_name().to_string_lossy().trim_start_matches("v").parse::<u16>().unwrap_or(0)
+        dir.file_name().to_string_lossy().trim_start_matches("v").parse::<i32>().unwrap_or(0)
     });
     
-    
-    let mut versions: HashMap<u16, Version> = HashMap::new();
+    let mut versions: Vec<Version> = Vec::new();
     
     for dir in &version_dirs {
         if !dir.path().is_dir() { continue; }
@@ -105,57 +111,91 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_enum_from_filename(path).or_else(|| {
-                        get_first_enum_name_in_file(path)
-                    })?;
+                    let token_names = find_proto_gen_types_in_file(path);
                     
-                    let token_info = TokenInfo {
-                        name: name.clone(),
-                        file_path: path.clone(),
-                        usages: HashMap::new(),
-                    };
-                    
-                    Some((name, token_info))
+                    if let Some(token_names) = token_names {
+                        let tokens = token_names.iter()
+                            .map(|n|
+                                (
+                                    n.clone(),
+                                    TokenInfo {
+                                        name: n.clone(),
+                                        file_path: path.clone(),
+                                        usages: HashMap::new(),
+                                    }
+                                )
+                            )
+                            .collect::<HashMap<String, TokenInfo>>();
+
+                        Some(tokens)
+                    } else {
+                        println!("cargo:warning=Didn't find any proto_gen types in file: {}!", path.file_name()?.to_str()?);
+                        None
+                    }
                 })
+                .flatten()
                 .collect();
 
             let packets: HashMap<String, TokenInfo> = find_version_packets(&dir.path())
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_struct_from_filename(path).or_else(|| {
-                        get_first_struct_name_in_file(path)
-                    })?;
+                    let token_names = find_proto_gen_types_in_file(path);
 
-                    let token_info = TokenInfo {
-                        name: name.clone(),
-                        file_path: path.clone(),
-                        usages: HashMap::new(),
-                    };
+                    if let Some(token_names) = token_names {
+                        let tokens = token_names.iter()
+                            .map(|n|
+                                (
+                                    n.clone(),
+                                    TokenInfo {
+                                        name: n.clone(),
+                                        file_path: path.clone(),
+                                        usages: HashMap::new(),
+                                    }
+                                )
+                            )
+                            .collect::<HashMap<String, TokenInfo>>();
 
-                    Some((name, token_info))
+                        Some(tokens)
+                    } else {
+                        println!("cargo:warning=Didn't find any proto_gen types in file: {}!", path.file_name()?.to_str()?);
+                        None
+                    }
                 })
+                .flatten()
                 .collect();
 
             let types: HashMap<String, TokenInfo> = find_version_types(&dir.path())
                 .unwrap_or(Vec::new())
                 .iter()
                 .filter_map(|path| {
-                    let name = get_struct_from_filename(path).or_else(|| {
-                        get_first_struct_name_in_file(path)
-                    })?;
+                    let token_names = find_proto_gen_types_in_file(path);
 
-                    let token_info = TokenInfo {
-                        name: name.clone(),
-                        file_path: path.clone(),
-                        usages: HashMap::new(),
-                    };
+                    if let Some(token_names) = token_names {
+                        let tokens = token_names.iter()
+                            .map(|n|
+                                (
+                                    n.clone(),
+                                    TokenInfo {
+                                        name: n.clone(),
+                                        file_path: path.clone(),
+                                        usages: HashMap::new(),
+                                    }
+                                )
+                            )
+                            .collect::<HashMap<String, TokenInfo>>();
 
-                    Some((name, token_info))
+                        Some(tokens)
+                    } else {
+                        println!("cargo:warning=Didn't find any proto_gen types in file: {}!", path.file_name()?.to_str()?);
+                        None
+                    }
                 })
+                .flatten()
                 .collect();
             
             let mut version = Version {
+                version: protocol_version,
                 enums,
                 packets,
                 types,
@@ -222,9 +262,6 @@ fn main() -> Result<(), Box<dyn Error>> {
                     .collect::<Vec<_>>(),
             );
             
-            let log_dir = gen_dir.join("log");
-            create_dir_all(&log_dir)?;
-            
             let log_file = log_dir.join(format!("log_{}.txt", protocol_version));
 
             let mut file = OpenOptions::new()
@@ -234,9 +271,6 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .open(&log_file)?;
 
             file.write_all(log_str.as_bytes())?;
-
-            let log_verbose_dir = log_dir.join("verbose");
-            create_dir_all(&log_verbose_dir)?;
             
             let log_verbose_file = log_verbose_dir.join(format!("log_verbose_{}.txt", protocol_version));
 
@@ -248,24 +282,30 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             write!(&file_full, "{:#?}", version)?;
             
-            versions.insert(
-                protocol_version, 
-                version
-            );
+            versions.push(version);
         }
     }
+    
+    let log_verbose_path = log_verbose_dir.join("log_verbose.txt");
+    let log_verbose_file = OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .open(&log_verbose_path)?;
+    
+    write!(&log_verbose_file, "{:#?}", versions)?;
     
     Ok(())
 }
 
-fn parse_protocol_version(content: &str) -> Option<u16> {
+fn parse_protocol_version(content: &str) -> Option<i32> {
     let syn_tree = syn::parse_file(&content).ok()?;
     
     for item in syn_tree.items {
         if let Item::Const(ItemConst { ident, expr, .. }) = item {
             if ident == "PROTOCOL_VERSION" {
                 if let Expr::Lit(ExprLit { lit: Lit::Int(lit_int), .. }) = *expr {
-                    return lit_int.to_string().parse::<u16>().ok();
+                    return lit_int.to_string().parse::<i32>().ok();
                 }
             }
         }
@@ -331,75 +371,36 @@ fn find_version_types(path: &PathBuf) -> Option<Vec<PathBuf>> {
     Some(rs_files)
 }
 
-fn get_first_enum_name_in_file(file: &PathBuf) -> Option<String> {
+fn find_proto_gen_types_in_file(file: &PathBuf) -> Option<Vec<String>> {
     let content = read_to_string(file).ok()?;
     let syn_tree = syn::parse_file(&content).ok()?;
     
+    let mut proto_gen_types: Vec<String> = Vec::new();
+    
     for item in syn_tree.items {
-        if let Item::Enum(item_enum) = item {
-            return Some(item_enum.ident.to_string());
+        if let Item::Struct(item_struct) = &item {
+            if has_proto_gen_attr(&item_struct.attrs) {
+                proto_gen_types.push(item_struct.ident.to_string());
+            }
         }
-    }
-    
-    None
-}
-
-fn get_first_struct_name_in_file(file: &PathBuf) -> Option<String> {
-    let content = read_to_string(file).ok()?;
-    let syn_tree = syn::parse_file(&content).ok()?;
-    
-    for item in syn_tree.items {
-        if let Item::Struct(item_struct) = item {
-            return Some(item_struct.ident.to_string());
-        }
-    }
-
-    None
-}
-
-fn snake_to_pascal(s: &str) -> String {
-    s
-        .split('_')
-        .map(|word| {
-            let mut chars = word.chars();
-            chars.next()
-                .map(|c| c.to_uppercase().collect::<String>() + chars.as_str())
-                .unwrap_or_default()
-        })
-        .collect::<String>()
-}
-
-fn get_enum_from_filename(file: &PathBuf) -> Option<String> {
-    let content = read_to_string(file).ok()?;
-    let syn_tree = syn::parse_file(&content).ok()?;
-    
-    let expected_name = snake_to_pascal(file.file_name()?.to_str()?);
-
-    for item in syn_tree.items {
-        if let Item::Enum(item_enum) = item {
-            if item_enum.ident.to_string() == expected_name {
-                return Some(item_enum.ident.to_string());
+        
+        if let Item::Enum(item_enum) = &item {
+            if has_proto_gen_attr(&item_enum.attrs) {
+                proto_gen_types.push(item_enum.ident.to_string());
             }
         }
     }
-
-    None
+    
+    if proto_gen_types.is_empty() { None } else { Some(proto_gen_types) }
 }
 
-fn get_struct_from_filename(file: &PathBuf) -> Option<String> {
-    let content = read_to_string(file).ok()?;
-    let syn_tree = syn::parse_file(&content).ok()?;
-    
-    let expected_name = snake_to_pascal(file.file_name()?.to_str()?);
-
-    for item in syn_tree.items {
-        if let Item::Struct(item_struct) = item {
-            if item_struct.ident.to_string() == expected_name {
-                return Some(item_struct.ident.to_string());
+fn has_proto_gen_attr(attrs: &[Attribute]) -> bool {
+    for attr in attrs {
+        if attr.path().is_ident("allow") {
+            if attr.to_token_stream().to_string().contains("proto_gen") {
+                return true;
             }
         }
     }
-
-    None
+    false
 }
-
