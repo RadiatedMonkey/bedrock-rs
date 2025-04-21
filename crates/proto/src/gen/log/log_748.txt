@@ -28,8 +28,8 @@ ENUM USAGES: [
     (
         "PlayerActionType",
         {
-            "PlayerBlockActionData": "player_block_action_data.rs",
             "PlayerActionPacket": "player_action.rs",
+            "PlayerBlockActionData": "player_block_action_data.rs",
         },
     ),
     (
@@ -52,9 +52,9 @@ TYPE USAGES: [
     (
         "ActorLink",
         {
-            "SetActorLinkPacket": "set_actor_link.rs",
             "AddActorPacket": "add_actor.rs",
             "AddPlayerPacket": "add_player.rs",
+            "SetActorLinkPacket": "set_actor_link.rs",
         },
     ),
     (
@@ -78,20 +78,20 @@ TYPE USAGES: [
     (
         "DataItem",
         {
-            "AddPlayerPacket": "add_player.rs",
-            "SetActorDataPacket": "set_actor_data.rs",
-            "AddActorPacket": "add_actor.rs",
             "AddItemActorPacket": "add_item_actor.rs",
+            "SetActorDataPacket": "set_actor_data.rs",
+            "AddPlayerPacket": "add_player.rs",
+            "AddActorPacket": "add_actor.rs",
         },
     ),
     (
         "FullContainerName",
         {
-            "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
-            "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
             "InventorySlotPacket": "inventory_slot.rs",
-            "InventoryContentPacket": "inventory_content.rs",
+            "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
             "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
+            "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
+            "InventoryContentPacket": "inventory_content.rs",
         },
     ),
     (

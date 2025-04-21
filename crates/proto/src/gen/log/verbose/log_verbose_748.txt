@@ -1,18 +1,19 @@
 Version {
     version: 748,
     enums: {
-        "BossEventUpdateType": TokenInfo {
-            name: "BossEventUpdateType",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\boss_event_update_type.rs",
-            usages: {
-                "BossEventPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\boss_event.rs",
-            },
-        },
         "CodeBuilderExecutionState": TokenInfo {
             name: "CodeBuilderExecutionState",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\code_builder_execution_state.rs",
             usages: {
                 "CodeBuilderSourcePacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\code_builder_source.rs",
+            },
+        },
+        "PlayerActionType": TokenInfo {
+            name: "PlayerActionType",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\player_action_type.rs",
+            usages: {
+                "PlayerBlockActionData": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\player_block_action_data.rs",
+                "PlayerActionPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_action.rs",
             },
         },
         "DataItemType": TokenInfo {
@@ -29,12 +30,11 @@ Version {
                 "ItemStackResponseInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_info.rs",
             },
         },
-        "PlayerActionType": TokenInfo {
-            name: "PlayerActionType",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\player_action_type.rs",
+        "BossEventUpdateType": TokenInfo {
+            name: "BossEventUpdateType",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\boss_event_update_type.rs",
             usages: {
-                "PlayerActionPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_action.rs",
-                "PlayerBlockActionData": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\player_block_action_data.rs",
+                "BossEventPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\boss_event.rs",
             },
         },
         "RecipeUnlockingContext": TokenInfo {
@@ -53,79 +53,14 @@ Version {
         },
     },
     packets: {
-        "ContainerClosePacket": TokenInfo {
-            name: "ContainerClosePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_close.rs",
+        "EmotePacket": TokenInfo {
+            name: "EmotePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\emote.rs",
             usages: {},
         },
-        "UpdateSoftEnumPacket": TokenInfo {
-            name: "UpdateSoftEnumPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_soft_enum.rs",
-            usages: {},
-        },
-        "BossEventPacket": TokenInfo {
-            name: "BossEventPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\boss_event.rs",
-            usages: {},
-        },
-        "TransferPlayerPacket": TokenInfo {
-            name: "TransferPlayerPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\transfer_player.rs",
-            usages: {},
-        },
-        "JigsawStructureDataPacket": TokenInfo {
-            name: "JigsawStructureDataPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\jigsaw_structure_data.rs",
-            usages: {},
-        },
-        "MobArmorEquipmentPacket": TokenInfo {
-            name: "MobArmorEquipmentPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\mob_armor_equipment.rs",
-            usages: {},
-        },
-        "ResourcePacksInfoPacket": TokenInfo {
-            name: "ResourcePacksInfoPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\resource_packs_info.rs",
-            usages: {},
-        },
-        "PlayerAuthInputPacket": TokenInfo {
-            name: "PlayerAuthInputPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
-            usages: {},
-        },
-        "UpdatePlayerGameTypePacket": TokenInfo {
-            name: "UpdatePlayerGameTypePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_player_game_type.rs",
-            usages: {},
-        },
-        "TextPacket": TokenInfo {
-            name: "TextPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\text.rs",
-            usages: {},
-        },
-        "CodeBuilderSourcePacket": TokenInfo {
-            name: "CodeBuilderSourcePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\code_builder_source.rs",
-            usages: {},
-        },
-        "ClientBoundDebugRendererPacket": TokenInfo {
-            name: "ClientBoundDebugRendererPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\client_bound_debug_renderer.rs",
-            usages: {},
-        },
-        "CorrectPlayerMovePredictionPacket": TokenInfo {
-            name: "CorrectPlayerMovePredictionPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\correct_player_move_prediction.rs",
-            usages: {},
-        },
-        "ItemStackResponsePacket": TokenInfo {
-            name: "ItemStackResponsePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_response.rs",
-            usages: {},
-        },
-        "PlayerActionPacket": TokenInfo {
-            name: "PlayerActionPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_action.rs",
+        "PlayerArmorDamagePacket": TokenInfo {
+            name: "PlayerArmorDamagePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_armor_damage.rs",
             usages: {},
         },
         "ServerBoundDiagnosticsPacket": TokenInfo {
@@ -133,34 +68,39 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\server_bound_diagnostics.rs",
             usages: {},
         },
+        "ChangeDimensionPacket": TokenInfo {
+            name: "ChangeDimensionPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\change_dimension.rs",
+            usages: {},
+        },
+        "JigsawStructureDataPacket": TokenInfo {
+            name: "JigsawStructureDataPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\jigsaw_structure_data.rs",
+            usages: {},
+        },
+        "PlayerAuthInputPacket": TokenInfo {
+            name: "PlayerAuthInputPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
+            usages: {},
+        },
         "SetActorLinkPacket": TokenInfo {
             name: "SetActorLinkPacket",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_link.rs",
             usages: {},
         },
-        "StopSoundPacket": TokenInfo {
-            name: "StopSoundPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\stop_sound.rs",
+        "PlayerActionPacket": TokenInfo {
+            name: "PlayerActionPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_action.rs",
             usages: {},
         },
-        "ItemStackRequestPacket": TokenInfo {
-            name: "ItemStackRequestPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_request.rs",
+        "CameraPresetsPacket": TokenInfo {
+            name: "CameraPresetsPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_presets.rs",
             usages: {},
         },
-        "AwardAchievementPacket": TokenInfo {
-            name: "AwardAchievementPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\award_achievement.rs",
-            usages: {},
-        },
-        "EditorNetworkPacket": TokenInfo {
-            name: "EditorNetworkPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\editor_network.rs",
-            usages: {},
-        },
-        "UpdateAttributesPacket": TokenInfo {
-            name: "UpdateAttributesPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_attributes.rs",
+        "CameraAimAssistPacket": TokenInfo {
+            name: "CameraAimAssistPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_aim_assist.rs",
             usages: {},
         },
         "ClientBoundMapItemDataPacket": TokenInfo {
@@ -173,9 +113,89 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_slot.rs",
             usages: {},
         },
+        "TransferPlayerPacket": TokenInfo {
+            name: "TransferPlayerPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\transfer_player.rs",
+            usages: {},
+        },
+        "CodeBuilderSourcePacket": TokenInfo {
+            name: "CodeBuilderSourcePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\code_builder_source.rs",
+            usages: {},
+        },
         "SetActorDataPacket": TokenInfo {
             name: "SetActorDataPacket",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_data.rs",
+            usages: {},
+        },
+        "AwardAchievementPacket": TokenInfo {
+            name: "AwardAchievementPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\award_achievement.rs",
+            usages: {},
+        },
+        "ServerBoundLoadingScreenPacket": TokenInfo {
+            name: "ServerBoundLoadingScreenPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\server_bound_loading_screen.rs",
+            usages: {},
+        },
+        "MobArmorEquipmentPacket": TokenInfo {
+            name: "MobArmorEquipmentPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\mob_armor_equipment.rs",
+            usages: {},
+        },
+        "ResourcePackStackPacket": TokenInfo {
+            name: "ResourcePackStackPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\resource_pack_stack.rs",
+            usages: {},
+        },
+        "UpdateAttributesPacket": TokenInfo {
+            name: "UpdateAttributesPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_attributes.rs",
+            usages: {},
+        },
+        "CurrentStructureFeaturePacket": TokenInfo {
+            name: "CurrentStructureFeaturePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\current_structure_feature.rs",
+            usages: {},
+        },
+        "ContainerRegistryCleanupPacket": TokenInfo {
+            name: "ContainerRegistryCleanupPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_registry_cleanup.rs",
+            usages: {},
+        },
+        "TextPacket": TokenInfo {
+            name: "TextPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\text.rs",
+            usages: {},
+        },
+        "ItemStackRequestPacket": TokenInfo {
+            name: "ItemStackRequestPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_request.rs",
+            usages: {},
+        },
+        "AddPlayerPacket": TokenInfo {
+            name: "AddPlayerPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
+            usages: {},
+        },
+        "DisconnectPacket": TokenInfo {
+            name: "DisconnectPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\disconnect.rs",
+            usages: {},
+        },
+        "UpdatePlayerGameTypePacket": TokenInfo {
+            name: "UpdatePlayerGameTypePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_player_game_type.rs",
+            usages: {},
+        },
+        "CameraInstructionPacket": TokenInfo {
+            name: "CameraInstructionPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_instruction.rs",
+            usages: {},
+        },
+        "ResourcePacksInfoPacket": TokenInfo {
+            name: "ResourcePacksInfoPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\resource_packs_info.rs",
             usages: {},
         },
         "AddItemActorPacket": TokenInfo {
@@ -188,34 +208,9 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_title.rs",
             usages: {},
         },
-        "ServerBoundLoadingScreenPacket": TokenInfo {
-            name: "ServerBoundLoadingScreenPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\server_bound_loading_screen.rs",
-            usages: {},
-        },
         "AddActorPacket": TokenInfo {
             name: "AddActorPacket",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_actor.rs",
-            usages: {},
-        },
-        "EmotePacket": TokenInfo {
-            name: "EmotePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\emote.rs",
-            usages: {},
-        },
-        "ResourcePackStackPacket": TokenInfo {
-            name: "ResourcePackStackPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\resource_pack_stack.rs",
-            usages: {},
-        },
-        "LegacyTelemetryEventPacket": TokenInfo {
-            name: "LegacyTelemetryEventPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\legacy_telemetry_event.rs",
-            usages: {},
-        },
-        "CameraPresetsPacket": TokenInfo {
-            name: "CameraPresetsPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_presets.rs",
             usages: {},
         },
         "ClientBoundCloseFormPacket": TokenInfo {
@@ -223,14 +218,9 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\client_bound_close_form.rs",
             usages: {},
         },
-        "CurrentStructureFeaturePacket": TokenInfo {
-            name: "CurrentStructureFeaturePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\current_structure_feature.rs",
-            usages: {},
-        },
-        "PlayerArmorDamagePacket": TokenInfo {
-            name: "PlayerArmorDamagePacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_armor_damage.rs",
+        "EditorNetworkPacket": TokenInfo {
+            name: "EditorNetworkPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\editor_network.rs",
             usages: {},
         },
         "StartGamePacket": TokenInfo {
@@ -238,9 +228,44 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\start_game.rs",
             usages: {},
         },
-        "DisconnectPacket": TokenInfo {
-            name: "DisconnectPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\disconnect.rs",
+        "LegacyTelemetryEventPacket": TokenInfo {
+            name: "LegacyTelemetryEventPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\legacy_telemetry_event.rs",
+            usages: {},
+        },
+        "BossEventPacket": TokenInfo {
+            name: "BossEventPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\boss_event.rs",
+            usages: {},
+        },
+        "StopSoundPacket": TokenInfo {
+            name: "StopSoundPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\stop_sound.rs",
+            usages: {},
+        },
+        "UpdateSoftEnumPacket": TokenInfo {
+            name: "UpdateSoftEnumPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\update_soft_enum.rs",
+            usages: {},
+        },
+        "ClientBoundDebugRendererPacket": TokenInfo {
+            name: "ClientBoundDebugRendererPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\client_bound_debug_renderer.rs",
+            usages: {},
+        },
+        "ContainerClosePacket": TokenInfo {
+            name: "ContainerClosePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_close.rs",
+            usages: {},
+        },
+        "CorrectPlayerMovePredictionPacket": TokenInfo {
+            name: "CorrectPlayerMovePredictionPacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\correct_player_move_prediction.rs",
+            usages: {},
+        },
+        "ItemStackResponsePacket": TokenInfo {
+            name: "ItemStackResponsePacket",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_response.rs",
             usages: {},
         },
         "InventoryContentPacket": TokenInfo {
@@ -248,127 +273,8 @@ Version {
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_content.rs",
             usages: {},
         },
-        "CameraInstructionPacket": TokenInfo {
-            name: "CameraInstructionPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_instruction.rs",
-            usages: {},
-        },
-        "AddPlayerPacket": TokenInfo {
-            name: "AddPlayerPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
-            usages: {},
-        },
-        "ContainerRegistryCleanupPacket": TokenInfo {
-            name: "ContainerRegistryCleanupPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_registry_cleanup.rs",
-            usages: {},
-        },
-        "ChangeDimensionPacket": TokenInfo {
-            name: "ChangeDimensionPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\change_dimension.rs",
-            usages: {},
-        },
-        "CameraAimAssistPacket": TokenInfo {
-            name: "CameraAimAssistPacket",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_aim_assist.rs",
-            usages: {},
-        },
     },
     types: {
-        "LevelSettings": TokenInfo {
-            name: "LevelSettings",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\level_settings.rs",
-            usages: {
-                "StartGamePacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\start_game.rs",
-            },
-        },
-        "PackedItemUseLegacyInventoryTransaction": TokenInfo {
-            name: "PackedItemUseLegacyInventoryTransaction",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\packed_item_use_legacy_inventory_transaction.rs",
-            usages: {
-                "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
-            },
-        },
-        "ActorLink": TokenInfo {
-            name: "ActorLink",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\actor_link.rs",
-            usages: {
-                "SetActorLinkPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_link.rs",
-                "AddActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_actor.rs",
-                "AddPlayerPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
-            },
-        },
-        "ShapedChemistryRecipe": TokenInfo {
-            name: "ShapedChemistryRecipe",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_chemistry_recipe.rs",
-            usages: {},
-        },
-        "DataItem": TokenInfo {
-            name: "DataItem",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\data_item.rs",
-            usages: {
-                "SetActorDataPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_data.rs",
-                "AddPlayerPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
-                "AddActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_actor.rs",
-                "AddItemActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_item_actor.rs",
-            },
-        },
-        "ShapedRecipe": TokenInfo {
-            name: "ShapedRecipe",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_recipe.rs",
-            usages: {},
-        },
-        "CameraInstruction": TokenInfo {
-            name: "CameraInstruction",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_instruction.rs",
-            usages: {
-                "CameraInstructionPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_instruction.rs",
-            },
-        },
-        "BaseDescription": TokenInfo {
-            name: "BaseDescription",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\base_description.rs",
-            usages: {},
-        },
-        "FullContainerName": TokenInfo {
-            name: "FullContainerName",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\full_container_name.rs",
-            usages: {
-                "InventorySlotPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_slot.rs",
-                "ItemStackResponseContainerInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
-                "ItemStackRequestSlotInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_request_slot_info.rs",
-                "InventoryContentPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_content.rs",
-                "ContainerRegistryCleanupPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_registry_cleanup.rs",
-            },
-        },
-        "ItemStackResponseContainerInfo": TokenInfo {
-            name: "ItemStackResponseContainerInfo",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
-            usages: {
-                "ItemStackNetResult": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\item_stack_net_result.rs",
-            },
-        },
-        "ItemStackResponseInfo": TokenInfo {
-            name: "ItemStackResponseInfo",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_info.rs",
-            usages: {
-                "ItemStackResponsePacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_response.rs",
-            },
-        },
-        "ItemStackResponseSlotInfo": TokenInfo {
-            name: "ItemStackResponseSlotInfo",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_slot_info.rs",
-            usages: {
-                "ItemStackResponseContainerInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
-            },
-        },
-        "CameraPreset": TokenInfo {
-            name: "CameraPreset",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_preset.rs",
-            usages: {
-                "CameraPresets": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_presets.rs",
-            },
-        },
         "PlayerBlockActionData": TokenInfo {
             name: "PlayerBlockActionData",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\player_block_action_data.rs",
@@ -380,16 +286,60 @@ Version {
             name: "ItemStackRequestSlotInfo",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_request_slot_info.rs",
             usages: {
+                "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
                 "ItemStackRequestPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_request.rs",
+            },
+        },
+        "ItemStackResponseSlotInfo": TokenInfo {
+            name: "ItemStackResponseSlotInfo",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_slot_info.rs",
+            usages: {
+                "ItemStackResponseContainerInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
+            },
+        },
+        "ItemStackResponseContainerInfo": TokenInfo {
+            name: "ItemStackResponseContainerInfo",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
+            usages: {
+                "ItemStackNetResult": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\enums\\item_stack_net_result.rs",
+            },
+        },
+        "ShapedChemistryRecipe": TokenInfo {
+            name: "ShapedChemistryRecipe",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_chemistry_recipe.rs",
+            usages: {},
+        },
+        "FullContainerName": TokenInfo {
+            name: "FullContainerName",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\full_container_name.rs",
+            usages: {
+                "InventorySlotPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_slot.rs",
+                "ContainerRegistryCleanupPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\container_registry_cleanup.rs",
+                "ItemStackRequestSlotInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_request_slot_info.rs",
+                "ItemStackResponseContainerInfo": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_container_info.rs",
+                "InventoryContentPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\inventory_content.rs",
+            },
+        },
+        "BaseDescription": TokenInfo {
+            name: "BaseDescription",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\base_description.rs",
+            usages: {},
+        },
+        "PackedItemUseLegacyInventoryTransaction": TokenInfo {
+            name: "PackedItemUseLegacyInventoryTransaction",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\packed_item_use_legacy_inventory_transaction.rs",
+            usages: {
                 "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
             },
         },
-        "RecipeUnlockingRequirement": TokenInfo {
-            name: "RecipeUnlockingRequirement",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\recipe_unlocking_requirement.rs",
+        "DataItem": TokenInfo {
+            name: "DataItem",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\data_item.rs",
             usages: {
-                "ShapedRecipe": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_recipe.rs",
-                "ShapelessRecipe": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shapeless_recipe.rs",
+                "AddActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_actor.rs",
+                "SetActorDataPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_data.rs",
+                "AddPlayerPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
+                "AddItemActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_item_actor.rs",
             },
         },
         "PlayerBlockActions": TokenInfo {
@@ -399,6 +349,20 @@ Version {
                 "PlayerAuthInputPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\player_auth_input.rs",
             },
         },
+        "CameraInstruction": TokenInfo {
+            name: "CameraInstruction",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_instruction.rs",
+            usages: {
+                "CameraInstructionPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_instruction.rs",
+            },
+        },
+        "CameraPreset": TokenInfo {
+            name: "CameraPreset",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_preset.rs",
+            usages: {
+                "CameraPresets": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_presets.rs",
+            },
+        },
         "CameraPresets": TokenInfo {
             name: "CameraPresets",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\camera_presets.rs",
@@ -406,9 +370,45 @@ Version {
                 "CameraPresetsPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\camera_presets.rs",
             },
         },
+        "ItemStackResponseInfo": TokenInfo {
+            name: "ItemStackResponseInfo",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\item_stack_response_info.rs",
+            usages: {
+                "ItemStackResponsePacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\item_stack_response.rs",
+            },
+        },
+        "LevelSettings": TokenInfo {
+            name: "LevelSettings",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\level_settings.rs",
+            usages: {
+                "StartGamePacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\start_game.rs",
+            },
+        },
+        "RecipeUnlockingRequirement": TokenInfo {
+            name: "RecipeUnlockingRequirement",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\recipe_unlocking_requirement.rs",
+            usages: {
+                "ShapelessRecipe": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shapeless_recipe.rs",
+                "ShapedRecipe": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_recipe.rs",
+            },
+        },
+        "ActorLink": TokenInfo {
+            name: "ActorLink",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\actor_link.rs",
+            usages: {
+                "AddPlayerPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_player.rs",
+                "SetActorLinkPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\set_actor_link.rs",
+                "AddActorPacket": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\packets\\add_actor.rs",
+            },
+        },
         "ShapelessRecipe": TokenInfo {
             name: "ShapelessRecipe",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shapeless_recipe.rs",
+            usages: {},
+        },
+        "ShapedRecipe": TokenInfo {
+            name: "ShapedRecipe",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v748\\types\\shaped_recipe.rs",
             usages: {},
         },
     },

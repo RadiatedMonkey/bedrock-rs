@@ -1,26 +1,19 @@
 {
-    "ShapedChemistryRecipe": TokenInfo {
-        name: "CraftingDataEntryType",
-        file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
-        usages: {
-            "CraftingDataEntry": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\crafting_data_entry.rs",
+    "types": {},
+    "enums": {
+        "ShapedRecipe": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
+        },
+        "ShapedChemistryRecipe": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
         },
     },
-    "LevelSettings": TokenInfo {
-        name: "StartGamePacket",
-        file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\start_game.rs",
-        usages: {},
-    },
-    "CraftingDataEntry": TokenInfo {
-        name: "CraftingDataPacket",
-        file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\crafting_data.rs",
-        usages: {},
-    },
-    "ShapedRecipe": TokenInfo {
-        name: "CraftingDataEntryType",
-        file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
-        usages: {
-            "CraftingDataEntry": "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\crafting_data_entry.rs",
+    "packet": {
+        "CraftingDataEntry": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\crafting_data.rs",
+        },
+        "LevelSettings": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\start_game.rs",
         },
     },
 }

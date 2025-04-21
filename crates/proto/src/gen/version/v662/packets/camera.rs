@@ -1,0 +1,10 @@
+use crate::version::v662::types::ActorUniqueID;
+use bedrockrs_macros::{gamepacket, ProtoCodec};
+
+#[gamepacket(id = 73)]
+#[derive(ProtoCodec, Clone, Debug)]
+#[allow(proto_gen)]
+pub struct CameraPacket {
+    pub camera_id: ActorUniqueID,
+    pub target_player_id: ActorUniqueID,
+}

@@ -1,90 +1,100 @@
 {
-    "DataItemType": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\data_item.rs",
+    "types": {
+        "ItemStackNetResult": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_info.rs",
+        },
+        "RecipeUnlockingRequirement": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
+        },
+        "CameraPreset": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\camera_presets.rs",
+        },
+        "CraftingDataEntryType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\crafting_data_entry.rs",
+        },
+        "FullContainerName": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_request_slot_info.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_container_info.rs",
+        },
+        "PlayerActionType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\player_block_action_data.rs",
+        },
+        "ItemStackResponseSlotInfo": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_container_info.rs",
+        },
+        "PlayerBlockActionData": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\player_block_actions.rs",
+        },
+        "DataItemType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\data_item.rs",
+        },
     },
-    "ShapelessRecipe": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
+    "enums": {
+        "ShapedRecipe": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
+        },
+        "ShapelessRecipe": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
+        },
+        "ItemStackResponseContainerInfo": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\item_stack_net_result.rs",
+        },
+        "ShapedChemistryRecipe": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
+        },
     },
-    "PlayerBlockActionData": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\player_block_actions.rs",
-    },
-    "LevelSettings": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\start_game.rs",
-    },
-    "PackedItemUseLegacyInventoryTransaction": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
-    },
-    "ItemStackResponseInfo": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\item_stack_response.rs",
-    },
-    "CameraPreset": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\camera_presets.rs",
-    },
-    "PlayerActionType": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_action.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\player_block_action_data.rs",
-    },
-    "ItemStackResponseContainerInfo": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\item_stack_net_result.rs",
-    },
-    "ItemStackNetResult": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_info.rs",
-    },
-    "CodeBuilderExecutionState": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\code_builder_source.rs",
-    },
-    "ShapedRecipe": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
-    },
-    "PlayerBlockActions": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
-    },
-    "ActorLink": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_actor.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\set_actor_link.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_player.rs",
-    },
-    "CameraPresets": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\camera_presets.rs",
-    },
-    "RecipeUnlockingRequirement": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
-    },
-    "ItemStackRequestSlotInfo": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\item_stack_request.rs",
-    },
-    "SoftEnumUpdateType": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\update_soft_enum.rs",
-    },
-    "CameraInstruction": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\camera_instruction.rs",
-    },
-    "ItemStackResponseSlotInfo": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_container_info.rs",
-    },
-    "CraftingDataEntry": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\crafting_data.rs",
-    },
-    "ShapedChemistryRecipe": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\enums\\crafting_data_entry_type.rs",
-    },
-    "FullContainerName": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\inventory_slot.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\inventory_content.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_response_container_info.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\item_stack_request_slot_info.rs",
-    },
-    "CraftingDataEntryType": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\types\\crafting_data_entry.rs",
-    },
-    "BossEventUpdateType": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\boss_event.rs",
-    },
-    "DataItem": {
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_player.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\set_actor_data.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_actor.rs",
-        "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_item_actor.rs",
+    "packet": {
+        "SoftEnumUpdateType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\update_soft_enum.rs",
+        },
+        "ItemStackResponseInfo": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\item_stack_response.rs",
+        },
+        "ItemStackRequestSlotInfo": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\item_stack_request.rs",
+        },
+        "CameraInstruction": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\camera_instruction.rs",
+        },
+        "PackedItemUseLegacyInventoryTransaction": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
+        },
+        "PlayerActionType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_action.rs",
+        },
+        "PlayerBlockActions": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\player_auth_input.rs",
+        },
+        "CameraPresets": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\camera_presets.rs",
+        },
+        "FullContainerName": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\inventory_content.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\inventory_slot.rs",
+        },
+        "CodeBuilderExecutionState": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\code_builder_source.rs",
+        },
+        "ActorLink": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_actor.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_player.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\set_actor_link.rs",
+        },
+        "CraftingDataEntry": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\crafting_data.rs",
+        },
+        "LevelSettings": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\start_game.rs",
+        },
+        "DataItem": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_player.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_item_actor.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\add_actor.rs",
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\set_actor_data.rs",
+        },
+        "BossEventUpdateType": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v662\\packets\\boss_event.rs",
+        },
     },
 }

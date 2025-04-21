@@ -1,7 +1,9 @@
 {
-    "RecipeUnlockingRequirement": TokenInfo {
-        name: "ShapedRecipe",
-        file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
-        usages: {},
+    "packet": {},
+    "types": {
+        "RecipeUnlockingRequirement": {
+            "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
+        },
     },
+    "enums": {},
 }

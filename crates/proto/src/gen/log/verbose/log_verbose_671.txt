@@ -14,11 +14,6 @@ Version {
         },
     },
     types: {
-        "ShapedChemistryRecipe": TokenInfo {
-            name: "ShapedChemistryRecipe",
-            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_chemistry_recipe.rs",
-            usages: {},
-        },
         "LevelSettings": TokenInfo {
             name: "LevelSettings",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\level_settings.rs",
@@ -27,6 +22,11 @@ Version {
         "ShapedRecipe": TokenInfo {
             name: "ShapedRecipe",
             file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_recipe.rs",
+            usages: {},
+        },
+        "ShapedChemistryRecipe": TokenInfo {
+            name: "ShapedChemistryRecipe",
+            file_path: "C:\\Users\\Administrator\\RustroverProjects\\bedrockrs\\crates\\proto\\src\\version\\v671\\types\\shaped_chemistry_recipe.rs",
             usages: {},
         },
     },
