@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::env;
 use std::error::Error;
 use std::ffi::OsStr;
@@ -253,6 +253,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             version.find_usages();
 
+            // region Logging
             let mut enum_usages = version
                 .enums
                 .iter()
@@ -338,11 +339,13 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .open(&log_verbose_file)?;
 
             write!(&file_full, "{:#?}", version)?;
+            // endregion
 
             versions.push(version);
         }
     }
 
+    // region Logging
     let log_verbose_path = log_verbose_dir.join("log_verbose.txt");
     let log_verbose_file = OpenOptions::new()
         .write(true)
@@ -351,6 +354,77 @@ fn main() -> Result<(), Box<dyn Error>> {
         .open(&log_verbose_path)?;
 
     write!(&log_verbose_file, "{:#?}", versions)?;
+    // endregion
+    
+    let mut token_usages = versions
+        .iter()
+        .map(|version| {
+            let enums = version.enums
+                .iter()
+                .map(|item| {
+                    (
+                        item.0.clone(),
+                        item.1.usages
+                            .iter()
+                            .map(|(n, _)| n.clone())
+                            .collect::<Vec<_>>(),
+                    )
+                })
+                .collect::<Vec<_>>();
+            
+            let packets = version.packets
+                .iter()
+                .map(|item| {
+                    (
+                        item.0.clone(),
+                        item.1.usages
+                            .iter()
+                            .map(|(n, _)| n.clone())
+                            .collect::<Vec<_>>(),
+                    )
+                })
+                .collect::<Vec<_>>();
+
+            let types = version.types
+                .iter()
+                .map(|item| {
+                    (
+                        item.0.clone(),
+                        item.1.usages
+                            .iter()
+                            .map(|(n, _)| n.clone())
+                            .collect::<Vec<_>>(),
+                    )
+                })
+                .collect::<Vec<_>>();
+            
+            vec![enums, packets, types]
+                .iter()
+                .flatten()
+                .map(|v| {
+                    (
+                        v.0.clone(),
+                        v.1
+                            .clone()
+                            .into_iter()
+                            .collect::<HashSet<_>>()
+                    )
+                })
+                .collect::<HashMap<_, _>>()
+        })
+        .flatten()
+        .collect::<HashMap<_, _>>();
+
+    // region Logging
+    let log_verbose_path = log_verbose_dir.join("log_verbose_usages.txt");
+    let log_verbose_file = OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .open(&log_verbose_path)?;
+
+    write!(&log_verbose_file, "{:#?}", token_usages)?;
+    // endregion
 
     Ok(())
 }
