@@ -253,60 +253,69 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             version.find_usages();
 
+            let mut enum_usages = version
+                .enums
+                .iter()
+                .filter_map(|(name, e)| {
+                    if e.usages.len() > 0 {
+                        Some((
+                            name,
+                            e.usages
+                                .iter()
+                                .map(|(n, p)| (n, p.file_name().unwrap()))
+                                .collect::<HashMap<_, _>>(),
+                        ))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            enum_usages.sort_by(|(a, _), (b, _)| a.cmp(b));
+
+            let mut packet_usages = version
+                .packets
+                .iter()
+                .filter_map(|(name, e)| {
+                    if e.usages.len() > 0 {
+                        Some((
+                            name,
+                            e.usages
+                                .iter()
+                                .map(|(n, p)| (n, p.file_name().unwrap()))
+                                .collect::<HashMap<_, _>>(),
+                        ))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            packet_usages.sort_by(|(a, _), (b, _)| a.cmp(b));
+
+            let mut type_usages = version
+                .types
+                .iter()
+                .filter_map(|(name, e)| {
+                    if e.usages.len() > 0 {
+                        Some((
+                            name,
+                            e.usages
+                                .iter()
+                                .map(|(n, p)| (n, p.file_name().unwrap()))
+                                .collect::<HashMap<_, _>>(),
+                        ))
+                    } else {
+                        None
+                    }
+                })
+                .collect::<Vec<_>>();
+            type_usages.sort_by(|(a, _), (b, _)| a.cmp(b));
+
             let log_str = format!(
                 "VERSION: {:#?},\n\nENUM USAGES: {:#?},\n\nPACKET USAGES: {:#?},\n\nTYPE USAGES: {:#?}",
                 protocol_version,
-                version.enums.iter()
-                    .filter_map(|(name, e)|
-                        if e.usages.len() > 0 {
-                            Some(
-                                (
-                                    name,
-                                    e.usages
-                                        .iter()
-                                        .map(|(n, p)|
-                                            (n, p.file_name().unwrap())
-                                        )
-                                        .collect::<HashMap<_, _>>()
-                                )
-                            )
-                        } else { None }
-                    )
-                    .collect::<Vec<_>>(),
-                version.packets.iter()
-                    .filter_map(|(name, e)|
-                        if e.usages.len() > 0 {
-                            Some(
-                                (
-                                    name,
-                                    e.usages
-                                        .iter()
-                                        .map(|(n, p)|
-                                            (n, p.file_name().unwrap())
-                                        )
-                                        .collect::<HashMap<_, _>>()
-                                )
-                            )
-                        } else { None }
-                    )
-                    .collect::<Vec<_>>(),
-                version.types.iter()
-                    .filter_map(|(name, e)|
-                        if e.usages.len() > 0 {
-                            Some(
-                                (
-                                    name,
-                                    e.usages
-                                        .iter()
-                                        .map(|(n, p)|
-                                            (n, p.file_name().unwrap())
-                                        )
-                                        .collect::<HashMap<_, _>>()
-                                )
-                            )
-                        } else { None }
-                    )
-                    .collect::<Vec<_>>(),
+                enum_usages,
+                packet_usages,
+                type_usages,
             );
 
             let log_file = log_dir.join(format!("log_{}.txt", protocol_version));

@@ -2,9 +2,9 @@ VERSION: 748,
 
 ENUM USAGES: [
     (
-        "ItemStackNetResult",
+        "BossEventUpdateType",
         {
-            "ItemStackResponseInfo": "item_stack_response_info.rs",
+            "BossEventPacket": "boss_event.rs",
         },
     ),
     (
@@ -20,22 +20,22 @@ ENUM USAGES: [
         },
     ),
     (
-        "RecipeUnlockingContext",
+        "ItemStackNetResult",
         {
-            "RecipeUnlockingRequirement": "recipe_unlocking_requirement.rs",
-        },
-    ),
-    (
-        "BossEventUpdateType",
-        {
-            "BossEventPacket": "boss_event.rs",
+            "ItemStackResponseInfo": "item_stack_response_info.rs",
         },
     ),
     (
         "PlayerActionType",
         {
-            "PlayerActionPacket": "player_action.rs",
             "PlayerBlockActionData": "player_block_action_data.rs",
+            "PlayerActionPacket": "player_action.rs",
+        },
+    ),
+    (
+        "RecipeUnlockingContext",
+        {
+            "RecipeUnlockingRequirement": "recipe_unlocking_requirement.rs",
         },
     ),
     (
@@ -50,44 +50,23 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
+        "ActorLink",
+        {
+            "SetActorLinkPacket": "set_actor_link.rs",
+            "AddActorPacket": "add_actor.rs",
+            "AddPlayerPacket": "add_player.rs",
+        },
+    ),
+    (
+        "CameraInstruction",
+        {
+            "CameraInstructionPacket": "camera_instruction.rs",
+        },
+    ),
+    (
         "CameraPreset",
         {
             "CameraPresets": "camera_presets.rs",
-        },
-    ),
-    (
-        "ItemStackRequestSlotInfo",
-        {
-            "PlayerAuthInputPacket": "player_auth_input.rs",
-            "ItemStackRequestPacket": "item_stack_request.rs",
-        },
-    ),
-    (
-        "LevelSettings",
-        {
-            "StartGamePacket": "start_game.rs",
-        },
-    ),
-    (
-        "FullContainerName",
-        {
-            "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
-            "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
-            "InventoryContentPacket": "inventory_content.rs",
-            "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
-            "InventorySlotPacket": "inventory_slot.rs",
-        },
-    ),
-    (
-        "PlayerBlockActionData",
-        {
-            "PlayerBlockActions": "player_block_actions.rs",
-        },
-    ),
-    (
-        "PlayerBlockActions",
-        {
-            "PlayerAuthInputPacket": "player_auth_input.rs",
         },
     ),
     (
@@ -99,36 +78,33 @@ TYPE USAGES: [
     (
         "DataItem",
         {
-            "AddItemActorPacket": "add_item_actor.rs",
-            "AddPlayerPacket": "add_player.rs",
             "AddActorPacket": "add_actor.rs",
+            "AddPlayerPacket": "add_player.rs",
             "SetActorDataPacket": "set_actor_data.rs",
+            "AddItemActorPacket": "add_item_actor.rs",
         },
     ),
     (
-        "ActorLink",
+        "FullContainerName",
         {
-            "AddPlayerPacket": "add_player.rs",
-            "SetActorLinkPacket": "set_actor_link.rs",
-            "AddActorPacket": "add_actor.rs",
+            "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
+            "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
+            "InventoryContentPacket": "inventory_content.rs",
+            "InventorySlotPacket": "inventory_slot.rs",
+            "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
         },
     ),
     (
-        "CameraInstruction",
+        "ItemStackRequestSlotInfo",
         {
-            "CameraInstructionPacket": "camera_instruction.rs",
+            "ItemStackRequestPacket": "item_stack_request.rs",
+            "PlayerAuthInputPacket": "player_auth_input.rs",
         },
     ),
     (
         "ItemStackResponseContainerInfo",
         {
             "ItemStackNetResult": "item_stack_net_result.rs",
-        },
-    ),
-    (
-        "PackedItemUseLegacyInventoryTransaction",
-        {
-            "PlayerAuthInputPacket": "player_auth_input.rs",
         },
     ),
     (
@@ -141,6 +117,30 @@ TYPE USAGES: [
         "ItemStackResponseSlotInfo",
         {
             "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
+        },
+    ),
+    (
+        "LevelSettings",
+        {
+            "StartGamePacket": "start_game.rs",
+        },
+    ),
+    (
+        "PackedItemUseLegacyInventoryTransaction",
+        {
+            "PlayerAuthInputPacket": "player_auth_input.rs",
+        },
+    ),
+    (
+        "PlayerBlockActionData",
+        {
+            "PlayerBlockActions": "player_block_actions.rs",
+        },
+    ),
+    (
+        "PlayerBlockActions",
+        {
+            "PlayerAuthInputPacket": "player_auth_input.rs",
         },
     ),
     (
