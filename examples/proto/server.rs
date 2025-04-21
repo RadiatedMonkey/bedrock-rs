@@ -8,6 +8,7 @@ use bedrockrs_proto::v662::packets::{
 use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
 use bedrockrs_proto::v662::GamePackets;
 use bedrockrs_proto::v662::ProtoHelperV662;
+use bedrockrs_proto::v766;
 use tokio::time::Instant;
 
 #[tokio::main]
@@ -16,6 +17,7 @@ async fn main() {
         "§5Hot Chickens in Your Area!!!".to_string(),
         "bedrockrs".to_string(),
         "1.0".to_string(),
+        v766::info::PROTOCOL_VERSION,
         100,
         10,
         "127.0.0.1:19132".parse().unwrap(),

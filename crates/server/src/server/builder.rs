@@ -1,5 +1,6 @@
 use crate::server::Server;
 use bedrockrs_proto::listener::Listener;
+use bedrockrs_proto::v766;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 pub struct ServerBuilder {
@@ -45,6 +46,7 @@ impl ServerBuilder {
                     self.name.clone(),
                     self.sub_name.clone(),
                     String::from("1.21.0"),
+                    v766::info::PROTOCOL_VERSION,
                     self.max_player,
                     0,
                     addr,
