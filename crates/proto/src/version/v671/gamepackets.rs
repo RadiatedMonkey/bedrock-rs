@@ -14,7 +14,7 @@ use super::packets::{
     ContainerSetDataPacket, CorrectPlayerMovePredictionPacket, CraftingDataPacket,
     CreatePhotoPacket, CreativeContentPacket, DeathInfoPacket, DebugInfoPacket,
     DimensionDataPacket, DisconnectPacket, EditorNetworkPacket, EduUriResourcePacket,
-    EducationSettingsPacket, EmoteListPacket, EmotePacket, FeatureRegistryPacket, FilterTextPacket,
+    EducationSettingsPacket, EmoteListPacket, EmotePacket, FeatureRegistryPacket,
     GameRulesChangedPacket, GameTestRequestPacket, GameTestResultsPacket, GuiDataPickItemPacket,
     HurtArmorPacket, InteractPacket, InventoryContentPacket, InventorySlotPacket,
     InventoryTransactionPacket, ItemComponentPacket, ItemStackRequestPacket,
