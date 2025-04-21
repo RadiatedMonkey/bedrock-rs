@@ -1,11 +1,10 @@
 use super::super::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
-use super::super::types::ActorUniqueID;
+use super::super::types::{ActorUniqueID, ActorRuntimeID};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
 use varint_rs::{VarintReader, VarintWriter};
-use crate::v671::types::ActorRuntimeID;
 
 #[gamepacket(id = 65)]
 #[derive(Clone, Debug)]
