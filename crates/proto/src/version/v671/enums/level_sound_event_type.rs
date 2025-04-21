@@ -479,10 +479,6 @@ pub enum LevelSoundEventType {
     WolfArmorRepair = 513,
     MaceSmashAir = 514,
     MaceSmashGround = 515,
-    TrialSpawnerChargeActivate = 516,
-    TrialSpawnerAmbientOminous = 517,
-    OminousItemSpawnerSpawnItem = 518,
-    OminousBottleEndUse = 519,
     MaceHeavySmashGround = 520,
     Undefined = 521,
 }

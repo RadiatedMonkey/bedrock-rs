@@ -1,4 +1,4 @@
-use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient, RecipeUnlockingRequirement};
 use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
@@ -15,4 +15,5 @@ pub struct ShapelessRecipe {
     pub recipe_tag: String,
     #[endianness(var)]
     pub priority: i32,
+    pub unlocking_requirement: RecipeUnlockingRequirement
 }

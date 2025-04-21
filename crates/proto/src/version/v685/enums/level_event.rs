@@ -5,7 +5,7 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_endianness(var)]
 #[repr(i32)]
 pub enum LevelEvent {
-    _9800 = 3617,
+    _9800 = 3619,
     Undefined = 0,
     SoundClick = 1000,
     SoundClickFail = 1001,
@@ -125,12 +125,16 @@ pub enum LevelEvent {
     ParticlesTrialSpawnerSpawning = 3612,
     ParticlesTrialSpawnerEjecting = 3613,
     ParticlesWindExplosion = 3614,
-    AllPlayersSleeping = 3615,
-    Deprecated = 3616,
+    ParticlesTrialSpawnerDetectionCharged = 3615,
+    ParticlesTrialSpawnerBecomeCharged = 3616,
+    AllPlayersSleeping = 3617,
+    Deprecated = 3618,
     SleepingPlayers = 9801,
     JumpPrevented = 9810,
     AnimationVaultActivate = 9811,
     AnimationVaultDeactivate = 9812,
     AnimationVaultEjectItem = 9813,
+    AnimationSpawnCobweb = 9814,
+    ParticleSmashAttackGroundDust = 9815,
     ParticleLegacyEvent = 0x4000,
 }

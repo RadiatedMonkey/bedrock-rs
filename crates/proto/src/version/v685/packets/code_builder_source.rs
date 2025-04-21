@@ -1,4 +1,4 @@
-use super::super::enums::{CodeBuilderStorageCategory, CodeBuilderStorageOperation};
+use super::super::enums::{CodeBuilderStorageCategory, CodeBuilderStorageOperation, CodeBuilderCodeStatus};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 178)]
@@ -6,5 +6,5 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 pub struct CodeBuilderSourcePacket {
     pub operation: CodeBuilderStorageOperation,
     pub category: CodeBuilderStorageCategory,
-    pub value: String,
+    pub code_status: CodeBuilderCodeStatus,
 }

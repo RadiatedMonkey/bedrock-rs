@@ -47,12 +47,12 @@ use super::packets::{
     SimulationTypePacket, SpawnExperienceOrbPacket, SpawnParticleEffectPacket, StartGamePacket,
     StopSoundPacket, StructureBlockUpdatePacket, StructureDataRequestPacket,
     StructureDataResponsePacket, SubChunkPacket, SubChunkRequestPacket, SubClientLoginPacket,
-    SyncActorPropertyPacket, TakeItemActorPacket, TextPacket, TickSyncPacket,
+    SyncActorPropertyPacket, TakeItemActorPacket, TextPacket,
     TickingAreaLoadStatusPacket, ToastRequestPacket, TransferPlayerPacket, TrimDataPacket,
     UnlockedRecipesPacket, UpdateAbilitiesPacket, UpdateAdventureSettingsPacket,
     UpdateAttributesPacket, UpdateBlockPacket, UpdateBlockSyncedPacket,
     UpdateClientInputLocksPacket, UpdateEquipPacket, UpdatePlayerGameTypePacket,
-    UpdateSoftEnumPacket, UpdateSubChunkBlocksPacket, UpdateTradePacket,
+    UpdateSoftEnumPacket, UpdateSubChunkBlocksPacket, UpdateTradePacket, AwardAchievementPacket,
 };
 use bedrockrs_macros::gamepackets;
 use bedrockrs_proto_core::error::ProtoCodecError;
@@ -83,7 +83,7 @@ gamepackets! {
     PassengerJump: PassengerJumpPacket,
     UpdateBlock: UpdateBlockPacket,
     AddPainting: AddPaintingPacket,
-    TickSync: TickSyncPacket,
+    AwardAchievement: AwardAchievementPacket,
     LevelSoundEventV1: LevelSoundEventPacketV1,
     LevelEvent: LevelEventPacket,
     BlockEvent: BlockEventPacket,

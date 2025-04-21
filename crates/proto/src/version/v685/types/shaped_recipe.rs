@@ -1,4 +1,4 @@
-use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient, RecipeUnlockingRequirement};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use std::io::Cursor;
@@ -14,6 +14,7 @@ pub struct ShapedRecipe {
     pub recipe_tag: String,
     pub priority: i32,
     pub assume_symmetry: bool,
+    pub unlocking_requirement: RecipeUnlockingRequirement
 }
 
 impl ProtoCodec for ShapedRecipe {
@@ -39,6 +40,7 @@ impl ProtoCodec for ShapedRecipe {
         self.recipe_tag.proto_serialize(stream)?;
         <i32 as ProtoCodecVAR>::proto_serialize(&self.priority, stream)?;
         self.assume_symmetry.proto_serialize(stream)?;
+        self.unlocking_requirement.proto_serialize(stream)?;
 
         Ok(())
     }
@@ -73,6 +75,7 @@ impl ProtoCodec for ShapedRecipe {
         let recipe_tag = String::proto_deserialize(stream)?;
         let priority = <i32 as ProtoCodecVAR>::proto_deserialize(stream)?;
         let assume_symmetry = bool::proto_deserialize(stream)?;
+        let unlocking_requirement = RecipeUnlockingRequirement::proto_deserialize(stream)?;
 
         Ok(Self {
             recipe_unique_id,
@@ -82,6 +85,7 @@ impl ProtoCodec for ShapedRecipe {
             recipe_tag,
             priority,
             assume_symmetry,
+            unlocking_requirement,
         })
     }
 

@@ -94,5 +94,6 @@ pub enum ParticleType {
     VaultConnection = 90,
     WindExplosion = 91,
     WolfArmorCrack = 92,
-    Count = 93,
+    OminousItemSpawner = 93,
+    Count = 94,
 }

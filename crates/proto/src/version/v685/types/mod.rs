@@ -54,6 +54,7 @@ export!(position_tracking_id);
 export!(potion_mix_data_entry);
 export!(property_sync_data);
 export!(recipe_ingredient);
+export!(recipe_unlocking_requirement);
 export!(scoreboard_id);
 export!(serialized_abilities_data);
 export!(serialized_skin);

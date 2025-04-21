@@ -12,6 +12,7 @@ pub struct TextPacket {
     pub localize: bool,
     pub sender_xuid: String,
     pub platform_id: String,
+    pub filtered_message: String,
 }
 
 impl ProtoCodec for TextPacket {
@@ -25,6 +26,7 @@ impl ProtoCodec for TextPacket {
         message_type_cursor.read_to_end(stream)?;
         String::proto_serialize(&self.sender_xuid, stream)?;
         String::proto_serialize(&self.platform_id, stream)?;
+        String::proto_serialize(&self.filtered_message, stream)?;
 
         Ok(())
     }
@@ -39,12 +41,14 @@ impl ProtoCodec for TextPacket {
         let message_type = TextPacketType::proto_deserialize(&mut sub_cursor)?;
         let sender_xuid = String::proto_deserialize(&mut sub_cursor)?;
         let platform_id = String::proto_deserialize(&mut sub_cursor)?;
+        let filtered_message = String::proto_deserialize(&mut sub_cursor)?;
 
         Ok(Self {
             message_type,
             localize,
             sender_xuid,
             platform_id,
+            filtered_message,
         })
     }
 

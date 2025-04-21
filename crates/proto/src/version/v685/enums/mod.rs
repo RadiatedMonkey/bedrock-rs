@@ -24,6 +24,7 @@ export!(camera_shake_action);
 export!(camera_shake_type);
 export!(chat_restriction_level);
 export!(client_play_mode);
+export!(code_builder_code_status);
 export!(code_builder_storage);
 export!(command_block_mode);
 export!(command_origin_type);

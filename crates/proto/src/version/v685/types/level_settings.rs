@@ -59,4 +59,7 @@ pub struct LevelSettings {
     pub override_force_experimental_gameplay: Option<bool>,
     pub chat_restriction_level: ChatRestrictionLevel,
     pub disable_player_interactions: bool,
+    pub server_id: String,
+    pub world_id: String,
+    pub scenario_id: String,
 }

@@ -166,6 +166,16 @@ pub enum Type {
     StriderRiddenInLavaInOverworld = 28,
     SneakCloseToSculkSensor = 29,
     CarefulRestoration = 30,
+    ItemUsed {
+        #[endianness(le)]
+        item_id: i16,
+        #[endianness(le)]
+        item_aux: i32,
+        #[endianness(le)]
+        use_method: i32,
+        #[endianness(le)]
+        use_count: i32,
+    } = 31,
 }
 
 impl ProtoCodec for LegacyTelemetryEventPacket {
