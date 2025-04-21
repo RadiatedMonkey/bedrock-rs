@@ -6,19 +6,22 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "BlockPos",
+        "CommandOriginData",
         [
-            "open_sign.rs",
-            "chunk_publisher_update.rs",
-            "block_actions.rs",
-            "data_item.rs",
-            "level_settings.rs",
+            "command_request.rs",
         ],
     ),
     (
-        "LevelSettings",
+        "ChunkPos",
         [
-            "start_game.rs",
+            "level_chunk.rs",
+            "chunk_publisher_update.rs",
+        ],
+    ),
+    (
+        "SpawnSettings",
+        [
+            "level_settings.rs",
         ],
     ),
     (
@@ -29,26 +32,7 @@ TYPE USAGES: [
         ],
     ),
     (
-        "NetworkPermissions",
-        [
-            "start_game.rs",
-        ],
-    ),
-    (
-        "ResourcePackInfoType",
-        [
-            "resource_packs_info.rs",
-        ],
-    ),
-    (
-        "ChunkPos",
-        [
-            "chunk_publisher_update.rs",
-            "level_chunk.rs",
-        ],
-    ),
-    (
-        "PropertySyncData",
+        "ActorLink",
         [
             "add_player.rs",
         ],
@@ -60,22 +44,31 @@ TYPE USAGES: [
         ],
     ),
     (
-        "BlockActions",
+        "GameRule",
         [
-            "input_data.rs",
-            "player_auth_input.rs",
+            "level_settings.rs",
         ],
     ),
     (
-        "PlayerMovementSettings",
+        "EduSharedResourceUri",
         [
-            "start_game.rs",
+            "level_settings.rs",
         ],
     ),
     (
-        "CommandOriginData",
+        "ConnectionRequest",
         [
-            "command_request.rs",
+            "login.rs",
+        ],
+    ),
+    (
+        "BlockPos",
+        [
+            "block_actions.rs",
+            "level_settings.rs",
+            "chunk_publisher_update.rs",
+            "data_item.rs",
+            "open_sign.rs",
         ],
     ),
     (
@@ -85,9 +78,28 @@ TYPE USAGES: [
         ],
     ),
     (
-        "EduSharedResourceUri",
+        "ResourcePackInfoType",
         [
-            "level_settings.rs",
+            "resource_packs_info.rs",
+        ],
+    ),
+    (
+        "PropertySyncData",
+        [
+            "add_player.rs",
+        ],
+    ),
+    (
+        "BlockActions",
+        [
+            "input_data.rs",
+            "player_auth_input.rs",
+        ],
+    ),
+    (
+        "LevelSettings",
+        [
+            "start_game.rs",
         ],
     ),
     (
@@ -98,39 +110,27 @@ TYPE USAGES: [
         ],
     ),
     (
+        "InputData",
+        [
+            "player_auth_input.rs",
+        ],
+    ),
+    (
+        "NetworkPermissions",
+        [
+            "start_game.rs",
+        ],
+    ),
+    (
         "PackURL",
         [
             "resource_packs_info.rs",
         ],
     ),
     (
-        "ActorLink",
+        "PlayerMovementSettings",
         [
-            "add_player.rs",
-        ],
-    ),
-    (
-        "ConnectionRequest",
-        [
-            "login.rs",
-        ],
-    ),
-    (
-        "GameRule",
-        [
-            "level_settings.rs",
-        ],
-    ),
-    (
-        "SpawnSettings",
-        [
-            "level_settings.rs",
-        ],
-    ),
-    (
-        "InputData",
-        [
-            "player_auth_input.rs",
+            "start_game.rs",
         ],
     ),
 ]

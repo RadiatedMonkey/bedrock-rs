@@ -25,12 +25,6 @@ PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "CraftingDataEntry",
-        [
-            "crafting_data.rs",
-        ],
-    ),
-    (
         "UserDataShapelessRecipe",
         [
             "crafting_data_entry_type.rs",
@@ -40,6 +34,12 @@ TYPE USAGES: [
         "PlayerBlockActions",
         [
             "player_auth_input.rs",
+        ],
+    ),
+    (
+        "CraftingDataEntry",
+        [
+            "crafting_data.rs",
         ],
     ),
     (
