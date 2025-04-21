@@ -1,7 +1,0 @@
-VERSION: 671,
-
-ENUM USAGES: [],
-
-PACKET USAGES: [],
-
-TYPE USAGES: []

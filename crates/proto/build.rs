@@ -112,6 +112,8 @@ impl<'ast, 'a> Visit<'ast> for UsageFinder<'a> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
+    return Ok(()); // unfinished
+    
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
 
     let src_dir = Path::new(&manifest_dir).join("src");

@@ -1,6 +1,0 @@
-Version {
-    version: 729,
-    enums: {},
-    packets: {},
-    types: {},
-}
