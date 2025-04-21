@@ -1,6 +1,5 @@
-use super::super::enums::ContainerID;
+use super::super::enums::{ContainerID, ContainerType};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use crate::v685::enums::ContainerType;
 
 #[gamepacket(id = 47)]
 #[derive(ProtoCodec, Clone, Debug)]
