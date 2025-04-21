@@ -1,9 +1,8 @@
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 28)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MobEffectPacket {
     pub target_runtime_id: ActorRuntimeID,
     pub event_id: Event,

@@ -1,4 +1,3 @@
-#[allow(proto_gen)]
 pub enum ActorDataIDs {
     Reserved0 = 0,
     StructuralIntegrity = 1,

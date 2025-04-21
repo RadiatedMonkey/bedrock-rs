@@ -1,9 +1,8 @@
-use crate::version::v662::enums::ModalFormCancelReason;
+use super::super::enums::ModalFormCancelReason;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 101)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ModalFormResponsePacket {
     #[endianness(var)]
     pub form_id: u32,

@@ -1,5 +1,5 @@
-use crate::version::v662::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -8,7 +8,6 @@ use varint_rs::{VarintReader, VarintWriter};
 
 #[gamepacket(id = 65)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct LegacyTelemetryEventPacket {
     pub target_actor_id: ActorUniqueID,
     pub event_type: Type,

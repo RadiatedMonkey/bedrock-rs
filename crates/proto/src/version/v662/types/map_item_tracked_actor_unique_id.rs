@@ -1,8 +1,7 @@
-use crate::version::v662::types::{ActorUniqueID, NetworkBlockPosition};
+use super::super::types::{ActorUniqueID, NetworkBlockPosition};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MapItemTrackedActorUniqueID {
     pub unique_id_type: MapItemTrackedActorType,
 }

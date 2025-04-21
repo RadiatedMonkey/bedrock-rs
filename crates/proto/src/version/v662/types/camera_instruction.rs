@@ -1,9 +1,8 @@
-use crate::version::v662::enums::EasingType;
+use super::super::enums::EasingType;
 use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CameraInstruction {
     pub set: Option<SetInstruction>,
     pub clear: Option<bool>,

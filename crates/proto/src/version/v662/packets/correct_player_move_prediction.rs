@@ -1,10 +1,9 @@
-use crate::version::v662::enums::PredictionType;
+use super::super::enums::PredictionType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 161)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CorrectPlayerMovePredictionPacket {
     #[endianness(le)]
     pub position: Vec3<f32>,

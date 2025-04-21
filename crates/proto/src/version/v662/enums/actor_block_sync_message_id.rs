@@ -4,7 +4,6 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(u64)]
 #[enum_endianness(var)]
 #[repr(u64)]
-#[allow(proto_gen)]
 pub enum ActorBlockSyncMessageID {
     NONE = 0,
     CREATE = 1,

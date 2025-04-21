@@ -1,8 +1,7 @@
-use crate::version::v662::enums::MolangVersion;
+use super::super::enums::MolangVersion;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct BaseDescription {
     pub internal_item_descriptor: InternalItemDescriptor,
     pub molang_descriptor: MolangDescriptor,

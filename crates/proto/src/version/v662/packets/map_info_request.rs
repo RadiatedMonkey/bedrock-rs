@@ -1,9 +1,8 @@
-use crate::version::v662::types::ActorUniqueID;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 68)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MapInfoRequestPacket {
     pub map_unique_id: ActorUniqueID,
     #[vec_repr(u32)]

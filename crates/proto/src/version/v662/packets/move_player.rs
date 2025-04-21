@@ -1,4 +1,4 @@
-use crate::version::v662::enums::PlayerPositionMode;
+use super::super::enums::PlayerPositionMode;
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
@@ -9,7 +9,6 @@ use vek::{Vec2, Vec3};
 
 #[gamepacket(id = 19)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MovePlayerPacket {
     pub player_runtime_id: ActorRuntimeID,
     pub position: Vec3<f32>,

@@ -1,10 +1,9 @@
-use crate::version::v662::enums::SpawnPositionType;
-use crate::version::v662::types::NetworkBlockPosition;
+use super::super::enums::SpawnPositionType;
+use super::super::types::NetworkBlockPosition;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 43)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetSpawnPositionPacket {
     pub spawn_position_type: SpawnPositionType,
     pub block_position: NetworkBlockPosition,

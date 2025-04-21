@@ -1,8 +1,8 @@
-use crate::version::v662::enums::{
+use super::super::enums::{
     ClientPlayMode, InputMode, ItemStackRequestActionType, NewInteractionModel,
     TextProcessingEventOrigin,
 };
-use crate::version::v662::types::{
+use super::super::types::{
     ActorUniqueID, ItemStackRequestSlotInfo, PackedItemUseLegacyInventoryTransaction,
     PlayerBlockActions,
 };
@@ -14,7 +14,6 @@ use vek::{Vec2, Vec3};
 
 #[gamepacket(id = 144)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerAuthInputPacket {
     pub player_rotation: Vec2<f32>,
     pub player_position: Vec3<f32>,

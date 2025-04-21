@@ -1,10 +1,9 @@
-use crate::version::v662::enums::{ContainerID, ContainerType};
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::{ContainerID, ContainerType};
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 80)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct UpdateTradePacket {
     pub container_id: ContainerID,
     pub container_type: ContainerType,

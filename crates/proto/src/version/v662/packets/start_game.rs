@@ -1,12 +1,11 @@
-use crate::version::v662::enums::GameType;
-use crate::version::v662::types::{ActorRuntimeID, ActorUniqueID, ItemData, LevelSettings, NetworkPermissions, SyncedPlayerMovementSettings};
+use super::super::enums::GameType;
+use super::super::types::{ActorRuntimeID, ActorUniqueID, ItemData, LevelSettings, NetworkPermissions, SyncedPlayerMovementSettings};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use uuid::Uuid;
 use vek::{Vec2, Vec3};
 
 #[gamepacket(id = 11)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct StartGamePacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

@@ -1,7 +1,6 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AdventureSettings {
     pub no_pvm: bool,
     pub no_mvp: bool,

@@ -1,8 +1,7 @@
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MoveActorDeltaData {
     pub actor_runtime_id: ActorRuntimeID,
     #[endianness(le)]

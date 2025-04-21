@@ -1,10 +1,9 @@
-use crate::version::v662::types::{ActorRuntimeID, ActorUniqueID, DataItem, NetworkItemStackDescriptor};
+use super::super::types::{ActorRuntimeID, ActorUniqueID, DataItem, NetworkItemStackDescriptor};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 15)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AddItemActorPacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

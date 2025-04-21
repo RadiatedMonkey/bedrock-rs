@@ -1,9 +1,8 @@
-use crate::version::v662::types::NetworkItemInstanceDescriptor;
+use super::super::types::NetworkItemInstanceDescriptor;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 145)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CreativeContentPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

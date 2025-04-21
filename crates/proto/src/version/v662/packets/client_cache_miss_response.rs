@@ -2,7 +2,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 136)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ClientCacheMissResponsePacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

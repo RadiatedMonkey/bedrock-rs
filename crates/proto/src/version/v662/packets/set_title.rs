@@ -2,7 +2,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 88)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetTitlePacket {
     pub title_type: TitleType,
     pub title_text: String,

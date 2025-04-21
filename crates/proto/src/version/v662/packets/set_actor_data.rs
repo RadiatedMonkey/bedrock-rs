@@ -1,9 +1,8 @@
-use crate::version::v662::types::{ActorRuntimeID, DataItem, PropertySyncData};
+use super::super::types::{ActorRuntimeID, DataItem, PropertySyncData};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 39)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetActorDataPacket {
     pub target_runtime_id: ActorRuntimeID,
     #[vec_repr(u32)]

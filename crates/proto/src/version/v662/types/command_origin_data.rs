@@ -1,4 +1,4 @@
-use crate::version::v662::enums::CommandOriginType;
+use super::super::enums::CommandOriginType;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
@@ -6,7 +6,6 @@ use uuid::Uuid;
 use varint_rs::{VarintReader, VarintWriter};
 
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CommandOriginData {
     pub command_type: CommandOriginType,
     pub command_uuid: Uuid,

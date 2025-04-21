@@ -2,7 +2,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 169)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct NpcDialoguePacket {
     #[endianness(le)]
     pub npc_raw_id: u64,

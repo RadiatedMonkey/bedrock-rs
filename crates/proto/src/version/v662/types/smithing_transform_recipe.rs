@@ -1,8 +1,7 @@
-use crate::version::v662::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SmithingTransformRecipe {
     pub recipe_id: String,
     pub template_ingredient: RecipeIngredient,

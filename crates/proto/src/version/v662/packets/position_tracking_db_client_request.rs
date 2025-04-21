@@ -1,9 +1,8 @@
-use crate::version::v662::types::PositionTrackingId;
+use super::super::types::PositionTrackingId;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 154)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PositionTrackingDBClientRequestPacket {
     pub action: Action,
     pub id: PositionTrackingId,

@@ -1,8 +1,7 @@
-use crate::version::v662::enums::ItemDescriptorInternalType;
+use super::super::enums::ItemDescriptorInternalType;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct RecipeIngredient {
     pub internal_type: ItemDescriptorInternalType,
     #[endianness(var)]

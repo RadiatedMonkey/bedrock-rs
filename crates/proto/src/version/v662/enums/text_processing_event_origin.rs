@@ -4,7 +4,6 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(i32)]
 #[enum_endianness(le)]
 #[repr(i32)]
-#[allow(proto_gen)]
 pub enum TextProcessingEventOrigin {
     Unknown = -1,
     ServerChatPublic = 0,

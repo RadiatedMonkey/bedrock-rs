@@ -1,9 +1,8 @@
-use crate::version::v662::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
 use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ShulkerBoxRecipe {
     pub recipe_unique_id: String,
     #[vec_repr(u32)]

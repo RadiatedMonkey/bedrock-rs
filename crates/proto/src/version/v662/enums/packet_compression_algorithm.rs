@@ -4,7 +4,6 @@ use bedrockrs_macros::ProtoCodec;
 #[enum_repr(u16)]
 #[enum_endianness(le)]
 #[repr(u16)]
-#[allow(proto_gen)]
 pub enum PacketCompressionAlgorithm {
     ZLib = 0,
     Snappy = 1,

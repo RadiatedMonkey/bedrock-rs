@@ -1,10 +1,9 @@
-use crate::version::v662::types::{ActorUniqueID, MolangVariableMap};
+use super::super::types::{ActorUniqueID, MolangVariableMap};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 118)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SpawnParticleEffectPacket {
     pub dimension_id: i8,
     pub actor_id: ActorUniqueID,

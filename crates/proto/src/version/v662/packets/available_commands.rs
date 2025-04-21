@@ -1,4 +1,4 @@
-use crate::version::v662::enums::CommandPermissionLevel;
+use super::super::enums::CommandPermissionLevel;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
@@ -7,7 +7,6 @@ use std::mem::size_of;
 
 #[gamepacket(id = 76)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AvailableCommandsPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

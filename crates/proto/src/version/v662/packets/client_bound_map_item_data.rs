@@ -1,4 +1,4 @@
-use crate::version::v662::types::{ActorUniqueID, BlockPos, MapDecoration, MapItemTrackedActorUniqueID};
+use super::super::types::{ActorUniqueID, BlockPos, MapDecoration, MapItemTrackedActorUniqueID};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -7,7 +7,6 @@ use varint_rs::{VarintReader, VarintWriter};
 
 #[gamepacket(id = 67)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ClientBoundMapItemDataPacket {
     pub map_id: ActorUniqueID,
     pub type_flags: Type,

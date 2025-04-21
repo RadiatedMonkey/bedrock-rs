@@ -1,4 +1,4 @@
-use crate::version::v662::types::{SubChunkPos, SubChunkPosOffset};
+use super::super::types::{SubChunkPos, SubChunkPosOffset};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
@@ -8,7 +8,6 @@ use std::mem::size_of;
 
 #[gamepacket(id = 174)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SubChunkPacket {
     pub cache_enabled: bool,
     pub dimension_type: i32,

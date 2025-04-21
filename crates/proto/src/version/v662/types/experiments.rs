@@ -1,7 +1,6 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct Experiment {
     pub name: String,
     pub enabled: bool,

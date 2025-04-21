@@ -1,9 +1,8 @@
-use crate::version::v662::enums::ActorLinkType;
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::ActorLinkType;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ActorLink {
     pub actor_unique_id_a: ActorUniqueID,
     pub actor_unique_id_b: ActorUniqueID,

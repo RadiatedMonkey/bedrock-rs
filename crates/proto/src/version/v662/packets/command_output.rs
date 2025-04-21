@@ -1,5 +1,5 @@
-use crate::version::v662::enums::CommandOutputType;
-use crate::version::v662::types::CommandOriginData;
+use super::super::enums::CommandOutputType;
+use super::super::types::CommandOriginData;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
@@ -9,7 +9,6 @@ use std::mem::size_of;
 
 #[gamepacket(id = 79)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CommandOutputPacket {
     pub origin_data: CommandOriginData,
     pub output_type: CommandOutputType,

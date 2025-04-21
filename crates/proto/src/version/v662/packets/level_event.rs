@@ -1,10 +1,9 @@
-use crate::version::v662::enums::LevelEvent;
+use super::super::enums::LevelEvent;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 25)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct LevelEventPacket {
     pub event_id: LevelEvent,
     #[endianness(le)]

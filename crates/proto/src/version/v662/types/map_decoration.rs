@@ -1,7 +1,6 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MapDecoration {
     pub map_decoration_type: MapDecorationType,
     pub rotation: i8,

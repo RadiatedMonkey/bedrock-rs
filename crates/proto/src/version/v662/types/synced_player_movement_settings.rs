@@ -1,8 +1,7 @@
-use crate::version::v662::enums::ServerAuthMovementMode;
+use super::super::enums::ServerAuthMovementMode;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SyncedPlayerMovementSettings {
     pub authority_mode: ServerAuthMovementMode,
     #[endianness(var)]

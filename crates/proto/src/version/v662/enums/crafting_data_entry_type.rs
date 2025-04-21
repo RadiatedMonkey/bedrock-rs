@@ -1,4 +1,4 @@
-use crate::version::v662::types::{NetworkItemInstanceDescriptor, ShapedChemistryRecipe, ShapedRecipe, ShapelessRecipe, ShulkerBoxRecipe, SmithingTransformRecipe, SmithingTrimRecipe};
+use super::super::types::{NetworkItemInstanceDescriptor, ShapedChemistryRecipe, ShapedRecipe, ShapelessRecipe, ShulkerBoxRecipe, SmithingTransformRecipe, SmithingTrimRecipe};
 use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
@@ -6,7 +6,6 @@ use uuid::Uuid;
 #[enum_repr(i32)]
 #[enum_endianness(var)]
 #[repr(i32)]
-#[allow(proto_gen)]
 pub enum CraftingDataEntryType {
     ShapelessRecipe {
         shapeless_recipe: ShapelessRecipe,

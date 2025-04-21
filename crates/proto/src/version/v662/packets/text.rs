@@ -1,4 +1,4 @@
-use crate::version::v662::enums::TextPacketType;
+use super::super::enums::TextPacketType;
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -7,7 +7,6 @@ use std::io::{Cursor, Read};
 
 #[gamepacket(id = 9)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct TextPacket {
     pub message_type: TextPacketType,
     pub localize: bool,

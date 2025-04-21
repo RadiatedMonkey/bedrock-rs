@@ -1,5 +1,5 @@
-use crate::version::v662::enums::CommandBlockMode;
-use crate::version::v662::types::{ActorRuntimeID, NetworkBlockPosition};
+use super::super::enums::CommandBlockMode;
+use super::super::types::{ActorRuntimeID, NetworkBlockPosition};
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE};
@@ -8,7 +8,6 @@ use std::mem::size_of;
 
 #[gamepacket(id = 78)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CommandBlockUpdatePacket {
     pub is_block: bool,
     pub target_runtime_id: Option<ActorRuntimeID>, // Only if is_block is false

@@ -1,9 +1,8 @@
-use crate::version::v662::types::ChunkPos;
+use super::super::types::ChunkPos;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 58)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct LevelChunkPacket {
     pub chunk_position: ChunkPos,
     #[endianness(var)]

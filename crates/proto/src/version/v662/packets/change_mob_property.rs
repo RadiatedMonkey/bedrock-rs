@@ -1,9 +1,8 @@
-use crate::version::v662::types::ActorUniqueID;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 182)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ChangeMobPropertyPacket {
     pub actor_id: ActorUniqueID,
     pub property_name: String,

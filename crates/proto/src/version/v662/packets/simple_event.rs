@@ -2,7 +2,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 64)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SimpleEventPacket {
     pub simple_event_type: Subtype,
 }

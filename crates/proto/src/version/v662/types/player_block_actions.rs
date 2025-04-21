@@ -1,8 +1,7 @@
-use crate::version::v662::types::PlayerBlockActionData;
+use super::super::types::PlayerBlockActionData;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerBlockActions {
     #[vec_repr(i32)]
     #[vec_endianness(var)]

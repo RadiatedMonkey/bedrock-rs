@@ -1,10 +1,9 @@
-use crate::version::v662::enums::{ContainerID, ContainerType};
-use crate::version::v662::types::{ActorUniqueID, NetworkBlockPosition};
+use super::super::enums::{ContainerID, ContainerType};
+use super::super::types::{ActorUniqueID, NetworkBlockPosition};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 46)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ContainerOpenPacket {
     pub container_id: ContainerID,
     pub container_type: ContainerType,

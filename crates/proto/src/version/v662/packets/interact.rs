@@ -1,4 +1,4 @@
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -7,7 +7,6 @@ use std::io::{Cursor, Read};
 
 #[gamepacket(id = 33)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct InteractPacket {
     pub action: Action,
     pub target_runtime_id: ActorRuntimeID,

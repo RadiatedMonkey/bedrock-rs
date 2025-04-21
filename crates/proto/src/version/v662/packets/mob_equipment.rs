@@ -1,10 +1,9 @@
-use crate::version::v662::enums::ContainerID;
-use crate::version::v662::types::{ActorRuntimeID, NetworkItemStackDescriptor};
+use super::super::enums::ContainerID;
+use super::super::types::{ActorRuntimeID, NetworkItemStackDescriptor};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 31)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct MobEquipmentPacket {
     pub target_runtime_id: ActorRuntimeID,
     pub item: NetworkItemStackDescriptor,

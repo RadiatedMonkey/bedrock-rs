@@ -1,9 +1,8 @@
-use crate::version::v662::types::{ContainerMixDataEntry, CraftingDataEntry, MaterialReducerDataEntry, PotionMixDataEntry};
+use super::super::types::{ContainerMixDataEntry, CraftingDataEntry, MaterialReducerDataEntry, PotionMixDataEntry};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 52)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CraftingDataPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

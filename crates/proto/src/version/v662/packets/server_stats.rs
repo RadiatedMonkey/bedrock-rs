@@ -2,7 +2,6 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 192)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ServerStatsPacket {
     #[endianness(le)]
     pub server_time: f32,

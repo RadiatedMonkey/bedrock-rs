@@ -1,10 +1,9 @@
-use crate::version::v662::enums::ComplexInventoryTransactionType;
-use crate::version::v662::types::InventoryTransaction;
+use super::super::enums::ComplexInventoryTransactionType;
+use super::super::types::InventoryTransaction;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 30)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct InventoryTransactionPacket {
     #[endianness(var)]
     pub raw_id: i32,

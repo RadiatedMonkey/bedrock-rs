@@ -1,9 +1,8 @@
-use crate::version::v662::enums::{CameraShakeAction, CameraShakeType};
+use super::super::enums::{CameraShakeAction, CameraShakeType};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 159)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct CameraShakePacket {
     #[endianness(le)]
     pub intensity: f32,

@@ -1,9 +1,8 @@
-use crate::version::v662::enums::PackType;
+use super::super::enums::PackType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 82)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ResourcePackDataInfoPacket {
     pub resource_name: String,
     #[endianness(le)]

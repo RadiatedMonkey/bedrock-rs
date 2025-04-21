@@ -1,7 +1,6 @@
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct EducationLevelSettings {
     pub code_builder_default_uri: String,
     pub code_builder_title: String,

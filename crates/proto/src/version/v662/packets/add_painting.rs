@@ -1,10 +1,9 @@
-use crate::version::v662::types::{ActorRuntimeID, ActorUniqueID};
+use super::super::types::{ActorRuntimeID, ActorUniqueID};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 22)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AddPaintingPacket {
     pub target_actor_id: ActorUniqueID,
     pub target_runtime_id: ActorRuntimeID,

@@ -1,11 +1,10 @@
-use crate::version::v662::enums::ContainerID;
+use super::super::enums::ContainerID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(u32)]
 #[enum_endianness(var)]
 #[repr(u32)]
-#[allow(proto_gen)]
 pub enum InventorySourceType {
     InvalidInventory = u32::MAX,
     ContainerInventory(ContainerID) = 0,

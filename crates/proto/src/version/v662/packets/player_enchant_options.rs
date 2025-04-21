@@ -1,9 +1,8 @@
-use crate::version::v662::types::ItemEnchants;
+use super::super::types::ItemEnchants;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 146)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerEnchantOptionsPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

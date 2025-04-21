@@ -1,11 +1,10 @@
-use crate::version::v662::enums::ItemStackNetResult;
+use super::super::enums::ItemStackNetResult;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use byteorder::{ReadBytesExt, WriteBytesExt};
 use std::io::{Cursor, Read};
 
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ItemStackResponseInfo {
     pub result: ItemStackNetResult,
     pub client_request_id: i32,

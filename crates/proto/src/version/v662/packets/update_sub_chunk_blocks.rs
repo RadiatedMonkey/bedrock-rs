@@ -1,5 +1,5 @@
-use crate::version::v662::enums::ActorBlockSyncMessageID;
-use crate::version::v662::types::NetworkBlockPosition;
+use super::super::enums::ActorBlockSyncMessageID;
+use super::super::types::NetworkBlockPosition;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
@@ -9,7 +9,6 @@ use varint_rs::{VarintReader, VarintWriter};
 
 #[gamepacket(id = 172)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct UpdateSubChunkBlocksPacket {
     pub sub_chunk_block_position: NetworkBlockPosition,
     #[vec_repr(u32)]

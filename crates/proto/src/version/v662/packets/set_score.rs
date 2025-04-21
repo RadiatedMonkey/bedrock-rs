@@ -1,9 +1,8 @@
-use crate::version::v662::enums::ScorePacketType;
+use super::super::enums::ScorePacketType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 108)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetScorePacket {
     pub score_packet_type: ScorePacketType,
 }

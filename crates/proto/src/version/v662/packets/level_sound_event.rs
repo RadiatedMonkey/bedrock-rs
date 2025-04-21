@@ -1,10 +1,9 @@
-use crate::version::v662::enums::LevelSoundEventType;
+use super::super::enums::LevelSoundEventType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 
 #[gamepacket(id = 123)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct LevelSoundEventPacket {
     pub event_id: LevelSoundEventType,
     #[endianness(le)]

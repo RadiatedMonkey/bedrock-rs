@@ -1,10 +1,9 @@
-use crate::version::v662::enums::PlayerActionType;
-use crate::version::v662::types::{ActorRuntimeID, NetworkBlockPosition};
+use super::super::enums::PlayerActionType;
+use super::super::types::{ActorRuntimeID, NetworkBlockPosition};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 36)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerActionPacket {
     pub player_runtime_id: ActorRuntimeID,
     pub action: PlayerActionType,

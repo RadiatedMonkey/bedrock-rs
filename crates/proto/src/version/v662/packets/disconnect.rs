@@ -1,4 +1,4 @@
-use crate::version::v662::enums::ConnectionFailReason;
+use super::super::enums::ConnectionFailReason;
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -6,7 +6,6 @@ use std::io::Cursor;
 
 #[gamepacket(id = 5)]
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct DisconnectPacket {
     pub reason: ConnectionFailReason,
     pub message: Option<String>,

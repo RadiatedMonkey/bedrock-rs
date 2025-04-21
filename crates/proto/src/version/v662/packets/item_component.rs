@@ -1,9 +1,7 @@
-use serde::{Deserialize, Serialize};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 162)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ItemComponentPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]

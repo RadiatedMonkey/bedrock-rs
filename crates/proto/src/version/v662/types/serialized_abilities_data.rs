@@ -1,8 +1,7 @@
-use crate::version::v662::enums::{CommandPermissionLevel, PlayerPermissionLevel};
+use super::super::enums::{CommandPermissionLevel, PlayerPermissionLevel};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SerializedAbilitiesData {
     #[endianness(le)]
     pub target_player_raw_id: i64,

@@ -1,9 +1,8 @@
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 75)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct ShowCreditsPacket {
     pub player_runtime_id: ActorRuntimeID,
     pub credits_state: CreditsState,

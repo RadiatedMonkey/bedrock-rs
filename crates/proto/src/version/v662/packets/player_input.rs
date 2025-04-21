@@ -3,7 +3,6 @@ use vek::Vec2;
 
 #[gamepacket(id = 57)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerInputPacket {
     #[endianness(le)]
     pub move_vector: Vec2<f32>,

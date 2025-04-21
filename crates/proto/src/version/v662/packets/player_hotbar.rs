@@ -1,9 +1,8 @@
-use crate::version::v662::enums::ContainerID;
+use super::super::enums::ContainerID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 48)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct PlayerHotbarPacket {
     #[endianness(var)]
     pub selected_slot: u32,

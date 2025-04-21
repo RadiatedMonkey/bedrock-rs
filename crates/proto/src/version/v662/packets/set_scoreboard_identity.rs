@@ -1,9 +1,8 @@
-use crate::version::v662::enums::ScoreboardIdentityPacketType;
+use super::super::enums::ScoreboardIdentityPacketType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 112)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SetScoreboardIdentityPacket {
     pub scoreboard_identity_packet_type: ScoreboardIdentityPacketType,
 }

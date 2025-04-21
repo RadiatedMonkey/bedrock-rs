@@ -1,9 +1,8 @@
-use crate::version::v662::types::{EntityNetID, NetworkBlockPosition};
+use super::super::types::{EntityNetID, NetworkBlockPosition};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 166)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct AddVolumeEntityPacket {
     pub entity_network_id: EntityNetID,
     #[nbt]

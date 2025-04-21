@@ -1,9 +1,8 @@
-use crate::version::v662::enums::AbilitiesIndex;
+use super::super::enums::AbilitiesIndex;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 184)]
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct RequestAbilityPacket {
     pub ability: AbilitiesIndex,
     pub value_type: Type,

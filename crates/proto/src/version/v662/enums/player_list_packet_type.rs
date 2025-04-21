@@ -1,12 +1,11 @@
-use crate::version::v662::enums::BuildPlatform;
-use crate::version::v662::types::{ActorUniqueID, SerializedSkin};
+use super::super::enums::BuildPlatform;
+use super::super::types::{ActorUniqueID, SerializedSkin};
 use bedrockrs_macros::ProtoCodec;
 use uuid::Uuid;
 
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i8)]
 #[repr(i8)]
-#[allow(proto_gen)]
 pub enum PlayerListPacketType {
     Add {
         #[vec_repr(u32)]

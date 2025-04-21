@@ -1,8 +1,7 @@
-use crate::version::v662::enums::{AnimatedTextureType, AnimationExpression};
+use super::super::enums::{AnimatedTextureType, AnimationExpression};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[allow(proto_gen)]
 pub struct SerializedSkin {
     pub skin_id: String,
     pub play_fab_id: String,

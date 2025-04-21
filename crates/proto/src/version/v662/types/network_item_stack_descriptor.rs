@@ -3,7 +3,6 @@ use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
 use std::io::Cursor;
 
 #[derive(Clone, Debug)]
-#[allow(proto_gen)]
 pub struct NetworkItemStackDescriptor {
     id: i32,
     stack_size: Option<u16>,
