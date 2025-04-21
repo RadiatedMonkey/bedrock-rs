@@ -52,9 +52,9 @@ TYPE USAGES: [
     (
         "ActorLink",
         {
-            "AddPlayerPacket": "add_player.rs",
             "AddActorPacket": "add_actor.rs",
             "SetActorLinkPacket": "set_actor_link.rs",
+            "AddPlayerPacket": "add_player.rs",
         },
     ),
     (
@@ -87,9 +87,9 @@ TYPE USAGES: [
     (
         "FullContainerName",
         {
+            "InventoryContentPacket": "inventory_content.rs",
             "InventorySlotPacket": "inventory_slot.rs",
             "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
-            "InventoryContentPacket": "inventory_content.rs",
             "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
             "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
         },

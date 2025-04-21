@@ -26,6 +26,17 @@ struct Version {
 }
 
 impl Version {
+    pub fn get_all_tokens(&self) -> HashMap<String, TokenInfo> {
+        vec![
+            self.enums.clone(), 
+            self.packets.clone(), 
+            self.types.clone()
+        ]
+            .into_iter()
+            .flatten()
+            .collect::<HashMap<_, _>>()
+    }
+    
     pub fn find_usages(&mut self) {
         let enums = self.enums.clone();
         for (name, token_info) in enums {
@@ -356,7 +367,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     write!(&log_verbose_file, "{:#?}", versions)?;
     // endregion
     
-    let mut token_usages = versions
+    let token_usages = versions
         .iter()
         .map(|version| {
             let enums = version.enums
@@ -367,7 +378,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                         item.1.usages
                             .iter()
                             .map(|(n, _)| n.clone())
-                            .collect::<Vec<_>>(),
+                            .collect::<HashSet<_>>(),
                     )
                 })
                 .collect::<Vec<_>>();
@@ -380,7 +391,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                         item.1.usages
                             .iter()
                             .map(|(n, _)| n.clone())
-                            .collect::<Vec<_>>(),
+                            .collect::<HashSet<_>>(),
                     )
                 })
                 .collect::<Vec<_>>();
@@ -393,7 +404,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                         item.1.usages
                             .iter()
                             .map(|(n, _)| n.clone())
-                            .collect::<Vec<_>>(),
+                            .collect::<HashSet<_>>(),
                     )
                 })
                 .collect::<Vec<_>>();
@@ -401,19 +412,16 @@ fn main() -> Result<(), Box<dyn Error>> {
             vec![enums, packets, types]
                 .iter()
                 .flatten()
-                .map(|v| {
-                    (
-                        v.0.clone(),
-                        v.1
-                            .clone()
-                            .into_iter()
-                            .collect::<HashSet<_>>()
-                    )
-                })
-                .collect::<HashMap<_, _>>()
+                .map(|v| { (v.0.clone(), v.1.clone()) })
+                .collect::<HashMap<_, HashSet<_>>>()
         })
         .flatten()
-        .collect::<HashMap<_, _>>();
+        .fold(HashMap::<_, HashSet<_>>::new(), |mut acc, (key, set)| {
+            acc.entry(key)
+                .and_modify(|e| e.extend(set.clone()))
+                .or_insert(set);
+            acc
+        });
 
     // region Logging
     let log_verbose_path = log_verbose_dir.join("log_verbose_usages.txt");
@@ -425,6 +433,51 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     write!(&log_verbose_file, "{:#?}", token_usages)?;
     // endregion
+    
+    for i in 0..versions.len() {
+        let current = &versions[i];
+        
+        println!("cargo:warning=PROCESSING {:?}", current.version);
+        for j in (0..i).rev() {
+            if i == j { continue; }
+            
+            let prev = &versions[j];
+            
+            println!("cargo:warning=COMPARING {:?} -> {:?}", current.version, prev.version);
+            
+            let prev_version_tokens = prev.get_all_tokens();
+            
+            let mut full_usage_set: HashMap<String, TokenInfo> = HashMap::new();
+            
+            let mut token_name_queue: Vec<String> = current.get_all_tokens().iter().map(|(n, _)| n.clone()).collect();
+            while !token_name_queue.is_empty() {
+                let token_name = token_name_queue.pop().unwrap();
+                
+                if let Some(usage_names) = token_usages.get(&token_name) {
+                    for usage_name in usage_names {
+                        if let Some(usage_token) = prev_version_tokens.get(usage_name) {
+                            full_usage_set.insert(token_name.clone(), usage_token.clone());
+                        }
+                        
+                        if let Some(sub_usages) = token_usages.get(usage_name) {
+                            token_name_queue.extend(sub_usages.iter().cloned())
+                        }
+                    }
+                }
+            }
+
+            // region Logging
+            let log_verbose_usages_path = log_verbose_dir.join(format!("log_verbose_usages_{}-{}.txt", current.version, prev.version));
+            let log_verbose_usages_file = OpenOptions::new()
+                .write(true)
+                .create(true)
+                .truncate(true)
+                .open(&log_verbose_usages_path)?;
+
+            write!(&log_verbose_usages_file, "{:#?}", full_usage_set)?;
+            // endregion
+        }
+    }
 
     Ok(())
 }
