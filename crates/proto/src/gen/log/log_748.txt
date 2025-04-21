@@ -2,6 +2,15 @@ VERSION: 748,
 
 ENUM USAGES: [
     (
+        "BossEventUpdateType",
+        [
+            (
+                "BossEventPacket",
+                "boss_event.rs",
+            ),
+        ],
+    ),
+    (
         "RecipeUnlockingContext",
         [
             (
@@ -20,11 +29,11 @@ ENUM USAGES: [
         ],
     ),
     (
-        "PlayerActionType",
+        "SoftEnumUpdateType",
         [
             (
-                "PlayerBlockActionData",
-                "player_block_action_data.rs",
+                "UpdateSoftEnumPacket",
+                "update_soft_enum.rs",
             ),
         ],
     ),
@@ -37,21 +46,57 @@ ENUM USAGES: [
             ),
         ],
     ),
+    (
+        "PlayerActionType",
+        [
+            (
+                "PlayerActionPacket",
+                "player_action.rs",
+            ),
+            (
+                "PlayerBlockActionData",
+                "player_block_action_data.rs",
+            ),
+        ],
+    ),
+    (
+        "CodeBuilderExecutionState",
+        [
+            (
+                "CodeBuilderSourcePacket",
+                "code_builder_source.rs",
+            ),
+        ],
+    ),
 ],
 
 PACKET USAGES: [],
 
 TYPE USAGES: [
     (
-        "FullContainerName",
+        "PlayerBlockActionData",
         [
             (
-                "ItemStackRequestSlotInfo",
-                "item_stack_request_slot_info.rs",
+                "PlayerBlockActions",
+                "player_block_actions.rs",
             ),
+        ],
+    ),
+    (
+        "ItemStackResponseInfo",
+        [
             (
-                "ItemStackResponseContainerInfo",
-                "item_stack_response_container_info.rs",
+                "ItemStackResponsePacket",
+                "item_stack_response.rs",
+            ),
+        ],
+    ),
+    (
+        "CameraPresets",
+        [
+            (
+                "CameraPresetsPacket",
+                "camera_presets.rs",
             ),
         ],
     ),
@@ -65,20 +110,92 @@ TYPE USAGES: [
         ],
     ),
     (
+        "ItemStackRequestSlotInfo",
+        [
+            (
+                "PlayerAuthInputPacket",
+                "player_auth_input.rs",
+            ),
+            (
+                "ItemStackRequestPacket",
+                "item_stack_request.rs",
+            ),
+        ],
+    ),
+    (
+        "CameraInstruction",
+        [
+            (
+                "CameraInstructionPacket",
+                "camera_instruction.rs",
+            ),
+        ],
+    ),
+    (
+        "FullContainerName",
+        [
+            (
+                "ContainerRegistryCleanupPacket",
+                "container_registry_cleanup.rs",
+            ),
+            (
+                "InventoryContentPacket",
+                "inventory_content.rs",
+            ),
+            (
+                "ItemStackRequestSlotInfo",
+                "item_stack_request_slot_info.rs",
+            ),
+            (
+                "ItemStackResponseContainerInfo",
+                "item_stack_response_container_info.rs",
+            ),
+            (
+                "InventorySlotPacket",
+                "inventory_slot.rs",
+            ),
+        ],
+    ),
+    (
+        "DataItem",
+        [
+            (
+                "AddPlayerPacket",
+                "add_player.rs",
+            ),
+            (
+                "SetActorDataPacket",
+                "set_actor_data.rs",
+            ),
+            (
+                "AddActorPacket",
+                "add_actor.rs",
+            ),
+            (
+                "AddItemActorPacket",
+                "add_item_actor.rs",
+            ),
+        ],
+    ),
+    (
+        "RecipeUnlockingRequirement",
+        [
+            (
+                "ShapedRecipe",
+                "shaped_recipe.rs",
+            ),
+            (
+                "ShapelessRecipe",
+                "shapeless_recipe.rs",
+            ),
+        ],
+    ),
+    (
         "ItemStackResponseContainerInfo",
         [
             (
                 "ItemStackNetResult",
                 "item_stack_net_result.rs",
-            ),
-        ],
-    ),
-    (
-        "PlayerBlockActionData",
-        [
-            (
-                "PlayerBlockActions",
-                "player_block_actions.rs",
             ),
         ],
     ),
@@ -92,6 +209,32 @@ TYPE USAGES: [
         ],
     ),
     (
+        "PackedItemUseLegacyInventoryTransaction",
+        [
+            (
+                "PlayerAuthInputPacket",
+                "player_auth_input.rs",
+            ),
+        ],
+    ),
+    (
+        "ActorLink",
+        [
+            (
+                "AddActorPacket",
+                "add_actor.rs",
+            ),
+            (
+                "AddPlayerPacket",
+                "add_player.rs",
+            ),
+            (
+                "SetActorLinkPacket",
+                "set_actor_link.rs",
+            ),
+        ],
+    ),
+    (
         "PlayerBlockActions",
         [
             (
@@ -101,15 +244,11 @@ TYPE USAGES: [
         ],
     ),
     (
-        "RecipeUnlockingRequirement",
+        "LevelSettings",
         [
             (
-                "ShapelessRecipe",
-                "shapeless_recipe.rs",
-            ),
-            (
-                "ShapedRecipe",
-                "shaped_recipe.rs",
+                "StartGamePacket",
+                "start_game.rs",
             ),
         ],
     ),

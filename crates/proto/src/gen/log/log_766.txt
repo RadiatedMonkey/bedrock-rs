@@ -1,7 +1,72 @@
 VERSION: 766,
 
-ENUM USAGES: [],
+ENUM USAGES: [
+    (
+        "CraftingDataEntryType",
+        [
+            (
+                "CraftingDataEntry",
+                "crafting_data_entry.rs",
+            ),
+        ],
+    ),
+    (
+        "PlayerActionType",
+        [
+            (
+                "PlayerBlockActionData",
+                "player_block_action_data.rs",
+            ),
+        ],
+    ),
+    (
+        "PlayerListPacketType",
+        [
+            (
+                "PlayerListPacket",
+                "player_list.rs",
+            ),
+        ],
+    ),
+],
 
 PACKET USAGES: [],
 
-TYPE USAGES: []
+TYPE USAGES: [
+    (
+        "UserDataShapelessRecipe",
+        [
+            (
+                "CraftingDataEntryType",
+                "crafting_data_entry_type.rs",
+            ),
+        ],
+    ),
+    (
+        "PlayerBlockActionData",
+        [
+            (
+                "PlayerBlockActions",
+                "player_block_actions.rs",
+            ),
+        ],
+    ),
+    (
+        "PlayerBlockActions",
+        [
+            (
+                "PlayerAuthInputPacket",
+                "player_auth_input.rs",
+            ),
+        ],
+    ),
+    (
+        "CraftingDataEntry",
+        [
+            (
+                "CraftingDataPacket",
+                "crafting_data.rs",
+            ),
+        ],
+    ),
+]

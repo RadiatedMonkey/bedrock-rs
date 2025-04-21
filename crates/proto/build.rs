@@ -1,4 +1,3 @@
-use proc_macro2::TokenTree;
 use std::collections::HashMap;
 use std::env;
 use std::error::Error;
@@ -8,7 +7,8 @@ use std::fs::{create_dir_all, read_to_string, OpenOptions};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
 use syn::__private::ToTokens;
-use syn::{Attribute, Expr, ExprLit, Item, ItemConst, Lit, Meta};
+use syn::visit::{visit_type, Visit};
+use syn::{Attribute, Expr, ExprLit, Item, ItemConst, Lit, Type};
 
 #[derive(Clone, Debug)]
 struct TokenInfo {
@@ -46,27 +46,50 @@ impl Version {
     fn find_usages_from_token(&mut self, ignore: &str, other: &TokenInfo) {
         let content = read_to_string(&other.file_path).unwrap();
         let syn_tree = syn::parse_file(&content).unwrap();
+        
+        let mut finder = UsageFinder {
+            ignore,
+            other,
+            enums: &mut self.enums,
+            packets: &mut self.packets,
+            types: &mut self.types,
+        };
+        
+        finder.visit_file(&syn_tree);
+    }
+}
 
-        let tokens = syn_tree.to_token_stream();
+struct UsageFinder<'a> {
+    pub ignore: &'a str,
+    pub other: &'a TokenInfo,
+    pub enums: &'a mut HashMap<String, TokenInfo>,
+    pub packets: &'a mut HashMap<String, TokenInfo>,
+    pub types: &'a mut HashMap<String, TokenInfo>,
+}
 
-        for token in tokens {
-            if let TokenTree::Ident(ident) = token {
-                let name = ident.to_string();
-                if name == ignore { continue; }
+impl<'ast, 'a> Visit<'ast> for UsageFinder<'a> {
+    fn visit_type(&mut self, i: &'ast Type) {
+        if let Type::Path(path) = i {
+            if let Some(segment) = path.path.segments.last() {
+                let name = segment.ident.to_string();
 
-                if let Some(token_info) = self.enums.get_mut(&name) {
-                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
-                }
+                if name != self.ignore {
+                    if let Some(token_info) = self.enums.get_mut(&name) {
+                        token_info.usages.insert(self.other.name.clone(), self.other.file_path.clone());
+                    }
 
-                if let Some(token_info) = self.packets.get_mut(&name) {
-                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
-                }
+                    if let Some(token_info) = self.packets.get_mut(&name) {
+                        token_info.usages.insert(self.other.name.clone(), self.other.file_path.clone());
+                    }
 
-                if let Some(token_info) = self.types.get_mut(&name) {
-                    token_info.usages.insert(other.name.clone(), other.file_path.clone());
+                    if let Some(token_info) = self.types.get_mut(&name) {
+                        token_info.usages.insert(self.other.name.clone(), self.other.file_path.clone());
+                    }
                 }
             }
         }
+        
+        visit_type(self, i);
     }
 }
 
