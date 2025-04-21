@@ -6,6 +6,7 @@ use crate::encryption::Encryption;
 use crate::error::ConnectionError;
 use crate::helper::ProtoHelper;
 use crate::transport::TransportLayerConnection;
+use std::net::SocketAddr;
 
 pub struct Connection {
     /// Represents the Connection's internal transport layer, which may vary
@@ -24,6 +25,16 @@ impl Connection {
             transport_layer,
             compression: None,
             encryption: None,
+        }
+    }
+
+    pub fn get_transport_conn(&self) -> &TransportLayerConnection {
+        &self.transport_layer
+    }
+
+    pub fn get_socket_addr(&self) -> &SocketAddr {
+        match &self.transport_layer {
+            TransportLayerConnection::RakNet(rak) => &rak.address,
         }
     }
 
