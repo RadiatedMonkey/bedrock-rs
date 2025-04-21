@@ -439,7 +439,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         
         println!("cargo:warning=PROCESSING {:?}", current.version);
         
-        let mut full_flat_usage_set: HashMap<String, TokenInfo> = HashMap::new();
+        let mut full_flat_usage_set: HashMap<String, HashSet<PathBuf>> = HashMap::new();
         
         for j in 0..i {
             if i == j { continue; }
@@ -450,7 +450,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             
             let prev_version_tokens = prev.get_all_tokens();
             
-            let mut flat_usage_set: HashMap<String, TokenInfo> = HashMap::new();
+            let mut flat_usage_set: HashMap<String, HashSet<PathBuf>> = HashMap::new();
             
             let mut token_name_queue: Vec<String> = current.get_all_tokens().iter().map(|(n, _)| n.clone()).collect();
             while !token_name_queue.is_empty() {
@@ -459,7 +459,15 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Some(usage_names) = token_usages.get(&token_name) {
                     for usage_name in usage_names {
                         if let Some(usage_token) = prev_version_tokens.get(usage_name) {
-                            flat_usage_set.insert(token_name.clone(), usage_token.clone());
+                            flat_usage_set.entry(token_name.clone())
+                                .and_modify(|e| { 
+                                    e.insert(usage_token.file_path.clone());
+                                })
+                                .or_insert({
+                                    let mut set = HashSet::new();
+                                    set.insert(usage_token.file_path.clone());
+                                    set
+                                });
                         }
                         
                         if let Some(sub_usages) = token_usages.get(usage_name) {

@@ -35,9 +35,9 @@ ENUM USAGES: [
     (
         "ActorType",
         {
+            "LevelSoundEventPacketV1": "level_sound_event_v1.rs",
             "LegacyTelemetryEventPacket": "legacy_telemetry_event.rs",
             "SetLastHurtByPacket": "set_last_hurt_by.rs",
-            "LevelSoundEventPacketV1": "level_sound_event_v1.rs",
         },
     ),
     (
@@ -177,13 +177,13 @@ ENUM USAGES: [
     (
         "ContainerID",
         {
+            "PlayerHotbarPacket": "player_hotbar.rs",
+            "ContainerClosePacket": "container_close.rs",
             "ContainerSetDataPacket": "container_set_data.rs",
+            "ContainerOpenPacket": "container_open.rs",
             "UpdateTradePacket": "update_trade.rs",
             "InventorySlotPacket": "inventory_slot.rs",
             "UpdateEquipPacket": "update_equip.rs",
-            "ContainerClosePacket": "container_close.rs",
-            "ContainerOpenPacket": "container_open.rs",
-            "PlayerHotbarPacket": "player_hotbar.rs",
             "MobEquipmentPacket": "mob_equipment.rs",
             "InventorySourceType": "inventory_source_type.rs",
         },
@@ -248,9 +248,9 @@ ENUM USAGES: [
     (
         "GameType",
         {
+            "UpdatePlayerGameTypePacket": "update_player_game_type.rs",
             "SetDefaultGameTypePacket": "set_default_game_type.rs",
             "SetPlayerGameTypePacket": "set_player_game_type.rs",
-            "UpdatePlayerGameTypePacket": "update_player_game_type.rs",
             "AddPlayerPacket": "add_player.rs",
             "LevelSettings": "level_settings.rs",
             "StartGamePacket": "start_game.rs",
@@ -362,16 +362,16 @@ ENUM USAGES: [
     (
         "LevelEvent",
         {
-            "LevelEventPacket": "level_event.rs",
             "LevelEventGenericPacket": "level_event_generic.rs",
+            "LevelEventPacket": "level_event.rs",
         },
     ),
     (
         "LevelSoundEventType",
         {
-            "LevelSoundEventPacket": "level_sound_event.rs",
             "LevelSoundEventPacketV1": "level_sound_event_v1.rs",
             "LevelSoundEventPacketV2": "level_sound_event_v2.rs",
+            "LevelSoundEventPacket": "level_sound_event.rs",
         },
     ),
     (
@@ -462,8 +462,8 @@ ENUM USAGES: [
     (
         "PlayerActionType",
         {
-            "PlayerActionPacket": "player_action.rs",
             "PlayerBlockActionData": "player_block_action_data.rs",
+            "PlayerActionPacket": "player_action.rs",
         },
     ),
     (
@@ -475,8 +475,8 @@ ENUM USAGES: [
     (
         "PlayerPermissionLevel",
         {
-            "RequestPermissionsPacket": "request_permissions.rs",
             "LevelSettings": "level_settings.rs",
+            "RequestPermissionsPacket": "request_permissions.rs",
             "SerializedAbilitiesData": "serialized_abilities_data.rs",
         },
     ),
@@ -604,73 +604,73 @@ TYPE USAGES: [
     (
         "ActorLink",
         {
+            "SetActorLinkPacket": "set_actor_link.rs",
             "AddActorPacket": "add_actor.rs",
             "AddPlayerPacket": "add_player.rs",
-            "SetActorLinkPacket": "set_actor_link.rs",
         },
     ),
     (
         "ActorRuntimeID",
         {
-            "ShowCreditsPacket": "show_credits.rs",
-            "StartGamePacket": "start_game.rs",
-            "AddPaintingPacket": "add_painting.rs",
-            "InteractPacket": "interact.rs",
-            "EmotePacket": "emote.rs",
-            "EmoteListPacket": "emote_list.rs",
-            "SetActorMotionPacket": "set_actor_motion.rs",
-            "AnimatePacket": "animate.rs",
-            "AddItemActorPacket": "add_item_actor.rs",
-            "TakeItemActorPacket": "take_item_actor.rs",
-            "PlayerActionPacket": "player_action.rs",
-            "MobArmorEquipmentPacket": "mob_armor_equipment.rs",
-            "MoveActorAbsoluteData": "move_actor_absolute_data.rs",
-            "MoveActorDeltaData": "move_actor_delta_data.rs",
-            "CommandBlockUpdatePacket": "command_block_update.rs",
-            "MovePlayerPacket": "move_player.rs",
-            "MobEffectPacket": "mob_effect.rs",
-            "AgentAnimationPacket": "agent_animation.rs",
-            "SetActorDataPacket": "set_actor_data.rs",
-            "ActorEventPacket": "actor_event.rs",
-            "RespawnPacket": "respawn.rs",
-            "NpcRequestPacket": "npc_request.rs",
-            "MobEquipmentPacket": "mob_equipment.rs",
-            "SetLocalPlayerAsInitializedPacket": "set_local_player_as_initialized.rs",
-            "AddActorPacket": "add_actor.rs",
-            "MotionPredictionHintsPacket": "motion_prediction_hints.rs",
             "UpdateAttributesPacket": "update_attributes.rs",
+            "CommandBlockUpdatePacket": "command_block_update.rs",
+            "ActorEventPacket": "actor_event.rs",
+            "MobEffectPacket": "mob_effect.rs",
+            "AnimatePacket": "animate.rs",
+            "AddPaintingPacket": "add_painting.rs",
+            "StartGamePacket": "start_game.rs",
+            "RespawnPacket": "respawn.rs",
+            "MovePlayerPacket": "move_player.rs",
+            "MobArmorEquipmentPacket": "mob_armor_equipment.rs",
+            "EmoteListPacket": "emote_list.rs",
+            "MoveActorAbsoluteData": "move_actor_absolute_data.rs",
+            "SetActorMotionPacket": "set_actor_motion.rs",
+            "AddItemActorPacket": "add_item_actor.rs",
+            "EmotePacket": "emote.rs",
+            "MobEquipmentPacket": "mob_equipment.rs",
+            "NpcRequestPacket": "npc_request.rs",
+            "ShowCreditsPacket": "show_credits.rs",
+            "TakeItemActorPacket": "take_item_actor.rs",
+            "MoveActorDeltaData": "move_actor_delta_data.rs",
+            "MotionPredictionHintsPacket": "motion_prediction_hints.rs",
             "AddPlayerPacket": "add_player.rs",
+            "SetActorDataPacket": "set_actor_data.rs",
+            "AddActorPacket": "add_actor.rs",
             "AnimateEntityPacket": "animate_entity.rs",
+            "AgentAnimationPacket": "agent_animation.rs",
+            "InteractPacket": "interact.rs",
+            "SetLocalPlayerAsInitializedPacket": "set_local_player_as_initialized.rs",
+            "PlayerActionPacket": "player_action.rs",
         },
     ),
     (
         "ActorUniqueID",
         {
-            "UpdateTradePacket": "update_trade.rs",
-            "AddPaintingPacket": "add_painting.rs",
+            "ChangeMobPropertyPacket": "change_mob_property.rs",
+            "StartGamePacket": "start_game.rs",
+            "ClientBoundMapItemDataPacket": "client_bound_map_item_data.rs",
             "UpdatePlayerGameTypePacket": "update_player_game_type.rs",
             "UpdateEquipPacket": "update_equip.rs",
-            "AddActorPacket": "add_actor.rs",
-            "CameraPacket": "camera.rs",
-            "SpawnParticleEffectPacket": "spawn_particle_effect.rs",
-            "ClientBoundMapItemDataPacket": "client_bound_map_item_data.rs",
-            "ActorLink": "actor_link.rs",
-            "RemoveActorPacket": "remove_actor.rs",
-            "MapInfoRequestPacket": "map_info_request.rs",
-            "LegacyTelemetryEventPacket": "legacy_telemetry_event.rs",
-            "StartGamePacket": "start_game.rs",
-            "MapCreateLockedCopyPacket": "map_create_locked_copy.rs",
-            "PlayerAuthInputPacket": "player_auth_input.rs",
-            "ChangeMobPropertyPacket": "change_mob_property.rs",
-            "BossEventUpdateType": "boss_event_update_type.rs",
-            "BossEventPacket": "boss_event.rs",
-            "DebugInfoPacket": "debug_info.rs",
-            "AddItemActorPacket": "add_item_actor.rs",
-            "PlayerListPacketType": "player_list_packet_type.rs",
-            "MapItemTrackedActorUniqueID": "map_item_tracked_actor_unique_id.rs",
-            "IdentityDefinitionType": "identity_definition_type.rs",
-            "StructureSettings": "structure_settings.rs",
+            "UpdateTradePacket": "update_trade.rs",
             "ContainerOpenPacket": "container_open.rs",
+            "StructureSettings": "structure_settings.rs",
+            "AddItemActorPacket": "add_item_actor.rs",
+            "DebugInfoPacket": "debug_info.rs",
+            "MapInfoRequestPacket": "map_info_request.rs",
+            "RemoveActorPacket": "remove_actor.rs",
+            "AddActorPacket": "add_actor.rs",
+            "LegacyTelemetryEventPacket": "legacy_telemetry_event.rs",
+            "BossEventUpdateType": "boss_event_update_type.rs",
+            "SpawnParticleEffectPacket": "spawn_particle_effect.rs",
+            "MapCreateLockedCopyPacket": "map_create_locked_copy.rs",
+            "IdentityDefinitionType": "identity_definition_type.rs",
+            "MapItemTrackedActorUniqueID": "map_item_tracked_actor_unique_id.rs",
+            "BossEventPacket": "boss_event.rs",
+            "PlayerListPacketType": "player_list_packet_type.rs",
+            "PlayerAuthInputPacket": "player_auth_input.rs",
+            "CameraPacket": "camera.rs",
+            "AddPaintingPacket": "add_painting.rs",
+            "ActorLink": "actor_link.rs",
         },
     ),
     (
@@ -682,20 +682,20 @@ TYPE USAGES: [
     (
         "BaseGameVersion",
         {
-            "LevelSettings": "level_settings.rs",
             "ResourcePackStackPacket": "resource_pack_stack.rs",
+            "LevelSettings": "level_settings.rs",
         },
     ),
     (
         "BlockPos",
         {
-            "GameTestRequestPacket": "game_test_request.rs",
-            "DataItemType": "data_item_type.rs",
             "PlayerActionType": "player_action_type.rs",
             "LabTablePacket": "lab_table.rs",
+            "DataItemType": "data_item_type.rs",
             "ClientBoundMapItemDataPacket": "client_bound_map_item_data.rs",
-            "NetworkChunkPublisherUpdatePacket": "network_chunk_publisher_update.rs",
+            "GameTestRequestPacket": "game_test_request.rs",
             "BlockPickRequestPacket": "block_pick_request.rs",
+            "NetworkChunkPublisherUpdatePacket": "network_chunk_publisher_update.rs",
         },
     ),
     (
@@ -726,8 +726,8 @@ TYPE USAGES: [
     (
         "CommandOriginData",
         {
-            "CommandRequestPacket": "command_request.rs",
             "CommandOutputPacket": "command_output.rs",
+            "CommandRequestPacket": "command_request.rs",
         },
     ),
     (
@@ -745,10 +745,10 @@ TYPE USAGES: [
     (
         "DataItem",
         {
-            "AddItemActorPacket": "add_item_actor.rs",
+            "AddActorPacket": "add_actor.rs",
             "AddPlayerPacket": "add_player.rs",
             "SetActorDataPacket": "set_actor_data.rs",
-            "AddActorPacket": "add_actor.rs",
+            "AddItemActorPacket": "add_item_actor.rs",
         },
     ),
     (
@@ -773,15 +773,15 @@ TYPE USAGES: [
     (
         "EntityNetID",
         {
-            "RemoveVolumeEntityPacket": "remove_volume_entity.rs",
             "AddVolumeEntityPacket": "add_volume_entity.rs",
+            "RemoveVolumeEntityPacket": "remove_volume_entity.rs",
         },
     ),
     (
         "GameRulesChangedPacketData",
         {
-            "LevelSettings": "level_settings.rs",
             "GameRulesChangedPacket": "game_rules_changed.rs",
+            "LevelSettings": "level_settings.rs",
         },
     ),
     (
@@ -799,8 +799,8 @@ TYPE USAGES: [
     (
         "InventoryTransaction",
         {
-            "PackedItemUseLegacyInventoryTransaction": "packed_item_use_legacy_inventory_transaction.rs",
             "InventoryTransactionPacket": "inventory_transaction.rs",
+            "PackedItemUseLegacyInventoryTransaction": "packed_item_use_legacy_inventory_transaction.rs",
         },
     ),
     (
@@ -818,8 +818,8 @@ TYPE USAGES: [
     (
         "ItemStackRequestSlotInfo",
         {
-            "ItemStackRequestPacket": "item_stack_request.rs",
             "PlayerAuthInputPacket": "player_auth_input.rs",
+            "ItemStackRequestPacket": "item_stack_request.rs",
         },
     ),
     (
@@ -885,52 +885,52 @@ TYPE USAGES: [
     (
         "NetworkBlockPosition",
         {
-            "OpenSignPacket": "open_sign.rs",
+            "SetSpawnPositionPacket": "set_spawn_position.rs",
+            "UpdateSubChunkBlocksPacket": "update_sub_chunk_blocks.rs",
+            "CommandBlockUpdatePacket": "command_block_update.rs",
+            "StructureSettings": "structure_settings.rs",
+            "PlaySoundPacket": "play_sound.rs",
+            "ContainerOpenPacket": "container_open.rs",
+            "BlockEventPacket": "block_event.rs",
+            "LecternUpdatePacket": "lectern_update.rs",
+            "LevelSettings": "level_settings.rs",
+            "AnvilDamagePacket": "anvil_damage.rs",
+            "PlayerActionPacket": "player_action.rs",
+            "StructureDataRequestPacket": "structure_data_request.rs",
+            "AddVolumeEntityPacket": "add_volume_entity.rs",
             "UpdateBlockSyncedPacket": "update_block_synced.rs",
+            "OpenSignPacket": "open_sign.rs",
+            "StructureBlockUpdatePacket": "structure_block_update.rs",
+            "UpdateBlockPacket": "update_block.rs",
+            "PackedItemUseLegacyInventoryTransaction": "packed_item_use_legacy_inventory_transaction.rs",
             "MapItemTrackedActorUniqueID": "map_item_tracked_actor_unique_id.rs",
             "BlockActorDataPacket": "block_actor_data.rs",
-            "LevelSettings": "level_settings.rs",
-            "SetSpawnPositionPacket": "set_spawn_position.rs",
-            "StructureSettings": "structure_settings.rs",
-            "UpdateBlockPacket": "update_block.rs",
-            "StructureBlockUpdatePacket": "structure_block_update.rs",
-            "PackedItemUseLegacyInventoryTransaction": "packed_item_use_legacy_inventory_transaction.rs",
-            "PlayerActionPacket": "player_action.rs",
-            "AnvilDamagePacket": "anvil_damage.rs",
-            "StructureDataRequestPacket": "structure_data_request.rs",
-            "CommandBlockUpdatePacket": "command_block_update.rs",
-            "BlockEventPacket": "block_event.rs",
-            "UpdateSubChunkBlocksPacket": "update_sub_chunk_blocks.rs",
-            "PlaySoundPacket": "play_sound.rs",
-            "LecternUpdatePacket": "lectern_update.rs",
-            "ContainerOpenPacket": "container_open.rs",
-            "AddVolumeEntityPacket": "add_volume_entity.rs",
         },
     ),
     (
         "NetworkItemInstanceDescriptor",
         {
-            "ShulkerBoxRecipe": "shulker_box_recipe.rs",
-            "CraftingDataEntryType": "crafting_data_entry_type.rs",
+            "ShapedRecipe": "shaped_recipe.rs",
             "ShapelessChemistryRecipe": "shapeless_chemistry_recipe.rs",
+            "ShulkerBoxRecipe": "shulker_box_recipe.rs",
             "CreativeContentPacket": "creative_content.rs",
             "ShapedChemistryRecipe": "shaped_chemistry_recipe.rs",
+            "CraftingDataEntryType": "crafting_data_entry_type.rs",
             "SmithingTransformRecipe": "smithing_transform_recipe.rs",
             "ShapelessRecipe": "shapeless_recipe.rs",
-            "ShapedRecipe": "shaped_recipe.rs",
         },
     ),
     (
         "NetworkItemStackDescriptor",
         {
-            "AddPlayerPacket": "add_player.rs",
-            "MobEquipmentPacket": "mob_equipment.rs",
-            "InventoryContentPacket": "inventory_content.rs",
             "PackedItemUseLegacyInventoryTransaction": "packed_item_use_legacy_inventory_transaction.rs",
-            "InventorySlotPacket": "inventory_slot.rs",
             "MobArmorEquipmentPacket": "mob_armor_equipment.rs",
             "InventoryAction": "inventory_action.rs",
             "AddItemActorPacket": "add_item_actor.rs",
+            "AddPlayerPacket": "add_player.rs",
+            "InventorySlotPacket": "inventory_slot.rs",
+            "InventoryContentPacket": "inventory_content.rs",
+            "MobEquipmentPacket": "mob_equipment.rs",
         },
     ),
     (
@@ -960,8 +960,8 @@ TYPE USAGES: [
     (
         "PositionTrackingId",
         {
-            "PositionTrackingDBClientRequestPacket": "position_tracking_db_client_request.rs",
             "PositionTrackingDBServerBroadcastPacket": "position_tracking_db_server_broadcast.rs",
+            "PositionTrackingDBClientRequestPacket": "position_tracking_db_client_request.rs",
         },
     ),
     (
@@ -973,42 +973,42 @@ TYPE USAGES: [
     (
         "PropertySyncData",
         {
+            "AddPlayerPacket": "add_player.rs",
             "SetActorDataPacket": "set_actor_data.rs",
             "AddActorPacket": "add_actor.rs",
-            "AddPlayerPacket": "add_player.rs",
         },
     ),
     (
         "RecipeIngredient",
         {
+            "SmithingTransformRecipe": "smithing_transform_recipe.rs",
+            "ShapedChemistryRecipe": "shaped_chemistry_recipe.rs",
+            "ShapelessChemistryRecipe": "shapeless_chemistry_recipe.rs",
+            "ShapelessRecipe": "shapeless_recipe.rs",
+            "ShapedRecipe": "shaped_recipe.rs",
             "ShulkerBoxRecipe": "shulker_box_recipe.rs",
             "SmithingTrimRecipe": "smithing_trim_recipe.rs",
-            "ShapedRecipe": "shaped_recipe.rs",
-            "ShapedChemistryRecipe": "shaped_chemistry_recipe.rs",
-            "SmithingTransformRecipe": "smithing_transform_recipe.rs",
-            "ShapelessRecipe": "shapeless_recipe.rs",
-            "ShapelessChemistryRecipe": "shapeless_chemistry_recipe.rs",
         },
     ),
     (
         "ScoreboardId",
         {
-            "ScorePacketType": "score_packet_type.rs",
             "ScoreboardIdentityPacketType": "scoreboard_identity_packet_type.rs",
+            "ScorePacketType": "score_packet_type.rs",
         },
     ),
     (
         "SerializedAbilitiesData",
         {
-            "UpdateAbilitiesPacket": "update_abilities.rs",
             "AddPlayerPacket": "add_player.rs",
+            "UpdateAbilitiesPacket": "update_abilities.rs",
         },
     ),
     (
         "SerializedSkin",
         {
-            "PlayerListPacketType": "player_list_packet_type.rs",
             "PlayerSkinPacket": "player_skin.rs",
+            "PlayerListPacketType": "player_list_packet_type.rs",
         },
     ),
     (
@@ -1076,8 +1076,8 @@ TYPE USAGES: [
     (
         "SubChunkPosOffset",
         {
-            "SubChunkRequestPacket": "sub_chunk_request.rs",
             "SubChunkPacket": "sub_chunk.rs",
+            "SubChunkRequestPacket": "sub_chunk_request.rs",
         },
     ),
     (

@@ -52,8 +52,8 @@ TYPE USAGES: [
     (
         "ActorLink",
         {
-            "AddActorPacket": "add_actor.rs",
             "SetActorLinkPacket": "set_actor_link.rs",
+            "AddActorPacket": "add_actor.rs",
             "AddPlayerPacket": "add_player.rs",
         },
     ),
@@ -78,19 +78,19 @@ TYPE USAGES: [
     (
         "DataItem",
         {
-            "AddItemActorPacket": "add_item_actor.rs",
             "AddPlayerPacket": "add_player.rs",
             "SetActorDataPacket": "set_actor_data.rs",
             "AddActorPacket": "add_actor.rs",
+            "AddItemActorPacket": "add_item_actor.rs",
         },
     ),
     (
         "FullContainerName",
         {
-            "InventoryContentPacket": "inventory_content.rs",
-            "InventorySlotPacket": "inventory_slot.rs",
             "ItemStackRequestSlotInfo": "item_stack_request_slot_info.rs",
             "ContainerRegistryCleanupPacket": "container_registry_cleanup.rs",
+            "InventorySlotPacket": "inventory_slot.rs",
+            "InventoryContentPacket": "inventory_content.rs",
             "ItemStackResponseContainerInfo": "item_stack_response_container_info.rs",
         },
     ),
@@ -146,8 +146,8 @@ TYPE USAGES: [
     (
         "RecipeUnlockingRequirement",
         {
-            "ShapedRecipe": "shaped_recipe.rs",
             "ShapelessRecipe": "shapeless_recipe.rs",
+            "ShapedRecipe": "shaped_recipe.rs",
         },
     ),
 ]
