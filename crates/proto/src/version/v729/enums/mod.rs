@@ -14,6 +14,7 @@ export!(actor_flags);
 export!(actor_link_type);
 export!(actor_type);
 export!(agent_action_type);
+export!(aim_assist_action);
 export!(animation_mode);
 export!(attribute_modifier_operation);
 export!(attribute_operands);

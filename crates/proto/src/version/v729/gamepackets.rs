@@ -1,4 +1,6 @@
 use super::packets::{
+    ContainerRegistryCleanupPacket,
+    CameraAimAssistPacket,
     ActorEventPacket, ActorPickRequestPacket, AddActorPacket, AddBehaviourTreePacket,
     AddItemActorPacket, AddPaintingPacket, AddPlayerPacket, AddVolumeEntityPacket,
     AgentActionEventPacket, AgentAnimationPacket, AnimateEntityPacket, AnimatePacket,
@@ -62,6 +64,8 @@ use std::io::{Cursor, Write};
 use varint_rs::{VarintReader, VarintWriter};
 
 gamepackets! {
+    ContainerRegistryCleanup: ContainerRegistryCleanupPacket,
+    CameraAimAssist: CameraAimAssistPacket,
     ServerBoundLoadingScreen: ServerBoundLoadingScreenPacket,
     ServerBoundDiagnostics: ServerBoundDiagnosticsPacket,
     JigsawStructureData: JigsawStructureDataPacket,

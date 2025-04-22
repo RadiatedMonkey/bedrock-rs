@@ -5,6 +5,8 @@ macro_rules! export {
     };
 }
 
+export!(container_registry_cleanup);
+export!(camera_aim_assist);
 export!(server_bound_loading_screen);
 export!(server_bound_diagnostics);
 export!(jigsaw_structure_data);

@@ -5,5 +5,5 @@ use super::super::enums::ContainerEnumName;
 pub struct FullContainerName {
     container: ContainerEnumName,
     #[endianness(le)]
-    dynamic_id: i32,
+    dynamic_id: Option<i32>,
 }

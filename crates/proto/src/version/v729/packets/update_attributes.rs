@@ -33,6 +33,10 @@ pub struct AttributeData {
     #[endianness(le)]
     pub current_value: f32,
     #[endianness(le)]
+    pub default_min: f32,
+    #[endianness(le)]
+    pub default_max: f32,
+    #[endianness(le)]
     pub default_value: f32,
     pub attribute_name: String,
     #[vec_repr(u32)]
