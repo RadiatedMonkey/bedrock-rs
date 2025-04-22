@@ -1,10 +1,18 @@
-use crate::version::v662::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
 use varint_rs::{VarintReader, VarintWriter};
+
+#[gamepacket(id = 65)]
+#[derive(Clone, Debug)]
+pub struct LegacyTelemetryEventPacket {
+    pub target_actor_id: ActorUniqueID,
+    pub event_type: Type,
+    pub use_player_id: i8,
+}
 
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i32)]
@@ -156,14 +164,6 @@ pub enum Type {
     StriderRiddenInLavaInOverworld = 28,
     SneakCloseToSculkSensor = 29,
     CarefulRestoration = 30,
-}
-
-#[gamepacket(id = 65)]
-#[derive(Clone, Debug)]
-pub struct LegacyTelemetryEventPacket {
-    pub target_actor_id: ActorUniqueID,
-    pub event_type: Type,
-    pub use_player_id: i8,
 }
 
 impl ProtoCodec for LegacyTelemetryEventPacket {

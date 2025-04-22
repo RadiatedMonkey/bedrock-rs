@@ -1,5 +1,16 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
+#[gamepacket(id = 6)]
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct ResourcePacksInfoPacket {
+    pub resource_pack_required: bool,
+    pub has_addon_packs: bool,
+    pub has_scripts: bool,
+    #[vec_repr(u16)]
+    #[vec_endianness(le)]
+    pub resource_packs: Vec<ResourcePackEntry>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct ResourcePackEntry {
     pub id: String,
@@ -13,15 +24,4 @@ pub struct ResourcePackEntry {
     pub is_addon_pack: bool,
     pub is_ray_tracing_capable: bool,
     pub cdn_url: String,
-}
-
-#[gamepacket(id = 6)]
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ResourcePacksInfoPacket {
-    pub resource_pack_required: bool,
-    pub has_addon_packs: bool,
-    pub has_scripts: bool,
-    #[vec_repr(u16)]
-    #[vec_endianness(le)]
-    pub resource_packs: Vec<ResourcePackEntry>,
 }

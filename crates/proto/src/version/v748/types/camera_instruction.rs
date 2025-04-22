@@ -2,6 +2,17 @@ use crate::version::v662::enums::EasingType;
 use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
+// VERIFY: SetInstruction & FadeInstruction
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct CameraInstruction {
+    pub set: Option<SetInstruction>,
+    pub clear: Option<bool>,
+    pub fade: Option<FadeInstruction>,
+    pub target: Option<TargetInstruction>,
+    pub remove_target: Option<bool>,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct EaseData {
     pub ease_type: EasingType,
@@ -56,14 +67,3 @@ pub struct TargetInstruction {
     #[endianness(le)]
     pub unique_entity_id: i64,
 }
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CameraInstruction {
-    pub set: Option<SetInstruction>,
-    pub clear: Option<bool>,
-    pub fade: Option<FadeInstruction>,
-    pub target: Option<TargetInstruction>,
-    pub remove_target: Option<bool>,
-}
-
-// VERIFY: SetInstruction & FadeInstruction

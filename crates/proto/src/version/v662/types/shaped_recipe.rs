@@ -1,4 +1,4 @@
-use crate::version::v662::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use std::io::Cursor;

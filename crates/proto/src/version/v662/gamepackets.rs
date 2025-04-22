@@ -1,4 +1,4 @@
-use crate::version::v662::packets::{
+use super::packets::{
     ActorEventPacket, ActorPickRequestPacket, AddActorPacket, AddBehaviourTreePacket,
     AddItemActorPacket, AddPaintingPacket, AddPlayerPacket, AddVolumeEntityPacket,
     AgentActionEventPacket, AgentAnimationPacket, AnimateEntityPacket, AnimatePacket,

@@ -7,6 +7,17 @@ use std::io::Cursor;
 use std::mem::size_of;
 use uuid::Uuid;
 
+#[derive(Clone, Debug)]
+#[repr(i8)]
+pub enum PlayerListPacketType {
+    Add {
+        add_player_list: Vec<AddPlayerListEntry>,
+    } = 0,
+    Remove {
+        remove_player_list: Vec<Uuid>
+    } = 1,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct AddPlayerListEntry {
     pub uuid: Uuid,
@@ -20,17 +31,6 @@ pub struct AddPlayerListEntry {
     pub is_host: bool,
     pub is_sub_client: bool,
     pub is_trusted_skin: bool,
-}
-
-#[derive(Clone, Debug)]
-#[repr(i8)]
-pub enum PlayerListPacketType {
-    Add {
-        add_player_list: Vec<AddPlayerListEntry>,
-    } = 0,
-    Remove {
-        remove_player_list: Vec<Uuid>
-    } = 1,
 }
 
 impl ProtoCodec for PlayerListPacketType {

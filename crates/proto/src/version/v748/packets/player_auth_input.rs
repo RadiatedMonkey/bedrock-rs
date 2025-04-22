@@ -13,6 +13,30 @@ use vek::{Vec2, Vec3};
 use crate::version::v748::types::PlayerBlockActions;
 use crate::version::v748::types::{ItemStackRequestSlotInfo, PackedItemUseLegacyInventoryTransaction};
 
+#[gamepacket(id = 144)]
+#[derive(Clone, Debug)]
+pub struct PlayerAuthInputPacket {
+    pub player_rotation: Vec2<f32>,
+    pub player_position: Vec3<f32>,
+    pub move_vector: Vec3<f32>,
+    pub player_head_rotation: f32,
+    pub input_data: u64,
+    pub input_mode: InputMode,
+    pub play_mode: ClientPlayMode,
+    pub new_interaction_model: NewInteractionModel,
+    pub interact_rotation: Vec3<f32>,
+    pub client_tick: u64,
+    pub velocity: Vec3<f32>,
+    pub item_use_transaction: Option<PackedItemUseLegacyInventoryTransaction>, // If input_data has PlayerAuthInputPacket::InputData::PerformItemInteraction set.
+    pub item_stack_request: Option<PerformItemStackRequestData>, // If input data has PlayerAuthInputPacket::InputData::PerformItemStackRequest set.
+    pub player_block_actions: Option<PlayerBlockActions>, // If input data has PlayerAuthInputPacket::InputData::PerformBlockActions set.
+    pub client_predicted_vehicle: Option<ClientPredictedVehicleData>, // If input data has PlayerAuthInputPacket::InputData::IsInClientPredictedVehicle set.
+    pub analog_move_vector: Vec2<f32>,
+    pub camera_orientation: Vec3<f32>,
+}
+
+// VERIFY: ProtoCodec impl
+
 pub struct PlayerAuthInputFlags;
 
 impl PlayerAuthInputFlags {
@@ -78,14 +102,6 @@ impl PlayerAuthInputFlags {
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
-pub struct ActionsEntry {
-    pub action_type: ItemStackRequestActionType,
-    pub amount: i8,
-    pub source: ItemStackRequestSlotInfo,
-    pub destination: ItemStackRequestSlotInfo,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
 pub struct PerformItemStackRequestData {
     #[endianness(var)]
     pub client_request_id: u32,
@@ -105,26 +121,12 @@ pub struct ClientPredictedVehicleData {
     pub client_predicted_vehicle: ActorUniqueID,
 }
 
-#[gamepacket(id = 144)]
-#[derive(Clone, Debug)]
-pub struct PlayerAuthInputPacket {
-    pub player_rotation: Vec2<f32>,
-    pub player_position: Vec3<f32>,
-    pub move_vector: Vec3<f32>,
-    pub player_head_rotation: f32,
-    pub input_data: u64,
-    pub input_mode: InputMode,
-    pub play_mode: ClientPlayMode,
-    pub new_interaction_model: NewInteractionModel,
-    pub interact_rotation: Vec3<f32>,
-    pub client_tick: u64,
-    pub velocity: Vec3<f32>,
-    pub item_use_transaction: Option<PackedItemUseLegacyInventoryTransaction>, // If input_data has PlayerAuthInputPacket::InputData::PerformItemInteraction set.
-    pub item_stack_request: Option<PerformItemStackRequestData>, // If input data has PlayerAuthInputPacket::InputData::PerformItemStackRequest set.
-    pub player_block_actions: Option<PlayerBlockActions>, // If input data has PlayerAuthInputPacket::InputData::PerformBlockActions set.
-    pub client_predicted_vehicle: Option<ClientPredictedVehicleData>, // If input data has PlayerAuthInputPacket::InputData::IsInClientPredictedVehicle set.
-    pub analog_move_vector: Vec2<f32>,
-    pub camera_orientation: Vec3<f32>,
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct ActionsEntry {
+    pub action_type: ItemStackRequestActionType,
+    pub amount: i8,
+    pub source: ItemStackRequestSlotInfo,
+    pub destination: ItemStackRequestSlotInfo,
 }
 
 impl ProtoCodec for PlayerAuthInputPacket {
@@ -269,5 +271,3 @@ impl ProtoCodec for PlayerAuthInputPacket {
             + ProtoCodecLE::get_size_prediction(&self.camera_orientation)
     }
 }
-
-// VERIFY: ProtoCodec impl

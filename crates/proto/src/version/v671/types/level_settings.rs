@@ -1,5 +1,5 @@
-use crate::version::v662::enums::{ChatRestrictionLevel, Difficulty, EditorWorldType, EducationEditionOffer, GamePublishSetting, GameType, GeneratorType, PlayerPermissionLevel};
-use crate::version::v662::types::{BaseGameVersion, EduSharedUriResource, Experiments, GameRulesChangedPacketData, NetworkBlockPosition, SpawnSettings};
+use super::super::enums::{ChatRestrictionLevel, Difficulty, EditorWorldType, EducationEditionOffer, GamePublishSetting, GameType, GeneratorType, PlayerPermissionLevel};
+use super::super::types::{BaseGameVersion, EduSharedUriResource, Experiments, GameRulesChangedPacketData, NetworkBlockPosition, SpawnSettings};
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -56,7 +56,7 @@ pub struct LevelSettings {
     pub limited_world_depth: i32,
     pub nether_type: bool,
     pub edu_shared_uri_resource: EduSharedUriResource,
-    pub override_force_experimental_gameplay: bool,
+    pub override_force_experimental_gameplay: Option<bool>,
     pub chat_restriction_level: ChatRestrictionLevel,
     pub disable_player_interactions: bool,
 }

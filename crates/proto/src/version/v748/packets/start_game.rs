@@ -5,13 +5,6 @@ use vek::{Vec2, Vec3};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use uuid::Uuid;
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct BlockProperty {
-    pub block_name: String,
-    #[nbt]
-    pub block_definition: nbtx::Value, // TODO: NBT Structure
-}
-
 #[gamepacket(id = 11)]
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct StartGamePacket {
@@ -49,4 +42,11 @@ pub struct StartGamePacket {
     pub server_enabled_client_side_generation: bool,
     pub block_network_ids_are_hashes: bool,
     pub network_permissions: NetworkPermissions,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct BlockProperty {
+    pub block_name: String,
+    #[nbt]
+    pub block_definition: nbtx::Value, // TODO: NBT Structure
 }

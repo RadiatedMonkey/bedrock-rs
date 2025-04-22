@@ -4,17 +4,17 @@ use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::Cursor;
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct DisconnectPacketMessage {
-    pub message: String,
-    pub filtered_message: String,
-}
-
 #[gamepacket(id = 5)]
 #[derive(Clone, Debug)]
 pub struct DisconnectPacket {
     pub reason: ConnectionFailReason,
     pub messages: Option<DisconnectPacketMessage>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct DisconnectPacketMessage {
+    pub message: String,
+    pub filtered_message: String,
 }
 
 impl ProtoCodec for DisconnectPacket {

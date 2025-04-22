@@ -2,14 +2,6 @@ use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(i8)]
-#[repr(i8)]
-pub enum AudioListener {
-    Camera = 0,
-    Player = 1,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraPreset {
     pub name: String,
     pub inherit_from: String,
@@ -40,4 +32,12 @@ pub struct CameraPreset {
     pub listener: Option<AudioListener>,
     pub player_effects: Option<bool>,
     pub align_target_and_camera_forward: Option<bool>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i8)]
+#[repr(i8)]
+pub enum AudioListener {
+    Camera = 0,
+    Player = 1,
 }

@@ -1,4 +1,4 @@
-use crate::version::v662::enums::PredictionType;
+use super::super::enums::PredictionType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use vek::Vec3;
 

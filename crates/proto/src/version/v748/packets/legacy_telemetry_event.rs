@@ -7,6 +7,14 @@ use bedrockrs_proto_core::ProtoCodec;
 use std::io::{Cursor, Read};
 use varint_rs::{VarintReader, VarintWriter};
 
+#[gamepacket(id = 65)]
+#[derive(Clone, Debug)]
+pub struct LegacyTelemetryEventPacket {
+    pub target_actor_id: ActorUniqueID,
+    pub event_type: Type,
+    pub use_player_id: i8,
+}
+
 #[derive(ProtoCodec, Clone, Debug)]
 #[enum_repr(i32)]
 #[enum_endianness(var)]
@@ -168,14 +176,6 @@ pub enum Type {
         #[endianness(var)]
         count: i32,
     } = 31,
-}
-
-#[gamepacket(id = 65)]
-#[derive(Clone, Debug)]
-pub struct LegacyTelemetryEventPacket {
-    pub target_actor_id: ActorUniqueID,
-    pub event_type: Type,
-    pub use_player_id: i8,
 }
 
 impl ProtoCodec for LegacyTelemetryEventPacket {

@@ -8,7 +8,6 @@ use crate::connection::Connection;
 use crate::error::{ListenerError, RakNetError, TransportLayerError};
 use crate::info::MINECRAFT_EDITION_MOTD;
 use crate::transport::TransportLayerListener;
-use crate::version::v729::info::PROTOCOL_VERSION;
 
 pub struct Listener {
     listener: TransportLayerListener,
