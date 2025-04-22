@@ -27,13 +27,13 @@ impl ProtoCodec for CommandBlockUpdatePacket {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
         <bool as ProtoCodec>::proto_serialize(&self.is_block, stream)?;
         match &self.is_block {
-            true => {
+            false => {
                 <ActorRuntimeID as ProtoCodec>::proto_serialize(
                     &self.target_runtime_id.as_ref().unwrap(),
                     stream,
                 )?;
             }
-            false => {
+            true => {
                 <NetworkBlockPosition as ProtoCodec>::proto_serialize(
                     &self.block_position.as_ref().unwrap(),
                     stream,
@@ -66,12 +66,12 @@ impl ProtoCodec for CommandBlockUpdatePacket {
         let is_block = <bool as ProtoCodec>::proto_deserialize(stream)?;
         let (target_runtime_id, block_position, command_block_mode, redstone_mode, is_conditional) =
             match &is_block {
-                true => {
+                false => {
                     let target_runtime_id =
                         Some(<ActorRuntimeID as ProtoCodec>::proto_deserialize(stream)?);
                     (target_runtime_id, None, None, None, None)
                 }
-                false => {
+                true => {
                     let block_position = Some(
                         <NetworkBlockPosition as ProtoCodec>::proto_deserialize(stream)?,
                     );

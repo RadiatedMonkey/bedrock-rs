@@ -5,6 +5,8 @@ macro_rules! export {
     };
 }
 
+export!(movement_prediction_sync);
+export!(camera_aim_assist_instruction);
 export!(camera_aim_assist_presets);
 export!(set_movement_authority);
 export!(movement_effect);

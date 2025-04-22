@@ -18,6 +18,7 @@ pub struct CommandBlockUpdatePacket {
     pub command: String,
     pub last_output: String,
     pub name: String,
+    pub filtered_name: String,
     pub track_output: bool,
     pub tick_delay: u32,
     pub should_execute_on_first_tick: bool,
@@ -27,13 +28,13 @@ impl ProtoCodec for CommandBlockUpdatePacket {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
         <bool as ProtoCodec>::proto_serialize(&self.is_block, stream)?;
         match &self.is_block {
-            true => {
+            false => {
                 <ActorRuntimeID as ProtoCodec>::proto_serialize(
                     &self.target_runtime_id.as_ref().unwrap(),
                     stream,
                 )?;
             }
-            false => {
+            true => {
                 <NetworkBlockPosition as ProtoCodec>::proto_serialize(
                     &self.block_position.as_ref().unwrap(),
                     stream,
@@ -55,6 +56,7 @@ impl ProtoCodec for CommandBlockUpdatePacket {
         <String as ProtoCodec>::proto_serialize(&self.command, stream)?;
         <String as ProtoCodec>::proto_serialize(&self.last_output, stream)?;
         <String as ProtoCodec>::proto_serialize(&self.name, stream)?;
+        <String as ProtoCodec>::proto_serialize(&self.filtered_name, stream)?;
         <bool as ProtoCodec>::proto_serialize(&self.track_output, stream)?;
         <u32 as ProtoCodecLE>::proto_serialize(&self.tick_delay, stream)?;
         <bool as ProtoCodec>::proto_serialize(&self.should_execute_on_first_tick, stream)?;
@@ -66,12 +68,12 @@ impl ProtoCodec for CommandBlockUpdatePacket {
         let is_block = <bool as ProtoCodec>::proto_deserialize(stream)?;
         let (target_runtime_id, block_position, command_block_mode, redstone_mode, is_conditional) =
             match &is_block {
-                true => {
+                false => {
                     let target_runtime_id =
                         Some(<ActorRuntimeID as ProtoCodec>::proto_deserialize(stream)?);
                     (target_runtime_id, None, None, None, None)
                 }
-                false => {
+                true => {
                     let block_position = Some(
                         <NetworkBlockPosition as ProtoCodec>::proto_deserialize(stream)?,
                     );
@@ -92,6 +94,7 @@ impl ProtoCodec for CommandBlockUpdatePacket {
         let command = <String as ProtoCodec>::proto_deserialize(stream)?;
         let last_output = <String as ProtoCodec>::proto_deserialize(stream)?;
         let name = <String as ProtoCodec>::proto_deserialize(stream)?;
+        let filtered_name = <String as ProtoCodec>::proto_deserialize(stream)?;
         let track_output = <bool as ProtoCodec>::proto_deserialize(stream)?;
         let tick_delay = <u32 as ProtoCodecLE>::proto_deserialize(stream)?;
         let should_execute_on_first_tick = <bool as ProtoCodec>::proto_deserialize(stream)?;
@@ -106,6 +109,7 @@ impl ProtoCodec for CommandBlockUpdatePacket {
             command,
             last_output,
             name,
+            filtered_name,
             track_output,
             tick_delay,
             should_execute_on_first_tick,

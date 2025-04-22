@@ -5,6 +5,7 @@ use bedrockrs_macros::ProtoCodec;
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct StructureEditorData {
     pub structure_name: String,
+    pub filtered_structure_name: String,
     pub data_field: String,
     pub include_players: bool,
     pub show_bounding_box: bool,

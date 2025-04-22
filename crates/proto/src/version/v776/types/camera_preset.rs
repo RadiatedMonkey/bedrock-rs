@@ -32,6 +32,10 @@ pub struct CameraPreset {
     pub entity_offset: Option<Vec3<f32>>,
     #[endianness(le)]
     pub radius: Option<f32>,
+    #[endianness(le)]
+    pub min_yaw_limit: Option<f32>,
+    #[endianness(le)]
+    pub max_yaw_limit: Option<f32>,
     pub listener: Option<AudioListener>,
     pub player_effects: Option<bool>,
     pub align_target_and_camera_forwards: Option<bool>,

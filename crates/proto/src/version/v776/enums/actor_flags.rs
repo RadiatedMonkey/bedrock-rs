@@ -122,5 +122,5 @@ pub enum ActorFlags {
     TimerFlag2 = 116,
     TimerFlag3 = 117,
     BodyRotationBlocked = 118,
-    Count = 119,
+    RenderWhenInvisible = 119,
 }

@@ -12,6 +12,10 @@ pub enum BossEventUpdateType {
         health_percent: f32,
         #[endianness(le)]
         darken_screen: u16,
+        #[endianness(var)]
+        color: u32,
+        #[endianness(var)]
+        overlay: u32,
     } = 0,
     PlayerAdded {
         player_id: ActorUniqueID,

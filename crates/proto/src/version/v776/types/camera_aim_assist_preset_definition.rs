@@ -4,7 +4,6 @@ use super::super::types::CameraAimAssistItemSettings;
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraAimAssistPresetDefinition {
     pub identifier: String,
-    pub categories: String,
     #[vec_repr(i32)]
     #[vec_endianness(var)]
     pub exclusion_list: Vec<String>,

@@ -130,5 +130,7 @@ pub enum ActorDataIDs {
     PlayerLastDeathDimension = 128,
     PlayerHasDied = 129,
     CollisionBox = 130,
-    Count = 131,
+    VisibleMobEffects = 131,
+    FilteredName = 132,
+    BedEnterPosition = 133,
 }

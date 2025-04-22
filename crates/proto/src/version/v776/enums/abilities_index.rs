@@ -25,5 +25,5 @@ pub enum AbilitiesIndex {
     WorldBuilder = 16,
     NoClip = 17,
     PrivilegedBuilder = 18,
-    AbilityCount = 19,
+    VerticalFlySpeed = 19,
 }

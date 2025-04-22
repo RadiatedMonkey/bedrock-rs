@@ -27,9 +27,6 @@ pub struct StartGamePacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub block_properties: Vec<BlockProperty>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub item_list: Vec<ItemData>,
     pub multiplayer_correlation_id: String,
     pub enable_item_stack_net_manager: bool,
     pub server_version: String,
