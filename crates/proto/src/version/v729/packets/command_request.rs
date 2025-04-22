@@ -1,8 +1,8 @@
-use crate::version::v729::types::command_origin_data::CommandOriginData;
+use super::super::types::CommandOriginData;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 77)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct CommandRequestPacket {
     pub command: String,
     pub command_origin: CommandOriginData,

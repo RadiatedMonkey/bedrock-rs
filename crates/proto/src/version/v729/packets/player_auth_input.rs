@@ -1,168 +1,280 @@
-use crate::version::v729::types::block_actions::BlockActions;
-use crate::version::v729::types::input_data::InputData;
-use crate::version::v729::types::input_mode::InputMode;
-use crate::version::v729::types::interaction_model::InteractionModel;
-use crate::version::v729::types::play_mode::PlayMode;
+use super::super::enums::{
+    ClientPlayMode, InputMode, NewInteractionModel,
+};
+use super::super::types::{
+    PackedItemUseLegacyInventoryTransaction,
+    PlayerBlockActions,
+};
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE, ProtoCodecVAR};
-use bedrockrs_shared::actor_unique_id::ActorUniqueID;
 use std::io::Cursor;
 use vek::{Vec2, Vec3};
+use super::player_auth_input_packet::{PerformItemStackRequestData, ClientPredictedVehicleData, PlayerAuthInputFlags};
 
 #[gamepacket(id = 144)]
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug)]
 pub struct PlayerAuthInputPacket {
-    pub rotation: Vec2<f32>,
-    pub position: Vec3<f32>,
-    pub move_vec: Vec2<f32>,
-    pub head_rotation: f32,
-    pub input_data: InputData,
+    pub player_rotation: Vec2<f32>,
+    pub player_position: Vec3<f32>,
+    pub move_vector: Vec3<f32>,
+    pub player_head_rotation: f32,
+    pub input_data: u64,
     pub input_mode: InputMode,
-    pub play_mode: PlayMode,
-    pub interaction_model: InteractionModel,
-    /// Which simulation frame client is on, used to match corrections
+    pub play_mode: ClientPlayMode,
+    pub new_interaction_model: NewInteractionModel,
+    pub vr_gaze_direction: Option<Vec3<f32>>, // If play_mode == ClientPlayMode::Reality
     pub client_tick: u64,
-    /// Velocity
-    pub pos_delta: Vec3<f32>,
-    pub analog_move_vec: Vec2<f32>,
+    pub velocity: Vec3<f32>,
+    pub item_use_transaction: Option<PackedItemUseLegacyInventoryTransaction>, // If input_data has PlayerAuthInputPacket::InputData::PerformItemInteraction set.
+    pub item_stack_request: Option<PerformItemStackRequestData>, // If input data has PlayerAuthInputPacket::InputData::PerformItemStackRequest set.
+    pub player_block_actions: Option<PlayerBlockActions>, // If input data has PlayerAuthInputPacket::InputData::PerformBlockActions set.
+    pub client_predicted_vehicle: Option<ClientPredictedVehicleData>, // If input data has PlayerAuthInputPacket::InputData::IsInClientPredictedVehicle set.
+    pub analog_move_vector: Vec2<f32>,
 }
 
-macro_rules! _set_bit {
-    ($v:expr, $bit:expr) => {
-        $v |= 1 << $bit
-    };
-}
+pub mod player_auth_input_packet {
+    use super::super::super::enums::{ItemStackRequestActionType, TextProcessingEventOrigin};
+    use super::super::super::types::{ActorUniqueID, ItemStackRequestSlotInfo};
+    use bedrockrs_macros::ProtoCodec;
+    use vek::Vec2;
+    
+    #[repr(u64)]
+    pub enum PlayerAuthInputFlags {
+        Ascend = 1 << 0,
+        Descend = 1 << 1,
+        #[deprecated]
+        NorthJump = 1 << 2,
+        JumpDown = 1 << 3,
+        SprintDown = 1 << 4,
+        ChangeHeight = 1 << 5,
+        Jumping = 1 << 6,
+        AutoJumpingInWater = 1 << 7,
+        Sneaking = 1 << 8,
+        SneakDown = 1 << 9,
+        Up = 1 << 10,
+        Down = 1 << 11,
+        Left = 1 << 12,
+        Right = 1 << 13,
+        UpLeft = 1 << 14,
+        UpRight = 1 << 15,
+        WantUp = 1 << 16,
+        WantDown = 1 << 17,
+        WantDownSlow = 1 << 18,
+        WantUpSlow = 1 << 19,
+        Sprinting = 1 << 20,
+        AscendBlock = 1 << 21,
+        DescendBlock = 1 << 22,
+        SneakToggleDown = 1 << 23,
+        PersistSneak = 1 << 24,
+        StartSprinting = 1 << 25,
+        StopSprinting = 1 << 26,
+        StartSneaking = 1 << 27,
+        StopSneaking = 1 << 28,
+        StartSwimming = 1 << 29,
+        StopSwimming = 1 << 30,
+        StartJumping = 1 << 31,
+        StartGliding = 1 << 32,
+        StopGliding = 1 << 33,
+        PerformItemInteraction = 1 << 34,
+        PerformBlockActions = 1 << 35,
+        PerformItemStackRequest = 1 << 36,
+        HandleTeleport = 1 << 37,
+        Emoting = 1 << 38,
+        MissedSwing = 1 << 39,
+        StartCrawling = 1 << 40,
+        StopCrawling = 1 << 41,
+        StartFlying = 1 << 42,
+        StopFlying = 1 << 43,
+        ReceivedServerData = 1 << 44,
+        IsInClientPredictedVehicle = 1 << 45,
+        PaddleLeft = 1 << 46,
+        PaddleRight = 1 << 47,
+    }
 
-macro_rules! get_bit {
-    ($v:expr, $bit:expr) => {
-        ($v >> $bit) & 1 != 0
-    };
+    #[derive(ProtoCodec, Clone, Debug)]
+    pub struct ActionsEntry {
+        pub action_type: ItemStackRequestActionType,
+        pub amount: i8,
+        pub source: ItemStackRequestSlotInfo,
+        pub destination: ItemStackRequestSlotInfo,
+    }
+
+    #[derive(ProtoCodec, Clone, Debug)]
+    pub struct PerformItemStackRequestData {
+        #[endianness(var)]
+        pub client_request_id: u32,
+        #[vec_repr(u32)]
+        #[vec_endianness(var)]
+        pub actions: Vec<ActionsEntry>,
+        #[vec_repr(u32)]
+        #[vec_endianness(var)]
+        pub strings_to_filter: Vec<String>,
+        pub strings_to_filter_origin: TextProcessingEventOrigin,
+    }
+
+    #[derive(ProtoCodec, Clone, Debug)]
+    pub struct ClientPredictedVehicleData {
+        #[endianness(le)]
+        pub vehicle_rotation: Vec2<f32>,
+        pub client_predicted_vehicle: ActorUniqueID,
+    }
 }
 
 impl ProtoCodec for PlayerAuthInputPacket {
-    fn proto_serialize(&self, _stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
-        todo!()
+    fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
+        <Vec2<f32> as ProtoCodecLE>::proto_serialize(&self.player_rotation, stream)?;
+        <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.player_position, stream)?;
+        <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.move_vector, stream)?;
+        <f32 as ProtoCodecLE>::proto_serialize(&self.player_head_rotation, stream)?;
+        <u64 as ProtoCodecVAR>::proto_serialize(&self.input_data, stream)?;
+        <InputMode as ProtoCodec>::proto_serialize(&self.input_mode, stream)?;
+        <ClientPlayMode as ProtoCodec>::proto_serialize(&self.play_mode, stream)?;
+        <NewInteractionModel as ProtoCodec>::proto_serialize(&self.new_interaction_model, stream)?;
+        match &self.play_mode {
+            ClientPlayMode::Reality => {
+                <Vec3<f32> as ProtoCodecLE>::proto_serialize(
+                    &self.vr_gaze_direction.as_ref().unwrap(),
+                    stream,
+                )?;
+            }
+            _ => {}
+        }
+        <u64 as ProtoCodecVAR>::proto_serialize(&self.client_tick, stream)?;
+        <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.velocity, stream)?;
+        if &self.input_data & PlayerAuthInputFlags::PerformItemInteraction as u64 != 0 {
+            <PackedItemUseLegacyInventoryTransaction as ProtoCodec>::proto_serialize(
+                &self.item_use_transaction.as_ref().unwrap(),
+                stream,
+            )?;
+        }
+        if &self.input_data & PlayerAuthInputFlags::PerformItemStackRequest as u64 != 0 {
+            <PerformItemStackRequestData as ProtoCodec>::proto_serialize(
+                &self.item_stack_request.as_ref().unwrap(),
+                stream,
+            )?;
+        }
+        if &self.input_data & PlayerAuthInputFlags::PerformBlockActions as u64 != 0 {
+            <PlayerBlockActions as ProtoCodec>::proto_serialize(
+                &self.player_block_actions.as_ref().unwrap(),
+                stream,
+            )?;
+        }
+        if &self.input_data & PlayerAuthInputFlags::IsInClientPredictedVehicle as u64 != 0 {
+            <ClientPredictedVehicleData as ProtoCodec>::proto_serialize(
+                &self.client_predicted_vehicle.as_ref().unwrap(),
+                stream,
+            )?;
+        }
+        <Vec2<f32> as ProtoCodecLE>::proto_serialize(&self.analog_move_vector, stream)?;
+
+        Ok(())
     }
 
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError> {
-        let rotation = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-        let position = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-        let move_vec = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-        let head_rotation = <f32 as ProtoCodecLE>::proto_deserialize(stream)?;
-
+        let player_rotation = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let player_position = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let move_vector = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let player_head_rotation = <f32 as ProtoCodecLE>::proto_deserialize(stream)?;
         let input_data = <u64 as ProtoCodecVAR>::proto_deserialize(stream)?;
-        let input_mode = InputMode::proto_deserialize(stream)?;
-        let play_mode_int = <u32 as ProtoCodecVAR>::proto_deserialize(stream)?;
-        let interaction_model = InteractionModel::proto_deserialize(stream)?;
-
-        let play_mode = match play_mode_int {
-            0 => PlayMode::Normal,
-            1 => PlayMode::Teaser,
-            2 => PlayMode::Screen,
-            3 => PlayMode::Viewer,
-            4 => {
-                let vr_gaze_direction = ProtoCodecLE::proto_deserialize(stream)?;
-                PlayMode::Reality(vr_gaze_direction)
+        let input_mode = <InputMode as ProtoCodec>::proto_deserialize(stream)?;
+        let play_mode = <ClientPlayMode as ProtoCodec>::proto_deserialize(stream)?;
+        let new_interaction_model = <NewInteractionModel as ProtoCodec>::proto_deserialize(stream)?;
+        let vr_gaze_direction = match &play_mode {
+            ClientPlayMode::Reality => {
+                Some(<Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?)
             }
-            5 => PlayMode::Placement,
-            6 => PlayMode::LivingRoom,
-            7 => PlayMode::ExitLevel,
-            8 => PlayMode::ExitLevelLivingRoom,
-            other => {
-                return Err(ProtoCodecError::InvalidEnumID(
-                    other.to_string(),
-                    "PlayMode",
-                ))
-            }
+            _ => None,
         };
-
         let client_tick = <u64 as ProtoCodecVAR>::proto_deserialize(stream)?;
-        let pos_delta = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-
-        let input_data = InputData {
-            ascend: get_bit!(input_data, 0),
-            descend: get_bit!(input_data, 1),
-            north_jump_deprecated: get_bit!(input_data, 2),
-            jump_down: get_bit!(input_data, 3),
-            sprint_down: get_bit!(input_data, 4),
-            change_height: get_bit!(input_data, 5),
-            jumping: get_bit!(input_data, 6),
-            auto_jumping_in_water: get_bit!(input_data, 7),
-            sneaking: get_bit!(input_data, 8),
-            sneak_down: get_bit!(input_data, 9),
-            up: get_bit!(input_data, 10),
-            down: get_bit!(input_data, 11),
-            left: get_bit!(input_data, 12),
-            right: get_bit!(input_data, 13),
-            up_left: get_bit!(input_data, 14),
-            up_right: get_bit!(input_data, 15),
-            want_up: get_bit!(input_data, 16),
-            want_down: get_bit!(input_data, 17),
-            want_down_slow: get_bit!(input_data, 18),
-            want_up_slow: get_bit!(input_data, 19),
-            sprinting: get_bit!(input_data, 20),
-            ascend_block: get_bit!(input_data, 21),
-            descend_block: get_bit!(input_data, 22),
-            sneak_toggle_down: get_bit!(input_data, 23),
-            persist_sneak: get_bit!(input_data, 24),
-            start_sprinting: get_bit!(input_data, 25),
-            stop_sprinting: get_bit!(input_data, 26),
-            start_sneaking: get_bit!(input_data, 27),
-            stop_sneaking: get_bit!(input_data, 28),
-            start_swimming: get_bit!(input_data, 29),
-            stop_swimming: get_bit!(input_data, 30),
-            start_jumping: get_bit!(input_data, 31),
-            start_gliding: get_bit!(input_data, 32),
-            stop_gliding: get_bit!(input_data, 33),
-            perform_item_interaction: get_bit!(input_data, 34),
-            perform_block_actions: if get_bit!(input_data, 35) {
-                Some(BlockActions::proto_deserialize(stream)?)
-            } else {
-                None
-            },
-            perform_item_stack_request: get_bit!(input_data, 36),
-            handled_teleport: get_bit!(input_data, 37),
-            emoting: get_bit!(input_data, 38),
-            missed_swing: get_bit!(input_data, 39),
-            start_crawling: get_bit!(input_data, 40),
-            stop_crawling: get_bit!(input_data, 41),
-            start_flying: get_bit!(input_data, 42),
-            stop_flying: get_bit!(input_data, 43),
-            client_ack_server_data: get_bit!(input_data, 44),
-            is_in_client_predicted_vehicle: {
-                if get_bit!(input_data, 45) {
-                    let vehicle_rotation = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-                    let client_predicted_vehicle = ActorUniqueID::proto_deserialize(stream)?;
-                    Some((vehicle_rotation, client_predicted_vehicle))
-                } else {
-                    None
-                }
-            },
-            paddling_left: get_bit!(input_data, 46),
-            paddling_right: get_bit!(input_data, 47),
-            block_breaking_delay_enabled: get_bit!(input_data, 48),
-            input_num: get_bit!(input_data, 49),
+        let velocity = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let item_use_transaction = match &input_data
+            & PlayerAuthInputFlags::PerformItemInteraction as u64
+            != 0
+        {
+            true => Some(
+                <PackedItemUseLegacyInventoryTransaction as ProtoCodec>::proto_deserialize(stream)?,
+            ),
+            false => None,
         };
-
-        let analog_move_vec = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let item_stack_request = match &input_data
+            & PlayerAuthInputFlags::PerformItemStackRequest as u64
+            != 0
+        {
+            true => Some(<PerformItemStackRequestData as ProtoCodec>::proto_deserialize(stream)?),
+            false => None,
+        };
+        let player_block_actions =
+            match &input_data & PlayerAuthInputFlags::PerformBlockActions as u64 != 0 {
+                true => Some(<PlayerBlockActions as ProtoCodec>::proto_deserialize(
+                    stream,
+                )?),
+                false => None,
+            };
+        let client_predicted_vehicle = match &input_data
+            & PlayerAuthInputFlags::IsInClientPredictedVehicle as u64
+            != 0
+        {
+            true => Some(<ClientPredictedVehicleData as ProtoCodec>::proto_deserialize(stream)?),
+            false => None,
+        };
+        let analog_move_vector = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
 
         Ok(Self {
-            rotation,
-            position,
-            move_vec,
-            head_rotation,
+            player_rotation,
+            player_position,
+            move_vector,
+            player_head_rotation,
             input_data,
             input_mode,
             play_mode,
-            interaction_model,
+            new_interaction_model,
+            vr_gaze_direction,
             client_tick,
-            pos_delta,
-            analog_move_vec,
+            velocity,
+            item_use_transaction,
+            item_stack_request,
+            player_block_actions,
+            client_predicted_vehicle,
+            analog_move_vector,
         })
     }
 
     fn get_size_prediction(&self) -> usize {
-        todo!()
+        ProtoCodecLE::get_size_prediction(&self.player_rotation)
+            + ProtoCodecLE::get_size_prediction(&self.player_position)
+            + ProtoCodecLE::get_size_prediction(&self.move_vector)
+            + ProtoCodecLE::get_size_prediction(&self.player_head_rotation)
+            + ProtoCodecVAR::get_size_prediction(&self.input_data)
+            + self.input_mode.get_size_prediction()
+            + self.play_mode.get_size_prediction()
+            + self.new_interaction_model.get_size_prediction()
+            + match self.play_mode {
+            ClientPlayMode::Reality => ProtoCodecLE::get_size_prediction(&self.vr_gaze_direction),
+            _ => 0,
+        }
+            + ProtoCodecVAR::get_size_prediction(&self.client_tick)
+            + ProtoCodecLE::get_size_prediction(&self.velocity)
+            + match &self.input_data & PlayerAuthInputFlags::PerformItemInteraction as u64 != 0 {
+            true => self.item_use_transaction.get_size_prediction(),
+            false => 0,
+        }
+            + match &self.input_data & PlayerAuthInputFlags::PerformItemStackRequest as u64 != 0 {
+            true => self.item_stack_request.get_size_prediction(),
+            false => 0,
+        }
+            + match &self.input_data & PlayerAuthInputFlags::PerformBlockActions as u64 != 0 {
+            true => self.player_block_actions.get_size_prediction(),
+            false => 0,
+        }
+            + match &self.input_data & PlayerAuthInputFlags::IsInClientPredictedVehicle as u64
+            != 0
+        {
+            true => self.client_predicted_vehicle.get_size_prediction(),
+            false => 0,
+        }
+            + ProtoCodecLE::get_size_prediction(&self.analog_move_vector)
     }
 }
+
+// VERIFY: ProtoCodec impl

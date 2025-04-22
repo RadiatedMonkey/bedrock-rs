@@ -1,14 +1,13 @@
+use super::super::enums::ContainerID;
+use super::super::types::{ActorRuntimeID, NetworkItemStackDescriptor};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
-use crate::version::v729::types::item_stack_descriptor::ItemStackDescriptor;
-
 #[gamepacket(id = 31)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct MobEquipmentPacket {
-    #[endianness(var)]
-    pub runtime_id: i32,
-    pub item_stack_descriptor: ItemStackDescriptor,
-    pub slot: u8,
-    pub selected_slot: u8,
-    pub container: u8,
+    pub target_runtime_id: ActorRuntimeID,
+    pub item: NetworkItemStackDescriptor,
+    pub slot: i8,
+    pub selected_slot: i8,
+    pub container_id: ContainerID,
 }

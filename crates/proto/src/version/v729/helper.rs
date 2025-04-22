@@ -1,5 +1,5 @@
+use super::gamepackets::GamePackets;
 use crate::helper::ProtoHelper;
-use crate::version::v729::gamepackets::GamePackets;
 
 pub struct ProtoHelperV729;
 

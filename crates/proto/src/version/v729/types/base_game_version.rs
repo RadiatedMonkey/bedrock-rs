@@ -2,8 +2,7 @@ use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::Cursor;
 
-#[derive(Debug, Clone)]
-#[repr(transparent)]
+#[derive(Clone, Debug)]
 pub struct BaseGameVersion(pub String);
 
 impl ProtoCodec for BaseGameVersion {
@@ -13,8 +12,7 @@ impl ProtoCodec for BaseGameVersion {
     }
 
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError> {
-        let base_game_version = String::proto_deserialize(stream)?;
-        Ok(BaseGameVersion(base_game_version))
+        Ok(Self(String::proto_deserialize(stream)?))
     }
 
     fn get_size_prediction(&self) -> usize {

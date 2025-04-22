@@ -1,8 +1,8 @@
-use crate::version::v729::types::play_status::PlayStatusType;
+use super::super::enums::PlayStatus;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 2)]
-#[derive(ProtoCodec, Debug, Copy, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct PlayStatusPacket {
-    pub status: PlayStatusType,
+    pub status: PlayStatus,
 }

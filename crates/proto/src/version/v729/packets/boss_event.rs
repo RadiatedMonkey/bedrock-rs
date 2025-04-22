@@ -1,10 +1,10 @@
-use crate::version::v729::types::event_type::BossEventType;
+use super::super::enums::BossEventUpdateType;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use bedrockrs_shared::actor_unique_id::ActorUniqueID;
 
 #[gamepacket(id = 74)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct BossEventPacket {
-    pub actor_id: ActorUniqueID,
-    pub event_type: BossEventType,
+    pub target_actor_id: ActorUniqueID,
+    pub event_type: BossEventUpdateType,
 }

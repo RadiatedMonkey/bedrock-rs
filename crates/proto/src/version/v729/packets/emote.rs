@@ -1,17 +1,20 @@
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use bedrockrs_shared::actor_runtime_id::ActorRuntimeID;
-use xuid::Xuid;
 
 #[gamepacket(id = 138)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct EmotePacket {
-    runtime_id: ActorRuntimeID,
-    emote_id: String,
-    /// Emote length measured in ticks.
-    #[endianness(var)]
-    emote_length: u32,
-    xuid: Xuid,
-    platform_id: String,
-    // TODO: Turn this into an enum
-    flags: i8,
+    pub actor_runtime_id: ActorRuntimeID,
+    pub emote_id: String,
+    pub xuid: String,
+    pub platform_id: String,
+    pub flags: Flags,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i8)]
+#[repr(i8)]
+pub enum Flags {
+    ServerSide = 0x0,
+    MuteEmoteChat = 0x2,
 }

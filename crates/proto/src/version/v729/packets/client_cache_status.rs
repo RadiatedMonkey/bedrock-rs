@@ -1,7 +1,7 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 129)]
-#[derive(ProtoCodec, Debug, Copy, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct ClientCacheStatusPacket {
-    pub cache_supported: bool,
+    pub is_cache_supported: bool,
 }

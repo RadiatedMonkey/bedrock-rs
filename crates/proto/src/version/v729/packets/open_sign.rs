@@ -1,9 +1,9 @@
-use crate::version::v729::types::block_pos::BlockPos;
+use super::super::types::NetworkBlockPosition;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 303)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct OpenSignPacket {
-    pos: BlockPos,
-    front: bool,
+    pub pos: NetworkBlockPosition,
+    pub is_front: bool,
 }

@@ -1,13 +1,11 @@
+use super::super::enums::{MinecraftPacketIds, PacketViolationSeverity, PacketViolationType};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 156)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct PacketViolationWarningPacket {
-    #[endianness(var)]
-    pub kind: i32,
-    #[endianness(var)]
-    pub severity: i32,
-    #[endianness(var)]
-    pub violating_packet_id: i32,
-    pub context: String,
+    pub violation_type: PacketViolationType,
+    pub violation_severity: PacketViolationSeverity,
+    pub violating_packet_id: MinecraftPacketIds,
+    pub violation_context: String,
 }

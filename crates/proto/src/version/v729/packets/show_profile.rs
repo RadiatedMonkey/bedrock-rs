@@ -1,8 +1,7 @@
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use xuid::Xuid;
 
 #[gamepacket(id = 104)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct ShowProfilePacket {
-    pub xuid: Xuid,
+    pub player_xuid: String,
 }

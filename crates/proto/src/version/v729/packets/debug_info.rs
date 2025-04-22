@@ -1,8 +1,8 @@
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use bedrockrs_shared::actor_unique_id::ActorUniqueID;
 
 #[gamepacket(id = 155)]
-#[derive(ProtoCodec, Debug, Clone)]
+#[derive(ProtoCodec, Clone, Debug)]
 pub struct DebugInfoPacket {
     pub actor_id: ActorUniqueID,
     pub data: String,

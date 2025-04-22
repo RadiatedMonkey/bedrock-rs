@@ -1,63 +1,64 @@
-use crate::version::v729::types::interact_action::InteractAction;
-use bedrockrs_macros::gamepacket;
+use super::super::types::ActorRuntimeID;
+use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
-use bedrockrs_proto_core::{ProtoCodec, ProtoCodecLE};
-use bedrockrs_shared::actor_runtime_id::ActorRuntimeID;
-use std::io::Cursor;
-use vek::Vec3;
+use bedrockrs_proto_core::ProtoCodec;
+use byteorder::{ReadBytesExt, WriteBytesExt};
+use std::io::{Cursor, Read};
 
 #[gamepacket(id = 33)]
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug)]
 pub struct InteractPacket {
-    pub action: InteractAction,
+    pub action: Action,
     pub target_runtime_id: ActorRuntimeID,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i8)]
+#[repr(i8)]
+pub enum Action {
+    Invalid = 0,
+    StopRiding {
+        #[endianness(le)]
+        position_x: f32,
+        #[endianness(le)]
+        position_y: f32,
+        #[endianness(le)]
+        position_z: f32,
+    } = 3,
+    InteractUpdate {
+        #[endianness(le)]
+        position_x: f32,
+        #[endianness(le)]
+        position_y: f32,
+        #[endianness(le)]
+        position_z: f32,
+    } = 4,
+    NpcOpen = 5,
+    OpenInventory = 6,
 }
 
 impl ProtoCodec for InteractPacket {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
-        let action = match self.action {
-            InteractAction::Invalid => 0,
-            InteractAction::StopRiding(_) => 3,
-            InteractAction::InteractUpdate(_) => 4,
-            InteractAction::NpcOpen => 5,
-            InteractAction::OpenInventory => 6,
-        };
+        let mut action_stream: Vec<u8> = Vec::new();
+        <Action as ProtoCodec>::proto_serialize(&self.action, &mut action_stream)?;
+        let mut action_cursor = Cursor::new(action_stream.as_slice());
 
-        u8::proto_serialize(&action, stream)?;
-
-        if let InteractAction::InteractUpdate(pos) | InteractAction::StopRiding(pos) = self.action {
-            ProtoCodecLE::proto_serialize(&pos, stream)?;
-        }
+        stream.write_i8(action_cursor.read_i8()?)?;
+        <ActorRuntimeID as ProtoCodec>::proto_serialize(&self.target_runtime_id, stream)?;
+        action_cursor.read_to_end(stream)?;
 
         Ok(())
     }
 
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError> {
-        let action = u8::proto_deserialize(stream)?;
+        let mut action_stream: Vec<u8> = Vec::new();
 
-        let target_runtime_id = ActorRuntimeID::proto_deserialize(stream)?;
+        action_stream.write_i8(stream.read_i8()?)?;
+        let target_runtime_id = <ActorRuntimeID as ProtoCodec>::proto_deserialize(stream)?;
+        stream.read_to_end(&mut action_stream)?;
 
-        let action = match action {
-            0 => InteractAction::Invalid,
-            3 => {
-                let pos = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-
-                InteractAction::StopRiding(pos)
-            }
-            4 => {
-                let pos = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
-
-                InteractAction::InteractUpdate(pos)
-            }
-            5 => InteractAction::NpcOpen,
-            6 => InteractAction::OpenInventory,
-            other => {
-                return Err(ProtoCodecError::InvalidEnumID(
-                    format!("{other:?}"),
-                    "InteractAction",
-                ))
-            }
-        };
+        let mut action_cursor = Cursor::new(action_stream.as_slice());
+        let action = <Action as ProtoCodec>::proto_deserialize(&mut action_cursor)?;
 
         Ok(Self {
             action,
@@ -66,6 +67,8 @@ impl ProtoCodec for InteractPacket {
     }
 
     fn get_size_prediction(&self) -> usize {
-        todo!()
+        self.action.get_size_prediction() + self.target_runtime_id.get_size_prediction()
     }
 }
+
+// VERIFY: ProtoCodec impl
