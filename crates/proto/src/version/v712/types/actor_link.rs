@@ -10,4 +10,6 @@ pub struct ActorLink {
     pub immediate: bool,
     /// Whether the link was changed by the passenger
     pub passenger_initiated: bool,
+    #[endianness(le)]
+    pub vehicle_angular_velocity: f32,
 }

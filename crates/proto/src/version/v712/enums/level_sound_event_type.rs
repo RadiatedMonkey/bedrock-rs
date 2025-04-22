@@ -492,5 +492,6 @@ pub enum LevelSoundEventType {
     RecordCreator = 527,
     RecordCreatorMusicBox = 528,
     RecordPrecipice = 529,
-    Undefined = 530,
+    VaultRejectRewardedPlayer = 530,
+    Undefined = 531,
 }

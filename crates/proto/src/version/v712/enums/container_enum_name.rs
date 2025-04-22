@@ -67,4 +67,5 @@ pub enum ContainerEnumName {
     CreatedOutputContainer = 60,
     SmithingTableTemplateContainer = 61,
     CrafterLevelEntityContainer = 62,
+    DynamicContainer = 63,
 }
