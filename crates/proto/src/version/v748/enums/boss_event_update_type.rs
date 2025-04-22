@@ -1,10 +1,10 @@
-use crate::version::v662::types::ActorUniqueID;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(u32)]
-#[enum_endianness(var)]
-#[repr(u32)]
+#[enum_repr(i32)]
+#[enum_endianness(le)]
+#[repr(i32)]
 pub enum BossEventUpdateType {
     Add {
         name: String,
@@ -12,10 +12,6 @@ pub enum BossEventUpdateType {
         health_percent: f32,
         #[endianness(le)]
         darken_screen: u16,
-        #[endianness(var)]
-        color: u32,
-        #[endianness(var)]
-        overlay: u32,
     } = 0,
     PlayerAdded {
         player_id: ActorUniqueID,

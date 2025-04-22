@@ -1,5 +1,4 @@
-use crate::version::v662::enums::{ItemStackRequestActionType, TextProcessingEventOrigin};
-use crate::version::v748::types::ItemStackRequestSlotInfo;
+use super::item_stack_request_packet::RequestsEntry;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 147)]
@@ -10,23 +9,23 @@ pub struct ItemStackRequestPacket {
     pub requests: Vec<RequestsEntry>,
 }
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct ActionsEntry {
-    pub action_type: ItemStackRequestActionType,
-    pub amount: i8,
-    pub source: ItemStackRequestSlotInfo,
-    pub destination: ItemStackRequestSlotInfo,
+pub mod item_stack_request_packet {
+    use bedrockrs_macros::ProtoCodec;
+    use super::super::super::enums::{ItemStackRequestActionType, TextProcessingEventOrigin};
+    use super::super::super::types::ItemStackRequestSlotInfo;
+
+    #[derive(ProtoCodec, Clone, Debug)]
+    pub struct RequestsEntry {
+        #[endianness(var)]
+        pub client_request_id: u32,
+        #[vec_repr(u32)]
+        #[vec_endianness(var)]
+        pub actions: Vec<ItemStackRequestActionType>,
+        #[vec_repr(u32)]
+        #[vec_endianness(var)]
+        pub strings_to_filter: Vec<String>,
+        pub strings_to_filter_origin: TextProcessingEventOrigin,
+    }
 }
 
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct RequestsEntry {
-    #[endianness(var)]
-    pub client_request_id: u32,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub actions: Vec<ActionsEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub strings_to_filter: Vec<String>,
-    pub strings_to_filter_origin: TextProcessingEventOrigin,
-}
+

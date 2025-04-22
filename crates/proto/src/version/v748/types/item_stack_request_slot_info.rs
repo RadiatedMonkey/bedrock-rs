@@ -1,9 +1,9 @@
-use crate::v748::types::FullContainerName;
 use bedrockrs_macros::ProtoCodec;
+use super::super::types::FullContainerName;
 
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct ItemStackRequestSlotInfo {
-    pub full_container_name: FullContainerName,
+    pub container_name: FullContainerName,
     pub slot: i8,
     #[endianness(var)]
     pub raw_id: i32,

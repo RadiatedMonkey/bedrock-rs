@@ -5,5 +5,5 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 pub struct StopSoundPacket {
     pub sound_name: String,
     pub stop_all_sounds: bool,
-    pub stop_music: bool,
+    pub stop_music_legacy: bool,
 }

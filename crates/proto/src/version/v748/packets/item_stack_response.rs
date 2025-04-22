@@ -1,4 +1,4 @@
-use crate::version::v748::types::ItemStackResponseInfo;
+use super::super::types::ItemStackResponseInfo;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 148)]
@@ -6,5 +6,5 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 pub struct ItemStackResponsePacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
-    pub responses: Vec<ItemStackResponseInfo>
+    pub responses: Vec<ItemStackResponseInfo>,
 }

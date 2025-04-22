@@ -1,4 +1,4 @@
-use crate::version::v748::types::ItemStackResponseContainerInfo;
+use super::super::types::ItemStackResponseContainerInfo;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]

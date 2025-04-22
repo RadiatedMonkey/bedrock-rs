@@ -1,5 +1,4 @@
-use crate::v748::types::RecipeUnlockingRequirement;
-use crate::version::v662::types::{NetworkItemInstanceDescriptor, RecipeIngredient};
+use super::super::types::{NetworkItemInstanceDescriptor, RecipeIngredient, RecipeUnlockingRequirement};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
 use std::io::Cursor;
@@ -15,7 +14,7 @@ pub struct ShapedRecipe {
     pub recipe_tag: String,
     pub priority: i32,
     pub assume_symmetry: bool,
-    pub unlocking_requirement: RecipeUnlockingRequirement,
+    pub unlocking_requirement: RecipeUnlockingRequirement
 }
 
 impl ProtoCodec for ShapedRecipe {
@@ -108,8 +107,7 @@ impl ProtoCodec for ShapedRecipe {
             + self.recipe_id.get_size_prediction()
             + self.recipe_tag.get_size_prediction()
             + self.priority.get_size_prediction()
-            + self.assume_symmetry.get_size_prediction()
-            + self.unlocking_requirement.get_size_prediction()
+            + size_of::<bool>()
     }
 }
 

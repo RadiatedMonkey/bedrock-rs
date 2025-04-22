@@ -13,7 +13,7 @@ pub struct SetTitlePacket {
     pub fade_out_time: i32,
     pub xuid: String,
     pub platform_online_id: String,
-    pub filtered_title_message: String,
+    pub filtered_title_text: String,
 }
 
 #[derive(ProtoCodec, Clone, Debug)]

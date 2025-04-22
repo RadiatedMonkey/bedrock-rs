@@ -1,8 +1,8 @@
-use std::io::{Cursor, Read};
-use byteorder::{ReadBytesExt, WriteBytesExt};
-use crate::version::v748::enums::ItemStackNetResult;
+use super::super::enums::ItemStackNetResult;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::{ProtoCodec, ProtoCodecVAR};
+use byteorder::{ReadBytesExt, WriteBytesExt};
+use std::io::{Cursor, Read};
 
 #[derive(Clone, Debug)]
 pub struct ItemStackResponseInfo {
@@ -36,7 +36,7 @@ impl ProtoCodec for ItemStackResponseInfo {
 
         Ok(Self {
             result,
-            client_request_id
+            client_request_id,
         })
     }
 

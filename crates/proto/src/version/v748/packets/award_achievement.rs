@@ -4,5 +4,5 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct AwardAchievementPacket {
     #[endianness(le)]
-    pub achievement_id: i32,
+    achievement_id: i32,
 }

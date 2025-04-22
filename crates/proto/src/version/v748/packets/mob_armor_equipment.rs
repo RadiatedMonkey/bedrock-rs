@@ -1,4 +1,4 @@
-use crate::version::v662::types::{ActorRuntimeID, NetworkItemStackDescriptor};
+use super::super::types::{ActorRuntimeID, NetworkItemStackDescriptor};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 32)]

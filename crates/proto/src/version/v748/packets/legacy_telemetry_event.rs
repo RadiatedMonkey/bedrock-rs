@@ -1,6 +1,5 @@
-use crate::v662::enums::ItemUseMethod;
-use crate::version::v662::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::{ActorDamageCause, ActorType, InteractionType, POIBlockInteractionType};
+use super::super::types::{ActorUniqueID, ActorRuntimeID};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -36,8 +35,7 @@ pub enum Type {
         achievement_id: i32,
     } = 0,
     Interaction {
-        #[endianness(var)]
-        interacted_entity_id: i64,
+        interacted_entity_id: ActorRuntimeID,
         interaction_type: InteractionType,
         interaction_actor_type: ActorType,
         #[endianness(var)]
@@ -167,14 +165,15 @@ pub enum Type {
     StriderRiddenInLavaInOverworld = 28,
     SneakCloseToSculkSensor = 29,
     CarefulRestoration = 30,
-    ItemUsedEvent {
-        #[endianness(var)]
-        item_id: i32,
-        #[endianness(var)]
+    ItemUsed {
+        #[endianness(le)]
+        item_id: i16,
+        #[endianness(le)]
         item_aux: i32,
-        use_method: ItemUseMethod,
-        #[endianness(var)]
-        count: i32,
+        #[endianness(le)]
+        use_method: i32,
+        #[endianness(le)]
+        use_count: i32,
     } = 31,
 }
 

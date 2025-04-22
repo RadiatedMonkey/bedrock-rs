@@ -1,5 +1,4 @@
-use crate::v748::types::FullContainerName;
-use crate::version::v662::types::NetworkItemStackDescriptor;
+use super::super::types::{NetworkItemStackDescriptor, FullContainerName};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 49)]
@@ -10,6 +9,7 @@ pub struct InventoryContentPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub slots: Vec<NetworkItemStackDescriptor>,
-    pub full_container_name: FullContainerName,
-    pub storage_item: NetworkItemStackDescriptor,
+    pub container_name_data: FullContainerName,
+    #[endianness(var)]
+    pub dynamic_container_size: i32,
 }

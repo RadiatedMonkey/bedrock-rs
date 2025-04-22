@@ -1,4 +1,4 @@
-use crate::version::v748::types::ActorLink;
+use super::super::types::ActorLink;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 41)]

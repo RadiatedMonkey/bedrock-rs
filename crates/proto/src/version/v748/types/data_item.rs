@@ -1,4 +1,4 @@
-use crate::version::v748::enums::DataItemType;
+use super::super::enums::DataItemType;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]

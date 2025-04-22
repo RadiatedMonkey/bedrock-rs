@@ -1,8 +1,7 @@
-use crate::version::v662::enums::EasingType;
+use super::super::enums::EasingType;
 use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
-
-// VERIFY: SetInstruction & FadeInstruction
+use super::super::types::ActorUniqueID;
 
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraInstruction {
@@ -10,8 +9,9 @@ pub struct CameraInstruction {
     pub clear: Option<bool>,
     pub fade: Option<FadeInstruction>,
     pub target: Option<TargetInstruction>,
-    pub remove_target: Option<bool>,
-}
+}    
+
+// VERIFY: SetInstruction & FadeInstruction
 
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct EaseData {
@@ -31,6 +31,8 @@ pub struct SetInstruction {
     pub rotation: Option<Vec2<f32>>,
     #[endianness(le)]
     pub facing: Option<Vec3<f32>>,
+    #[endianness(le)]
+    pub view_offset: Option<Vec2<f32>>,
     pub default_preset: Option<bool>,
 }
 
@@ -63,7 +65,7 @@ pub struct FadeInstruction {
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct TargetInstruction {
     #[endianness(le)]
-    pub target_center_offset: Vec3<f32>,
-    #[endianness(le)]
-    pub unique_entity_id: i64,
+    pub target_center_offset: Option<Vec3<f32>>,
+    pub actor_unique_id: ActorUniqueID,
 }
+

@@ -1,5 +1,4 @@
-use crate::version::v662::enums::{CodeBuilderStorageCategory, CodeBuilderStorageOperation};
-use crate::version::v748::enums::CodeBuilderExecutionState;
+use super::super::enums::{CodeBuilderStorageCategory, CodeBuilderStorageOperation, CodeBuilderCodeStatus};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 178)]
@@ -7,5 +6,5 @@ use bedrockrs_macros::{gamepacket, ProtoCodec};
 pub struct CodeBuilderSourcePacket {
     pub operation: CodeBuilderStorageOperation,
     pub category: CodeBuilderStorageCategory,
-    pub code_status: CodeBuilderExecutionState,
+    pub code_status: CodeBuilderCodeStatus,
 }

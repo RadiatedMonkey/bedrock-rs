@@ -1,4 +1,4 @@
-use crate::version::v662::types::BlockPos;
+use super::super::types::BlockPos;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]

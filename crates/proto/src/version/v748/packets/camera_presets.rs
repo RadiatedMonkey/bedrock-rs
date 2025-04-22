@@ -1,4 +1,4 @@
-use crate::version::v748::types::CameraPresets;
+use super::super::types::CameraPresets;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 198)]

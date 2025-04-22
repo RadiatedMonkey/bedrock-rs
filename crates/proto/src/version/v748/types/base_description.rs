@@ -1,3 +1,4 @@
+use super::super::enums::MolangVersion;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -18,6 +19,7 @@ pub struct InternalItemDescriptor {
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct MolangDescriptor {
     pub full_name: String,
+    pub molang_version: MolangVersion,
 }
 
 #[derive(ProtoCodec, Clone, Debug)]

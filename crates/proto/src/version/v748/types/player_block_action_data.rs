@@ -1,4 +1,4 @@
-use crate::version::v748::enums::PlayerActionType;
+use super::super::enums::PlayerActionType;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]

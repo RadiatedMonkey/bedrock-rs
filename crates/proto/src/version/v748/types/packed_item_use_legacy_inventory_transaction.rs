@@ -1,5 +1,5 @@
-use crate::version::v662::enums::ItemUseInventoryTransactionType;
-use crate::version::v662::types::{
+use super::super::enums::ItemUseInventoryTransactionType;
+use super::super::types::{
     InventoryTransaction, NetworkBlockPosition, NetworkItemStackDescriptor,
 };
 use bedrockrs_macros::ProtoCodec;
@@ -10,19 +10,19 @@ use vek::Vec3;
 
 #[derive(Clone, Debug)]
 pub struct PackedItemUseLegacyInventoryTransaction {
-    id: i32,
-    container_slots: Option<Vec<ContainerSlotEntry>>,
-    action: InventoryTransaction,
-    action_type: ItemUseInventoryTransactionType,
-    trigger_type: TriggerType,
-    position: NetworkBlockPosition,
-    face: i32,
-    slot: i32,
-    item: NetworkItemStackDescriptor,
-    from_position: Vec3<f32>,
-    click_position: Vec3<f32>,
-    target_block_id: u32,
-    predicted_result: PredictedResult,
+    pub id: i32,
+    pub container_slots: Option<Vec<ContainerSlotEntry>>,
+    pub action: InventoryTransaction,
+    pub action_type: ItemUseInventoryTransactionType,
+    pub trigger_type: TriggerType,
+    pub position: NetworkBlockPosition,
+    pub face: i32,
+    pub slot: i32,
+    pub item: NetworkItemStackDescriptor,
+    pub from_position: Vec3<f32>,
+    pub click_position: Vec3<f32>,
+    pub target_block_id: u32,
+    pub predicted_result: PredictedResult
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -34,21 +34,22 @@ pub struct ContainerSlotEntry {
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(u32)]
+#[enum_repr(i32)]
 #[enum_endianness(var)]
-#[repr(u32)]
+#[repr(i32)]
+pub enum PredictedResult {
+    Failure = 0,
+    Success = 1,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+#[enum_repr(i32)]
+#[enum_endianness(var)]
+#[repr(i32)]
 pub enum TriggerType {
     Unknown = 0,
     PlayerInput = 1,
     SimulationTick = 2,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(i8)]
-#[repr(i8)]
-pub enum PredictedResult {
-    Failure = 0,
-    Success = 1,
 }
 
 impl ProtoCodec for PackedItemUseLegacyInventoryTransaction {

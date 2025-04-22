@@ -1,11 +1,10 @@
-use crate::version::v662::types::BlockPos;
+use super::super::types::BlockPos;
 use bedrockrs_macros::ProtoCodec;
 use vek::Vec3;
 
 #[derive(ProtoCodec, Clone, Debug)]
-#[enum_repr(u32)]
-#[enum_endianness(var)]
-#[repr(u32)]
+#[enum_repr(i8)]
+#[repr(i8)]
 pub enum DataItemType {
     Byte(i8) = 0,
     Short(#[endianness(le)] i16) = 1,

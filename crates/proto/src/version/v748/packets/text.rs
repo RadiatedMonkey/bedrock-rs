@@ -1,4 +1,4 @@
-use crate::version::v662::enums::TextPacketType;
+use super::super::enums::TextPacketType;
 use bedrockrs_macros::gamepacket;
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
@@ -57,7 +57,6 @@ impl ProtoCodec for TextPacket {
             + self.localize.get_size_prediction()
             + self.sender_xuid.get_size_prediction()
             + self.platform_id.get_size_prediction()
-            + self.filtered_message.get_size_prediction()
     }
 }
 

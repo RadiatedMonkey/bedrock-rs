@@ -1,4 +1,4 @@
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 138)]
@@ -7,7 +7,7 @@ pub struct EmotePacket {
     pub actor_runtime_id: ActorRuntimeID,
     pub emote_id: String,
     #[endianness(var)]
-    pub emote_length: u32,
+    pub emote_duration: i32,
     pub xuid: String,
     pub platform_id: String,
     pub flags: Flags,

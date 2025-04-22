@@ -1,5 +1,5 @@
-use crate::version::v662::enums::{AttributeModifierOperation, AttributeOperands};
-use crate::version::v662::types::ActorRuntimeID;
+use super::super::enums::{AttributeModifierOperation, AttributeOperands};
+use super::super::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 29)]
@@ -10,7 +10,7 @@ pub struct UpdateAttributesPacket {
     #[vec_endianness(var)]
     pub attribute_list: Vec<AttributeData>,
     #[endianness(var)]
-    pub tick: u64,
+    pub ticks_since_sim_started: u64,
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -33,13 +33,13 @@ pub struct AttributeData {
     #[endianness(le)]
     pub current_value: f32,
     #[endianness(le)]
-    pub default_min_value: f32,
+    pub default_min: f32,
     #[endianness(le)]
-    pub default_max_value: f32,
+    pub default_max: f32,
     #[endianness(le)]
     pub default_value: f32,
-    pub name: String,
+    pub attribute_name: String,
     #[vec_repr(u32)]
     #[vec_endianness(var)]
-    pub modifiers: Vec<AttributeModifier>,
+    pub attribute_modifiers: Vec<AttributeModifier>,
 }
