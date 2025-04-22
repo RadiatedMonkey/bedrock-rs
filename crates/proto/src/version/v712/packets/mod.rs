@@ -5,6 +5,10 @@ macro_rules! export {
     };
 }
 
+export!(server_bound_loading_screen);
+export!(server_bound_diagnostics);
+export!(jigsaw_structure_data);
+export!(current_structure_feature);
 export!(login);
 export!(play_status);
 export!(server_to_client_handshake);

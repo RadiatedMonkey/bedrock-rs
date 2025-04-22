@@ -1,12 +1,14 @@
 use super::super::enums::EasingType;
 use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
+use super::super::types::ActorUniqueID;
 
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraInstruction {
     pub set: Option<SetInstruction>,
     pub clear: Option<bool>,
     pub fade: Option<FadeInstruction>,
+    pub target: Option<TargetInstruction>,
 }    
 
 // VERIFY: SetInstruction & FadeInstruction
@@ -29,6 +31,8 @@ pub struct SetInstruction {
     pub rotation: Option<Vec2<f32>>,
     #[endianness(le)]
     pub facing: Option<Vec3<f32>>,
+    #[endianness(le)]
+    pub view_offset: Option<Vec2<f32>>,
     pub default_preset: Option<bool>,
 }
 
@@ -56,5 +60,12 @@ pub struct Color {
 pub struct FadeInstruction {
     pub time_data: Option<TimeData>,
     pub color: Option<Color>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct TargetInstruction {
+    #[endianness(le)]
+    pub target_center_offset: Option<Vec3<f32>>,
+    pub actor_unique_id: ActorUniqueID,
 }
 

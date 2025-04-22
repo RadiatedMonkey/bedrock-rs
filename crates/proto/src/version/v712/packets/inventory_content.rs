@@ -9,4 +9,6 @@ pub struct InventoryContentPacket {
     #[vec_repr(u32)]
     #[vec_endianness(var)]
     pub slots: Vec<NetworkItemStackDescriptor>,
+    #[endianness(var)]
+    pub container_name_dynamic_id: i32,
 }

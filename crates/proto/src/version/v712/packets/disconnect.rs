@@ -1,5 +1,5 @@
 use super::super::enums::ConnectionFailReason;
-use bedrockrs_macros::gamepacket;
+use bedrockrs_macros::{gamepacket, ProtoCodec};
 use bedrockrs_proto_core::error::ProtoCodecError;
 use bedrockrs_proto_core::ProtoCodec;
 use std::io::Cursor;
@@ -8,7 +8,13 @@ use std::io::Cursor;
 #[derive(Clone, Debug)]
 pub struct DisconnectPacket {
     pub reason: ConnectionFailReason,
-    pub message: Option<String>,
+    pub message: Option<DisconnectMessage>,
+}
+
+#[derive(ProtoCodec, Clone, Debug)]
+pub struct DisconnectMessage {
+    pub kick_message: String,
+    pub filtered_message: String,
 }
 
 impl ProtoCodec for DisconnectPacket {
@@ -33,7 +39,7 @@ impl ProtoCodec for DisconnectPacket {
         let skip_message = bool::proto_deserialize(stream)?;
 
         let message = if !skip_message {
-            Some(String::proto_deserialize(stream)?)
+            Some(DisconnectMessage::proto_deserialize(stream)?)
         } else {
             None
         };

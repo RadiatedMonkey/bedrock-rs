@@ -7,7 +7,7 @@ use std::io::Cursor;
 #[derive(Clone, Debug)]
 pub struct PlayerArmorDamagePacket {
     pub slot_bitset: i8,
-    pub damage: [i32; 4],
+    pub damage: [i32; 5],
 }
 
 pub enum PlayerArmorDamageFlag {
@@ -15,6 +15,7 @@ pub enum PlayerArmorDamageFlag {
     Chestplate = 1 << 1,
     Leggings = 1 << 2,
     Boots = 1 << 3,
+    Body = 1 << 4,
 }
 
 impl ProtoCodec for PlayerArmorDamagePacket {

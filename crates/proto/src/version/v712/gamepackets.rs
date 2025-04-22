@@ -1,4 +1,6 @@
 use super::packets::{
+    CurrentStructureFeaturePacket, JigsawStructureDataPacket, ServerBoundDiagnosticsPacket,
+    ServerBoundLoadingScreenPacket,
     ActorEventPacket, ActorPickRequestPacket, AddActorPacket, AddBehaviourTreePacket,
     AddItemActorPacket, AddPaintingPacket, AddPlayerPacket, AddVolumeEntityPacket,
     AgentActionEventPacket, AgentAnimationPacket, AnimateEntityPacket, AnimatePacket,
@@ -62,6 +64,10 @@ use std::io::{Cursor, Write};
 use varint_rs::{VarintReader, VarintWriter};
 
 gamepackets! {
+    ServerBoundLoadingScreen: ServerBoundLoadingScreenPacket,
+    ServerBoundDiagnostics: ServerBoundDiagnosticsPacket,
+    JigsawStructureData: JigsawStructureDataPacket,
+    CurrentStructureFeature: CurrentStructureFeaturePacket,
     Login: LoginPacket,
     PlaySatus: PlayStatusPacket,
     ServerToClientHandshake: ServerToClientHandshakePacket,

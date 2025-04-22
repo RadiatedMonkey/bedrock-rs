@@ -8,6 +8,8 @@ pub enum PredictionType {
     Player = 0,
     Vehicle {
         #[endianness(le)]
-        rotation: Vec2<f32>
+        rotation: Vec2<f32>,
+        #[endianness(le)]
+        vehicle_angular_velocity: Option<f32>,
     } = 1,
 }
