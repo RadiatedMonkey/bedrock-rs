@@ -21,7 +21,7 @@ pub enum PlayerArmorDamageFlag {
 impl ProtoCodec for PlayerArmorDamagePacket {
     fn proto_serialize(&self, stream: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
         self.slot_bitset.proto_serialize(stream)?;
-        for i in 0..4 {
+        for i in 0..5 {
             let flag = 1 << i;
             if (self.slot_bitset & flag) != 0 {
                 ProtoCodecVAR::proto_serialize(&self.damage[i], stream)?;
@@ -34,8 +34,8 @@ impl ProtoCodec for PlayerArmorDamagePacket {
     fn proto_deserialize(stream: &mut Cursor<&[u8]>) -> Result<Self, ProtoCodecError> {
         let slot_bitset = i8::proto_deserialize(stream)?;
         let damage = {
-            let mut damage = [0; 4];
-            for i in 0..4 {
+            let mut damage = [0; 5];
+            for i in 0..5 {
                 let flag = 1 << i;
                 if (slot_bitset & flag) != 0 {
                     damage[i] = <i32 as ProtoCodecVAR>::proto_deserialize(stream)?;
@@ -52,7 +52,7 @@ impl ProtoCodec for PlayerArmorDamagePacket {
 
     fn get_size_prediction(&self) -> usize {
         self.slot_bitset.get_size_prediction()
-            + (0..4)
+            + (0..5)
             .filter_map(|i| {
                 let flag = 1 << i;
                 if (self.slot_bitset & flag) != 0 {
