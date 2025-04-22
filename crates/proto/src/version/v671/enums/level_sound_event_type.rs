@@ -473,7 +473,6 @@ pub enum LevelSoundEventType {
     VaultDeactivate = 507,
     HurtReduced = 508,
     WindChargeBurst = 509,
-    ImitateBogged = 510,
     WolfArmorCrack = 511,
     WolfArmorBreak = 512,
     WolfArmorRepair = 513,

@@ -473,6 +473,5 @@ pub enum LevelSoundEventType {
     VaultDeactivate = 507,
     HurtReduced = 508,
     WindChargeBurst = 509,
-    ImitateBogged = 510,
     Undefined = 511
 }
