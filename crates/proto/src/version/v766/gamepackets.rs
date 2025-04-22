@@ -1,4 +1,5 @@
 use super::packets::{
+    CameraAimAssistPresetsPacket,
     ActorEventPacket, ActorPickRequestPacket, AddActorPacket, AddBehaviourTreePacket,
     AddItemActorPacket, AddPaintingPacket, AddPlayerPacket, AddVolumeEntityPacket,
     AgentActionEventPacket, AgentAnimationPacket, AnimateEntityPacket, AnimatePacket,
@@ -65,6 +66,7 @@ use std::io::{Cursor, Write};
 use varint_rs::{VarintReader, VarintWriter};
 
 gamepackets! {
+    CameraAimAssistPresets: CameraAimAssistPresetsPacket,
     SetMovementAuthority: SetMovementAuthorityPacket,
     MovementEffect: MovementEffectPacket,
     ContainerRegistryCleanup: ContainerRegistryCleanupPacket,

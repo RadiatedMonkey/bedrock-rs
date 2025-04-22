@@ -91,6 +91,16 @@ pub mod player_auth_input_packet {
         IsInClientPredictedVehicle = 1 << 45,
         PaddleLeft = 1 << 46,
         PaddleRight = 1 << 47,
+        BlockBreakingDelayEnabled = 1 << 48,
+        HorizontalCollision = 1 << 49,
+        VerticalCollision = 1 << 50,
+        DownLeft = 1 << 51,
+        DownRight = 1 << 52,
+        StartUsingItem = 1 << 53,
+        CameraRelativeMovementEnabled = 1 << 54,
+        RotControlledByMoveDirection = 1 << 55,
+        StartSpinAttack = 1 << 56,
+        StopSpinAttack = 1 << 57,
     }
 
     #[derive(ProtoCodec, Clone, Debug)]

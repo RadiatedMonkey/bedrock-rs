@@ -136,5 +136,6 @@ pub enum LevelEvent {
     AnimationVaultEjectItem = 9813,
     AnimationSpawnCobweb = 9814,
     ParticleSmashAttackGroundDust = 9815,
+    ParticleCreakingHeartTrail = 9816,
     ParticleLegacyEvent = 0x4000,
 }

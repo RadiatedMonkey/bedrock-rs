@@ -95,5 +95,8 @@ pub enum ParticleType {
     WindExplosion = 91,
     WolfArmorCrack = 92,
     OminousItemSpawner = 93,
-    Count = 94,
+    CreakingCrumble = 94,
+    PaleOakLeaves = 95,
+    EyeblossomOpen = 96,
+    EyeblossomClose = 97,
 }

@@ -8,6 +8,7 @@ pub struct ItemStackResponseSlotInfo {
     #[endianness(var)]
     pub item_stack_net_id: i32,
     pub custom_name: String,
+    pub filtered_custom_name: String,
     #[endianness(var)]
     pub durability_correction: i32,
 }

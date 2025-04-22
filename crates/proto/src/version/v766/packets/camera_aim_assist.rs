@@ -5,6 +5,7 @@ use super::super::enums::AimAssistAction;
 #[gamepacket(id = 316)]
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraAimAssistPacket {
+    pub preset_id: String,
     #[endianness(le)]
     pub view_angle: Vec2<f32>,
     #[endianness(le)]
