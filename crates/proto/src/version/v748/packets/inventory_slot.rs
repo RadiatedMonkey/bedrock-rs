@@ -11,7 +11,6 @@ pub struct InventorySlotPacket {
     #[endianness(var)]
     pub slot: u32,
     pub container_name_data: FullContainerName,
-    #[endianness(var)]
-    pub dynamic_container_size: i32,
+    pub storage_item: NetworkItemStackDescriptor,
     pub item: NetworkItemStackDescriptor,
 }

@@ -19,6 +19,11 @@ pub struct CameraPreset {
     pub rot_speed: Option<f32>,
     pub snap_to_target: Option<bool>,
     #[endianness(le)]
+    pub horizontal_rot_limit: Option<Vec2<f32>>,
+    #[endianness(le)]
+    pub vertical_rot_limit: Option<Vec2<f32>>,
+    pub continue_targeting: Option<bool>,
+    #[endianness(le)]
     pub view_offset: Option<Vec2<f32>>,
     #[endianness(le)]
     pub entity_offset: Option<Vec3<f32>>,
@@ -26,6 +31,7 @@ pub struct CameraPreset {
     pub radius: Option<f32>,
     pub listener: Option<AudioListener>,
     pub player_effects: Option<bool>,
+    pub align_target_and_camera_forwards: Option<bool>,
 }
 
 #[derive(ProtoCodec, Clone, Debug)]

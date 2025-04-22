@@ -10,6 +10,5 @@ pub struct InventoryContentPacket {
     #[vec_endianness(var)]
     pub slots: Vec<NetworkItemStackDescriptor>,
     pub container_name_data: FullContainerName,
-    #[endianness(var)]
-    pub dynamic_container_size: i32,
+    pub storage_item: NetworkItemStackDescriptor,
 }

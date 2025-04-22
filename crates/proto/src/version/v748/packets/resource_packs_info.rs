@@ -9,9 +9,6 @@ pub struct ResourcePacksInfoPacket {
     #[vec_repr(u16)]
     #[vec_endianness(le)]
     pub resource_packs: Vec<ResourcePackEntry>,
-    #[vec_repr(u32)]
-    #[vec_endianness(var)]
-    pub cdn_urls: Vec<CDNUrl>,
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -26,10 +23,5 @@ pub struct ResourcePackEntry {
     pub has_scripts: bool,
     pub is_addon: bool,
     pub is_ray_tracing_capable: bool,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CDNUrl {
-    pub first: String,
-    pub second: String,
+    pub cdn_url: String,
 }

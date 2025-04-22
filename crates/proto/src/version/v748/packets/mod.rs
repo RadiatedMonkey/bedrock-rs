@@ -5,6 +5,8 @@ macro_rules! export {
     };
 }
 
+export!(set_movement_authority);
+export!(movement_effect);
 export!(container_registry_cleanup);
 export!(camera_aim_assist);
 export!(server_bound_loading_screen);

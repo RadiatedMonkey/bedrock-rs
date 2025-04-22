@@ -23,7 +23,7 @@ pub struct PlayerAuthInputPacket {
     pub input_mode: InputMode,
     pub play_mode: ClientPlayMode,
     pub new_interaction_model: NewInteractionModel,
-    pub vr_gaze_direction: Option<Vec3<f32>>, // If play_mode == ClientPlayMode::Reality
+    pub interact_rotation: Vec3<f32>,
     pub client_tick: u64,
     pub velocity: Vec3<f32>,
     pub item_use_transaction: Option<PackedItemUseLegacyInventoryTransaction>, // If input_data has PlayerAuthInputPacket::InputData::PerformItemInteraction set.
@@ -31,6 +31,7 @@ pub struct PlayerAuthInputPacket {
     pub player_block_actions: Option<PlayerBlockActions>, // If input data has PlayerAuthInputPacket::InputData::PerformBlockActions set.
     pub client_predicted_vehicle: Option<ClientPredictedVehicleData>, // If input data has PlayerAuthInputPacket::InputData::IsInClientPredictedVehicle set.
     pub analog_move_vector: Vec2<f32>,
+    pub camera_orientation: Vec3<f32>,
 }
 
 pub mod player_auth_input_packet {
@@ -131,15 +132,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
         <InputMode as ProtoCodec>::proto_serialize(&self.input_mode, stream)?;
         <ClientPlayMode as ProtoCodec>::proto_serialize(&self.play_mode, stream)?;
         <NewInteractionModel as ProtoCodec>::proto_serialize(&self.new_interaction_model, stream)?;
-        match &self.play_mode {
-            ClientPlayMode::Reality => {
-                <Vec3<f32> as ProtoCodecLE>::proto_serialize(
-                    &self.vr_gaze_direction.as_ref().unwrap(),
-                    stream,
-                )?;
-            }
-            _ => {}
-        }
+        <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.interact_rotation, stream, )?;
         <u64 as ProtoCodecVAR>::proto_serialize(&self.client_tick, stream)?;
         <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.velocity, stream)?;
         if &self.input_data & PlayerAuthInputFlags::PerformItemInteraction as u64 != 0 {
@@ -167,6 +160,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
             )?;
         }
         <Vec2<f32> as ProtoCodecLE>::proto_serialize(&self.analog_move_vector, stream)?;
+        <Vec3<f32> as ProtoCodecLE>::proto_serialize(&self.camera_orientation, stream)?;
 
         Ok(())
     }
@@ -180,12 +174,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
         let input_mode = <InputMode as ProtoCodec>::proto_deserialize(stream)?;
         let play_mode = <ClientPlayMode as ProtoCodec>::proto_deserialize(stream)?;
         let new_interaction_model = <NewInteractionModel as ProtoCodec>::proto_deserialize(stream)?;
-        let vr_gaze_direction = match &play_mode {
-            ClientPlayMode::Reality => {
-                Some(<Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?)
-            }
-            _ => None,
-        };
+        let interact_rotation = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
         let client_tick = <u64 as ProtoCodecVAR>::proto_deserialize(stream)?;
         let velocity = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
         let item_use_transaction = match &input_data
@@ -219,6 +208,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
             false => None,
         };
         let analog_move_vector = <Vec2<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
+        let camera_orientation = <Vec3<f32> as ProtoCodecLE>::proto_deserialize(stream)?;
 
         Ok(Self {
             player_rotation,
@@ -229,7 +219,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
             input_mode,
             play_mode,
             new_interaction_model,
-            vr_gaze_direction,
+            interact_rotation,
             client_tick,
             velocity,
             item_use_transaction,
@@ -237,6 +227,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
             player_block_actions,
             client_predicted_vehicle,
             analog_move_vector,
+            camera_orientation,
         })
     }
 
@@ -250,7 +241,7 @@ impl ProtoCodec for PlayerAuthInputPacket {
             + self.play_mode.get_size_prediction()
             + self.new_interaction_model.get_size_prediction()
             + match self.play_mode {
-            ClientPlayMode::Reality => ProtoCodecLE::get_size_prediction(&self.vr_gaze_direction),
+            ClientPlayMode::Reality => ProtoCodecLE::get_size_prediction(&self.interact_rotation),
             _ => 0,
         }
             + ProtoCodecVAR::get_size_prediction(&self.client_tick)

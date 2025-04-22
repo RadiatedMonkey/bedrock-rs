@@ -33,6 +33,8 @@ pub struct SetInstruction {
     pub facing: Option<Vec3<f32>>,
     #[endianness(le)]
     pub view_offset: Option<Vec2<f32>>,
+    #[endianness(le)]
+    pub entity_offset: Option<Vec3<f32>>,
     pub default_preset: Option<bool>,
 }
 

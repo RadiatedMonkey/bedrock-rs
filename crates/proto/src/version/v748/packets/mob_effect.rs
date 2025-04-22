@@ -13,7 +13,7 @@ pub struct MobEffectPacket {
     pub show_particles: bool,
     #[endianness(var)]
     pub effect_duration_ticks: i32,
-    #[endianness(le)]
+    #[endianness(var)]
     pub tick: u64,
 }
 
