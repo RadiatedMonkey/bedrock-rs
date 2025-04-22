@@ -13,4 +13,6 @@ pub struct LevelSoundEventPacket {
     pub actor_identifier: String,
     pub is_baby_mob: bool,
     pub is_global: bool,
+    #[endianness(le)]
+    pub entity_unique_id: u64,
 }

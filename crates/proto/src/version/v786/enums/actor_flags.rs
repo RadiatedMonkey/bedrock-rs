@@ -123,4 +123,7 @@ pub enum ActorFlags {
     TimerFlag3 = 117,
     BodyRotationBlocked = 118,
     RenderWhenInvisible = 119,
+    BodyRotationAxisAligned = 120,
+    Collidable = 121,
+    WASDAirControlled = 122,
 }

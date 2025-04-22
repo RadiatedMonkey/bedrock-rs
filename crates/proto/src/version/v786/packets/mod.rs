@@ -5,6 +5,9 @@ macro_rules! export {
     };
 }
 
+export!(update_client_options);
+export!(player_video_capture);
+export!(player_update_entity_overrides);
 export!(movement_prediction_sync);
 export!(camera_aim_assist_instruction);
 export!(camera_aim_assist_presets);
@@ -39,7 +42,6 @@ export!(move_player);
 export!(passenger_jump);
 export!(update_block);
 export!(add_painting);
-export!(level_sound_event_v1);
 export!(level_event);
 export!(block_event);
 export!(actor_event);
@@ -129,7 +131,6 @@ export!(update_soft_enum);
 export!(network_stack_latency);
 export!(spawn_particle_effect);
 export!(available_actor_identifiers);
-export!(level_sound_event_v2);
 export!(network_chunk_publisher_update);
 export!(biome_definition_list);
 export!(level_sound_event);

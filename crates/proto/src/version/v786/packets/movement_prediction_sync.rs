@@ -22,4 +22,5 @@ pub struct MovementPredictionSyncPacket {
     #[endianness(le)]
     pub hunger: f32,
     pub runtime_entity_id: ActorRuntimeID,
+    pub is_flying: bool,
 }

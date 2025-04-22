@@ -1,4 +1,7 @@
 use super::packets::{
+    UpdateClientOptionsPacket,
+    PlayerVideoCapturePacket,
+    PlayerUpdateEntityOverridesPacket,
     MovementPredictionSyncPacket,
     CameraAimAssistInstructionPacket,
     ActorEventPacket, ActorPickRequestPacket, AddActorPacket, AddBehaviourTreePacket,
@@ -24,7 +27,7 @@ use super::packets::{
     InventorySlotPacket, InventoryTransactionPacket, ItemComponentPacket, ItemStackRequestPacket,
     ItemStackResponsePacket, JigsawStructureDataPacket, LabTablePacket, LecternUpdatePacket,
     LegacyTelemetryEventPacket, LessonProgressPacket, LevelChunkPacket, LevelEventGenericPacket,
-    LevelEventPacket, LevelSoundEventPacket, LevelSoundEventPacketV1, LevelSoundEventPacketV2,
+    LevelEventPacket, LevelSoundEventPacket,
     LoginPacket, MapCreateLockedCopyPacket, MapInfoRequestPacket, MobArmorEquipmentPacket,
     MobEffectPacket, MobEquipmentPacket, ModalFormRequestPacket, ModalFormResponsePacket,
     MotionPredictionHintsPacket, MoveActorAbsolutePacket, MoveActorDeltaPacket, MovePlayerPacket,
@@ -67,6 +70,9 @@ use std::io::{Cursor, Write};
 use varint_rs::{VarintReader, VarintWriter};
 
 gamepackets! {
+    UpdateClientOptions: UpdateClientOptionsPacket,
+    PlayerVideoCapture: PlayerVideoCapturePacket,
+    PlayerUpdateEntityOverrides: PlayerUpdateEntityOverridesPacket,
     MovementPredictionSync: MovementPredictionSyncPacket,
     CameraAimAssistInstruction: CameraAimAssistInstructionPacket,
     CameraAimAssistPresets: CameraAimAssistPresetsPacket,
@@ -102,7 +108,6 @@ gamepackets! {
     UpdateBlock: UpdateBlockPacket,
     AddPainting: AddPaintingPacket,
     AwardAchievement: AwardAchievementPacket,
-    LevelSoundEventV1: LevelSoundEventPacketV1,
     LevelEvent: LevelEventPacket,
     BlockEvent: BlockEventPacket,
     ActorEvent: ActorEventPacket,
@@ -192,7 +197,6 @@ gamepackets! {
     NetworkStackLatency: NetworkStackLatencyPacket,
     SpawnParticleEffect: SpawnParticleEffectPacket,
     AvailableActorIdentifiers: AvailableActorIdentifiersPacket,
-    LevelSoundEventV2: LevelSoundEventPacketV2,
     NetworkChunkPublisherUpdate: NetworkChunkPublisherUpdatePacket,
     BiomeDefinitionList: BiomeDefinitionListPacket,
     LevelSoundEvent: LevelSoundEventPacket,
