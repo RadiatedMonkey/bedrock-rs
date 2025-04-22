@@ -1,5 +1,6 @@
-use bedrockrs_macros::ProtoCodec;
 use vek::{Vec2, Vec3};
+use bedrockrs_macros::ProtoCodec;
+use super::super::types::CameraAimAssistPreset;
 
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct CameraPreset {
@@ -16,12 +17,12 @@ pub struct CameraPreset {
     #[endianness(le)]
     pub rot_y: Option<f32>,
     #[endianness(le)]
-    pub rotation_speed: Option<f32>,
+    pub rot_speed: Option<f32>,
     pub snap_to_target: Option<bool>,
     #[endianness(le)]
-    pub horizontal_rotation_limit: Option<Vec2<f32>>,
+    pub horizontal_rot_limit: Option<Vec2<f32>>,
     #[endianness(le)]
-    pub vertical_rotation_limit: Option<Vec2<f32>>,
+    pub vertical_rot_limit: Option<Vec2<f32>>,
     pub continue_targeting: Option<bool>,
     #[endianness(le)]
     pub block_listening_radius: Option<f32>,
@@ -33,8 +34,8 @@ pub struct CameraPreset {
     pub radius: Option<f32>,
     pub listener: Option<AudioListener>,
     pub player_effects: Option<bool>,
-    pub align_target_and_camera_forward: Option<bool>,
-    pub aim_assist: Option<CameraPresetAimAssist>,
+    pub align_target_and_camera_forwards: Option<bool>,
+    pub aim_assist_preset: Option<CameraAimAssistPreset>
 }
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -43,15 +44,4 @@ pub struct CameraPreset {
 pub enum AudioListener {
     Camera = 0,
     Player = 1,
-}
-
-#[derive(ProtoCodec, Clone, Debug)]
-pub struct CameraPresetAimAssist {
-    pub id: String,
-    #[endianness(le)]
-    pub target_mode: i32,
-    #[endianness(le)]
-    pub angle: Vec2<f32>,
-    #[endianness(le)]
-    pub distance: f32,
 }

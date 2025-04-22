@@ -21,7 +21,7 @@ pub struct ResourcePackEntry {
     pub sub_pack_name: String,
     pub content_identity: String,
     pub has_scripts: bool,
-    pub is_addon_pack: bool,
+    pub is_addon: bool,
     pub is_ray_tracing_capable: bool,
     pub cdn_url: String,
 }

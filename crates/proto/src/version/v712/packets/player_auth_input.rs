@@ -90,6 +90,7 @@ pub mod player_auth_input_packet {
         IsInClientPredictedVehicle = 1 << 45,
         PaddleLeft = 1 << 46,
         PaddleRight = 1 << 47,
+        BlockBreakingDelayEnabled = 1 << 48,
     }
 
     #[derive(ProtoCodec, Clone, Debug)]

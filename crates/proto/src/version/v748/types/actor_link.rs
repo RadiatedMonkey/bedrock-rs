@@ -1,5 +1,5 @@
-use crate::version::v662::enums::ActorLinkType;
-use crate::version::v662::types::ActorUniqueID;
+use super::super::enums::ActorLinkType;
+use super::super::types::ActorUniqueID;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]

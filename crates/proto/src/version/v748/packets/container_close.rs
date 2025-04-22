@@ -1,4 +1,4 @@
-use crate::version::v662::enums::{ContainerID, ContainerType};
+use super::super::enums::{ContainerID, ContainerType};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 47)]
