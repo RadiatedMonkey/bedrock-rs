@@ -55,7 +55,7 @@ export!(inventory_left_tab_index);
 export!(inventory_right_tab_index);
 export!(inventory_source_flags);
 export!(inventory_source_type);
-export!(item_descriptor_internal_type);
+export!(item_descriptor_type);
 export!(item_release_inventory_transaction_type);
 export!(item_stack_net_result);
 export!(item_stack_request_action_type);

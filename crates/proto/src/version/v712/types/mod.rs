@@ -25,6 +25,7 @@ export!(edu_shared_uri_resource);
 export!(education_level_settings);
 export!(entity_net_id);
 export!(experiments);
+export!(full_container_name);
 export!(game_rules_changed_packet_data);
 export!(inventory_action);
 export!(inventory_source);
