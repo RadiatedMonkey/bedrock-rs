@@ -157,6 +157,7 @@ export!(camera_shake);
 export!(player_fog);
 export!(correct_player_move_prediction);
 export!(item_component);
+export!(client_bound_close_form);
 export!(client_bound_debug_renderer);
 export!(sync_actor_property);
 export!(add_volume_entity);
