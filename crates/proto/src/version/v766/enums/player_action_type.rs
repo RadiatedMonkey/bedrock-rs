@@ -1,4 +1,4 @@
-use crate::version::v662::types::BlockPos;
+use super::super::types::BlockPos;
 use bedrockrs_macros::ProtoCodec;
 
 #[derive(ProtoCodec, Clone, Debug)]
@@ -17,7 +17,11 @@ pub enum PlayerActionType {
         #[endianness(var)]
         facing: i32,
     } = 1,
-    StopDestroyBlock = 2,
+    StopDestroyBlock {
+        position: BlockPos,
+        #[endianness(var)]
+        facing: i32,
+    } = 2,
     GetUpdatedBlock = 3,
     DropItem = 4,
     StartSleeping = 5,

@@ -1,6 +1,5 @@
-use crate::version::v662::types::{ContainerMixDataEntry, MaterialReducerDataEntry, PotionMixDataEntry};
+use super::super::types::{ContainerMixDataEntry, CraftingDataEntry, MaterialReducerDataEntry, PotionMixDataEntry};
 use bedrockrs_macros::{gamepacket, ProtoCodec};
-use crate::v766::types::CraftingDataEntry;
 
 #[gamepacket(id = 52)]
 #[derive(ProtoCodec, Clone, Debug)]

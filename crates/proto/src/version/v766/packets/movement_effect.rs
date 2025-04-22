@@ -1,14 +1,14 @@
-use crate::v662::types::ActorRuntimeID;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
+use crate::v662::types::ActorRuntimeID;
+use crate::v748::enums::MovementEffectType;
 
 #[gamepacket(id = 318)]
 #[derive(ProtoCodec, Clone, Debug)]
 pub struct MovementEffectPacket {
-    pub target_runtime_id: ActorRuntimeID,
+    pub entity_runtime_id: ActorRuntimeID,
+    pub effect_type: MovementEffectType,
     #[endianness(var)]
-    pub effect_id: i32,
+    pub duration: i32,
     #[endianness(var)]
-    pub effect_duration: i32,
-    #[endianness(var)]
-    pub tick: i64,
+    pub tick: u64,
 }

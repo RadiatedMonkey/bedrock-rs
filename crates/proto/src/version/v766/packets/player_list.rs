@@ -1,4 +1,4 @@
-use crate::version::v766::enums::PlayerListPacketType;
+use super::super::enums::PlayerListPacketType;
 use bedrockrs_macros::{gamepacket, ProtoCodec};
 
 #[gamepacket(id = 63)]
