@@ -63,7 +63,7 @@ use varint_rs::{VarintReader, VarintWriter};
 
 gamepackets! {
     Login: LoginPacket,
-    PlaySatus: PlayStatusPacket,
+    PlayStatus: PlayStatusPacket,
     ServerToClientHandshake: ServerToClientHandshakePacket,
     ClientToServerHandshake: ClientToServerHandshakePacket,
     Disconnect: DisconnectPacket,
