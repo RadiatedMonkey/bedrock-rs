@@ -195,6 +195,15 @@ pub fn gamepackets(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     });
 
+    let id = args.packets.clone();
+    let id = id.iter().map(|(name, value)| {
+        if let Some(v) = value {
+            quote! { GamePackets::#name(_) => { return <#v as ::bedrockrs_proto_core::GamePacket>::ID; }, }
+        } else {
+            quote! { GamePackets::#name() => { todo!("impl GamePackets::{}", stringify!(name)); }, }
+        }
+    });
+
     let compress = args.packets.clone();
     let compress = compress.iter().map(|(name, value)| {
         if let Some(v) = value {
@@ -281,6 +290,13 @@ pub fn gamepackets(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
 
         impl ::bedrockrs_proto_core::GamePacketsAll for GamePackets {
+            #[inline]
+            fn id(&self) -> u16 {
+                match self {
+                    #(#id)*
+                };
+            }
+            
             #[inline]
             fn compress(&self) -> bool {
                 match self {

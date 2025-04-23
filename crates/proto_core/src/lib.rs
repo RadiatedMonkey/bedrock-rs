@@ -32,6 +32,7 @@ pub trait GamePacket: Sized + ProtoCodec {
 }
 
 pub trait GamePacketsAll: Sized {
+    fn id(&self) -> u16;
     fn compress(&self) -> bool;
     fn encrypt(&self) -> bool;
 
