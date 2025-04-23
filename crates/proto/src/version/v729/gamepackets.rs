@@ -70,7 +70,7 @@ gamepackets! {
     JigsawStructureData: JigsawStructureDataPacket,
     CurrentStructureFeature: CurrentStructureFeaturePacket,
     Login: LoginPacket,
-    PlaySatus: PlayStatusPacket,
+    PlayStatus: PlayStatusPacket,
     ServerToClientHandshake: ServerToClientHandshakePacket,
     ClientToServerHandshake: ClientToServerHandshakePacket,
     Disconnect: DisconnectPacket,
