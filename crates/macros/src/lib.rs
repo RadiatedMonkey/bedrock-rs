@@ -296,7 +296,7 @@ pub fn gamepackets(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     #(#id)*
                 };
             }
-            
+
             #[inline]
             fn compress(&self) -> bool {
                 match self {
