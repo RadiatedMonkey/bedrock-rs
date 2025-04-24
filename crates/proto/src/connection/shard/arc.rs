@@ -67,4 +67,12 @@ impl<T: ProtoHelper> ConnectionShared<T> {
 
         Ok(())
     }
+    
+    pub async fn close(&self) {
+        self.connection.read().await.close().await;
+    }
+    
+    pub async fn is_closed(&self) -> bool {
+        self.connection.read().await.is_closed().await
+    }
 }
