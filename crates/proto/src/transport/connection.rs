@@ -67,12 +67,10 @@ impl TransportLayerConnection {
             }
         }
     }
-    
+
     pub async fn is_closed(&self) -> bool {
-        match self { 
-            Self::RakNet(conn) => {
-                conn.is_closed().await
-            } 
+        match self {
+            Self::RakNet(conn) => conn.is_closed().await,
         }
     }
 }

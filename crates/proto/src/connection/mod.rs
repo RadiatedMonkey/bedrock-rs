@@ -82,7 +82,7 @@ impl Connection {
     pub async fn close(&self) {
         self.transport_layer.close().await;
     }
-    
+
     pub async fn is_closed(&self) -> bool {
         self.transport_layer.is_closed().await
     }
