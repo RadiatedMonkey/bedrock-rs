@@ -1,26 +1,24 @@
-use chrono::Local;
-use fern::colors::{Color, ColoredLevelConfig};
 use bedrockrs::proto::connection::Connection;
 use bedrockrs::proto::listener::Listener;
 use bedrockrs_proto::compression::Compression;
 use bedrockrs_proto::encryption::Encryption;
 use bedrockrs_proto::v662::enums::{PacketCompressionAlgorithm, PlayStatus};
-use bedrockrs_proto::v662::packets::{
-    NetworkSettingsPacket, PlayStatusPacket
-};
+use bedrockrs_proto::v662::packets::{NetworkSettingsPacket, PlayStatusPacket};
 use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
+use chrono::Local;
+use fern::colors::{Color, ColoredLevelConfig};
 
 use bedrockrs_proto::v662::ProtoHelperV662;
 
 use bedrockrs_proto::v729::helper::ProtoHelperV729;
 use bedrockrs_proto::v729::packets::handshake_server_to_client::HandshakeServerToClientPacket;
-use tokio::time::Instant;
-use uuid::Uuid;
-use bedrockrs_proto::v729::packets::player_disconnect::{DisconnectReason, DisconnectPlayerPacket};
+use bedrockrs_proto::v729::packets::player_disconnect::{DisconnectPlayerPacket, DisconnectReason};
 use bedrockrs_proto::v748::helper::ProtoHelperV748;
 use bedrockrs_proto::v748::packets::ResourcePackStackPacket;
 use bedrockrs_proto::v766::helper::ProtoHelperV766;
 use bedrockrs_proto::v766::packets::ResourcePacksInfoPacket;
+use tokio::time::Instant;
+use uuid::Uuid;
 
 use bedrockrs_proto::v662::GamePackets as GamePackets662;
 use bedrockrs_proto::v729::GamePackets as GamePackets729;
@@ -163,16 +161,16 @@ async fn handle_login(mut conn: Connection) {
 
     // tokio::time::sleep(std::time::Duration::from_millis(500)).await;
 
-    conn.send::<ProtoHelperV766>(&[
-        GamePackets766::ResourcePacksInfo(ResourcePacksInfoPacket {
+    conn.send::<ProtoHelperV766>(
+        &[GamePackets766::ResourcePacksInfo(ResourcePacksInfoPacket {
             resource_pack_required: false,
             has_addon_packs: false,
             has_scripts: false,
             world_template_uuid: Uuid::new_v4(),
             world_template_version: "".to_string(),
             resource_packs: vec![],
-        }),
-    ])
+        })],
+    )
     .await
     .unwrap();
 
@@ -191,26 +189,26 @@ async fn handle_login(mut conn: Connection) {
     // .await
     // .unwrap();
 
-    conn.send::<ProtoHelperV748>(&[
-        GamePackets748::ResourcePackStack(ResourcePackStackPacket {
+    conn.send::<ProtoHelperV748>(
+        &[GamePackets748::ResourcePackStack(ResourcePackStackPacket {
             texture_pack_required: false,
             addon_list: vec![],
             texture_pack_list: vec![],
             base_game_version: BaseGameVersion("1.21.51".to_owned()),
             experiments: Experiments {
                 ever_toggled: false,
-                experiments: vec![]
+                experiments: vec![],
             },
             include_editor_packs: false,
-        }),
-    ])
+        })],
+    )
     .await
     .unwrap();
 
     conn.recv::<ProtoHelperV729>().await.unwrap();
     conn.recv::<ProtoHelperV729>().await.unwrap();
     conn.recv::<ProtoHelperV729>().await.unwrap();
-    
+
     println!("recved");
 
     // GamePackets662::ClientCacheStatus(ClientCacheStatusPacket {
