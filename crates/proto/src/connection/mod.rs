@@ -52,7 +52,7 @@ impl Connection {
         &mut self,
     ) -> Result<Vec<T::GamePacketType>, ConnectionError> {
         let gamepacket_stream = self.transport_layer.recv().await?;
-
+        
         let gamepackets = decode_gamepackets::<T>(
             gamepacket_stream,
             self.compression.as_ref(),

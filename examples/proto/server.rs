@@ -1,21 +1,62 @@
+use chrono::Local;
+use fern::colors::{Color, ColoredLevelConfig};
 use bedrockrs::proto::connection::Connection;
 use bedrockrs::proto::listener::Listener;
 use bedrockrs_proto::compression::Compression;
 use bedrockrs_proto::encryption::Encryption;
 use bedrockrs_proto::v662::enums::{PacketCompressionAlgorithm, PlayStatus};
 use bedrockrs_proto::v662::packets::{
-    NetworkSettingsPacket, PlayStatusPacket, ResourcePackStackPacket, ResourcePacksInfoPacket,
+    NetworkSettingsPacket, PlayStatusPacket
 };
 use bedrockrs_proto::v662::types::{BaseGameVersion, Experiments};
-use bedrockrs_proto::v662::GamePackets as GamePackets662;
+
 use bedrockrs_proto::v662::ProtoHelperV662;
-use bedrockrs_proto::v729::gamepackets::GamePackets as GamePackets729;
+
 use bedrockrs_proto::v729::helper::ProtoHelperV729;
 use bedrockrs_proto::v729::packets::handshake_server_to_client::HandshakeServerToClientPacket;
 use tokio::time::Instant;
+use uuid::Uuid;
+use bedrockrs_proto::v729::packets::player_disconnect::{DisconnectReason, DisconnectPlayerPacket};
+use bedrockrs_proto::v748::helper::ProtoHelperV748;
+use bedrockrs_proto::v748::packets::ResourcePackStackPacket;
+use bedrockrs_proto::v766::helper::ProtoHelperV766;
+use bedrockrs_proto::v766::packets::ResourcePacksInfoPacket;
+
+use bedrockrs_proto::v662::GamePackets as GamePackets662;
+use bedrockrs_proto::v729::GamePackets as GamePackets729;
+use bedrockrs_proto::v748::GamePackets as GamePackets748;
+use bedrockrs_proto::v766::GamePackets as GamePackets766;
+
+pub fn setup_logger() -> Result<(), log::SetLoggerError> {
+    // Create dispatch
+    let dispatch = fern::Dispatch::new();
+
+    // Set colors
+    let colors = ColoredLevelConfig::new()
+        .info(Color::Green)
+        .warn(Color::Yellow)
+        .error(Color::Red);
+
+    // Set dispatch formatting
+    dispatch
+        .format(move |out, message, record| {
+            out.finish(format_args!(
+                "[{} {} {}] {}",
+                Local::now().format("%Y-%m-%d %H:%M:%S%.3f"),
+                colors.color(record.level()),
+                record.target(),
+                message
+            ))
+        })
+        .level(log::LevelFilter::Trace)
+        .chain(std::io::stdout())
+        .apply()
+}
 
 #[tokio::main]
 async fn main() {
+    setup_logger().unwrap();
+
     let mut listener = Listener::new_raknet(
         "§5Hot Chickens in Your Area!!!".to_string(),
         "bedrockrs".to_string(),
@@ -44,7 +85,6 @@ async fn handle_login(mut conn: Connection) {
 
     // NetworkSettingsRequest
     conn.recv::<ProtoHelperV662>().await.unwrap();
-    println!("NetworkSettingsRequest");
 
     let compression = Compression::Zlib {
         threshold: 1,
@@ -61,7 +101,6 @@ async fn handle_login(mut conn: Connection) {
     })])
     .await
     .unwrap();
-    println!("NetworkSettings");
 
     conn.compression = Some(compression);
 
@@ -84,16 +123,14 @@ async fn handle_login(mut conn: Connection) {
     )])
     .await
     .unwrap();
-    println!("HandshakeServerToClient");
 
     conn.encryption = Some(encryptor);
 
-    let recv = conn.recv::<ProtoHelperV729>().await.unwrap();
-
-    dbg!(packets);
+    conn.recv::<ProtoHelperV729>().await.unwrap();
 
     conn.send::<ProtoHelperV662>(&[
-        GamePackets662::PlaySatus(PlayStatusPacket {
+        GamePackets662::PlayStatus(PlayStatusPacket {
+            // status: PlayStatus::LoginFailedServerOld,
             status: PlayStatus::LoginSuccess,
         }), // GamePackets662::ResourcePacksInfo(ResourcePacksInfoPacket {
             //     resource_pack_required: false,
@@ -117,24 +154,73 @@ async fn handle_login(mut conn: Connection) {
     ])
     .await
     .unwrap();
-    println!("PlayStatus (LoginSuccess)");
-    println!("ResourcePacksInfo");
-    // println!("ResourcePackStack");
 
-    let recv = conn.recv::<ProtoHelperV729>().await.unwrap();
-    dbg!(recv);
+    // conn.send::<ProtoHelperV662>(&[
+    //     GamePackets662::PlayStatus(PlayStatusPacket {
+    //         status: PlayStatus::PlayerSpawn
+    //     })
+    // ]).await.unwrap();
+
+    // tokio::time::sleep(std::time::Duration::from_millis(500)).await;
+
+    conn.send::<ProtoHelperV766>(&[
+        GamePackets766::ResourcePacksInfo(ResourcePacksInfoPacket {
+            resource_pack_required: false,
+            has_addon_packs: false,
+            has_scripts: false,
+            world_template_uuid: Uuid::new_v4(),
+            world_template_version: "".to_string(),
+            resource_packs: vec![],
+        }),
+    ])
+    .await
+    .unwrap();
+
+    // conn.send::<ProtoHelperV662>(&[
+    //     GamePackets662::ResourcePackStack(ResourcePackStackPacket {
+    //         texture_pack_required: false,
+    //         addon_list: vec![],
+    //         base_game_version: BaseGameVersion(String::from("1.0")),
+    //         experiments: Experiments {
+    //             experiments: vec![],
+    //             ever_toggled: false,
+    //         },
+    //         texture_pack_list: vec![],
+    //     }),
+    // ])
+    // .await
+    // .unwrap();
+
+    conn.send::<ProtoHelperV748>(&[
+        GamePackets748::ResourcePackStack(ResourcePackStackPacket {
+            texture_pack_required: false,
+            addon_list: vec![],
+            texture_pack_list: vec![],
+            base_game_version: BaseGameVersion("1.21.51".to_owned()),
+            experiments: Experiments {
+                ever_toggled: false,
+                experiments: vec![]
+            },
+            include_editor_packs: false,
+        }),
+    ])
+    .await
+    .unwrap();
+
+    conn.recv::<ProtoHelperV729>().await.unwrap();
+    conn.recv::<ProtoHelperV729>().await.unwrap();
+    conn.recv::<ProtoHelperV729>().await.unwrap();
+    
+    println!("recved");
+
+    // GamePackets662::ClientCacheStatus(ClientCacheStatusPacket {
+
+    // })
 
     // println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
     // println!("ClientCacheStatus");
     // println!("{:#?}", conn.recv::<ProtoHelperV662>().await.unwrap());
     // println!("ResourcePackClientResponse");
-
-    // conn.send::<ProtoHelperV729>(&[GamePackets::DisconnectPlayer(DisconnectPlayerPacket {
-    //     reason: DisconnectReason::Unknown,
-    //     message: Some(String::from("IDK")),
-    // })])
-    // .await
-    // .unwrap();
 
     // let packet1 = StartGamePacket {
     //     target_actor_id: ActorUniqueID(609),

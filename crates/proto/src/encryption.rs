@@ -110,8 +110,7 @@ impl Encryption {
     }
 
     pub fn decrypt(&mut self, data: &mut Vec<u8>) -> Result<(), ProtoCodecError> {
-        dbg!("Decrypting");
-        println!("data: {:?}", &data[..10]);
+        // dbg!(&data[..10]);
 
         if data.len() < 9 {
             // This data cannot possibly be valid. Checksum is already 8 bytes.
@@ -119,7 +118,7 @@ impl Encryption {
         }
 
         self.decrypt.apply_keystream(data);
-        println!("decrypt: {data:?}");
+        // dbg!(&data);
 
         let counter = self.recv_counter;
         self.recv_counter += 1;
